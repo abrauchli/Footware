@@ -25,7 +25,14 @@ public class Track implements Serializable {
 	private Date startTime;
 	private Set<Comment> comments;
 	
-	public Track() {}
+	protected Track() {}
+	
+	public Track(User u, String filename, String path) {
+		this.user = u;
+		this.filename = filename;
+		this.path = path;
+	}
+	
 	public Track(TrackDTO track) {
 		this.id = track.getId();
 		this.user = new User(track.getUser());

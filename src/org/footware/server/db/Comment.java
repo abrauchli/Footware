@@ -10,6 +10,8 @@ public class Comment implements Serializable {
 	private User user;
 	private String text;
 	
+	protected Comment() {}
+	
 	public Comment(String comment, User user) {
 		this.text = comment;
 		this.user = user;

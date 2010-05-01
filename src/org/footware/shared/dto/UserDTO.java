@@ -11,7 +11,7 @@ public class UserDTO implements Serializable {
 	private long id;
 	private String email;
 	private String fullName;
-	private char[] password;
+	private String password;
 	private boolean isAdmin;
 	private Set<TrackDTO> tracks;
 	private Set<TagDTO> tags;
@@ -36,11 +36,11 @@ public class UserDTO implements Serializable {
 		this.fullName = fullName;
 	}
 
-	public char[] getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(char[] password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 

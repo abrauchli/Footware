@@ -18,12 +18,18 @@ public class User implements Serializable {
 	private Set<Track> tracks;
 	private Set<Tag> tags;
 	
-	public User() {}
+	protected User() {}
+	
+	public User(String email, String password) {
+		this.email = email;
+		this.password = (new org.apache.catalina.util.MD5Encoder()).encode(password.getBytes()).toCharArray();
+	}
+	
 	public User(UserDTO user) {
 		this.id = user.getId();
 		this.email = user.getEmail();
 		this.fullName = user.getFullName();
-		this.password = user.getPassword();
+		this.password = (new org.apache.catalina.util.MD5Encoder()).encode(user.getPassword().getBytes()).toCharArray();
 		this.isAdmin = user.getIsAdmin();
 	}
 	

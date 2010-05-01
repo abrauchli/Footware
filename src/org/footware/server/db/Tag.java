@@ -11,6 +11,8 @@ public class Tag implements Serializable {
 	private long id;
 	private String tag;
 	
+	protected Tag() {}
+	
 	public Tag(String tag) {
 		this.tag = tag;
 	}
