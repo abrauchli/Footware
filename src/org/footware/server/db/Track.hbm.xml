@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.footware.server.db">
+	<class name="Track" table="track">
+		<id column="id" name="id">
+			<generator class="native"></generator>
+		</id>
+	</class>
+	<set name="user" table="user" lazy="true">
+		<key column="id">
+		<one-to-many column="user_id" class="User">
+	</set>
+	<property name="filename"/>
+	<property name="path"/>
+	<property name="notes"/>
+	<property name="publicity"/>
+	<property name="commentsEnabled column="comments_enabled"/>
+	<property name="trackpoints"/>
+	<property name="length"/>
+	<property name="startTime" column="time_start" type="timestamp"/>
+	<set name="comments" table="comment" lazy="true">
+		<key column="id">
+		<many-to-one column="track_id" class="Comment">
+	</set>
+	
+</hibernate-mapping>
