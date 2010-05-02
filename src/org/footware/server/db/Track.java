@@ -1,29 +1,55 @@
 package org.footware.server.db;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TrackDTO;
-import org.footware.shared.dto.UserDTO;
+import org.hibernate.annotations.ManyToAny;
 
+@Entity
 public class Track implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@Column(nullable=false)
 	private User user;
+	
+	@Column(length=128,nullable=false)
 	private String filename;
+	
+	@Column(length=128)
 	private String path;
+	
+	@Column(length=256)
 	private String notes;
+	
+	//@Enumerated()
 	private int publicity;
+	
 	private boolean commentsEnabled;
 	private int trackpoints;
 	private int length;
 	private Date startTime;
-	private Set<Comment> comments;
+	
+	@ManyToAny(metaColumn=@Column(name="comment_id"), fetch=FetchType.LAZY)
+	private List<Comment> comments;
 	
 	protected Track() {}
 	
@@ -44,11 +70,11 @@ public class Track implements Serializable {
 		this.trackpoints = track.getTrackpoints();
 		this.length = track.getLength();
 		this.startTime = track.getStartTime();
-		Map<String,UserDTO> comments = track.getComments();
+		List<CommentDTO> comments = track.getComments();
 		if (comments != null) {
-			this.comments = new HashSet<Comment>();
-			for (String comment : comments.keySet())
-				this.comments.add(new Comment(comment, new User(comments.get(comment))));
+			this.comments = new ArrayList<Comment>();
+			for (CommentDTO comment : comments)
+				this.comments.add(new Comment(comment));
 		}
 	}
 	
@@ -110,12 +136,12 @@ public class Track implements Serializable {
 		this.startTime = startTime;
 	}
 	
-	public Set<Comment> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 	public void addComment(Comment comment) {
 		if (comments == null)
-			comments = new HashSet<Comment>();
+			comments = new ArrayList<Comment>();
 		comments.add(comment);
 	}
 	

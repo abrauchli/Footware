@@ -1,9 +1,9 @@
 package org.footware.shared.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class TrackDTO implements Serializable {
 
@@ -19,7 +19,7 @@ public class TrackDTO implements Serializable {
 	private int trackpoints;
 	private int length;
 	private Date startTime;
-	private Map<String, UserDTO> comments;
+	private List<CommentDTO> comments;
 	
 	public long getId() {
 		return id;
@@ -79,12 +79,12 @@ public class TrackDTO implements Serializable {
 		this.startTime = startTime;
 	}
 	
-	public Map<String,UserDTO> getComments() {
+	public List<CommentDTO> getComments() {
 		return comments;
 	}
-	public void addComment(String comment, UserDTO user) {
+	public void addComment(CommentDTO comment) {
 		if (comments == null)
-			comments = new HashMap<String, UserDTO>();
-		comments.put(comment, user);
+			comments = new ArrayList<CommentDTO>();
+		comments.add(comment);
 	}
 }
