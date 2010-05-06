@@ -5,8 +5,11 @@ import java.util.List;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.footware.client.framework.search.AbstractSearchData;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -35,6 +38,17 @@ public abstract class AbstractTablePage extends AbstractPage {
 			for (int i = 0; i < tableData.length; i++) {
 				for (int k = 0; k < tableData[i].length; k++) {
 					table.setWidget(i + 1, k, new HTML(tableData[i][k]));
+
+				}
+				if (getconfiguredClickEnabled()) {
+					table.addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							rowClicked(table.getCellForEvent(event)
+									.getRowIndex());
+						}
+					});
 				}
 			}
 		}
@@ -100,5 +114,22 @@ public abstract class AbstractTablePage extends AbstractPage {
 
 	@Override
 	public void reload() {
+	}
+
+	/**
+	 * override to enable clicking on table rows.
+	 * 
+	 * @return
+	 */
+	public boolean getconfiguredClickEnabled() {
+		return false;
+	}
+
+	/**
+	 * override to react to the event of a row being clicked
+	 * 
+	 * @param row this is the rownumber. It is NOT ZERO BASED
+	 */
+	public void rowClicked(int row) {
 	}
 }
