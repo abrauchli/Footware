@@ -1,6 +1,6 @@
 package org.footware.client.search;
 
-import org.footware.client.framework.AbstractSearchData;
+import org.footware.client.framework.search.AbstractSearchData;
 
 
 public class PersonSearchData extends AbstractSearchData {

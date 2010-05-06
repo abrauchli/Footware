@@ -3,10 +3,10 @@ package org.footware.client.tree.nodes;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.footware.client.framework.AbstractPage;
-import org.footware.client.framework.AbstractSearchData;
-import org.footware.client.framework.AbstractSearchForm;
-import org.footware.client.framework.AbstractTreeNode;
+import org.footware.client.framework.pages.AbstractPage;
+import org.footware.client.framework.search.AbstractSearchData;
+import org.footware.client.framework.search.AbstractSearchForm;
+import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.PersonPage;
 import org.footware.client.search.PersonSearchData;
 import org.footware.client.search.PersonSearchForm;
@@ -46,10 +46,6 @@ public class PersonNode extends AbstractTreeNode {
 		return new PersonSearchForm(this);
 	}
 
-	@Override
-	public void search(AbstractSearchData search) {
-		reload(search);
-	}
 
 	@Override
 	protected List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
@@ -60,5 +56,8 @@ public class PersonNode extends AbstractTreeNode {
 		}
 		return list;
 	}
-
+	@Override
+	public void search(AbstractSearchData search) {
+		super.search(search);
+	}
 }

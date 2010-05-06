@@ -1,7 +1,7 @@
 package org.footware.client.pages;
 
-
-import org.footware.client.framework.AbstractFormPage;
+import org.footware.client.framework.pages.AbstractFormPage;
+import org.footware.client.search.PersonSearchData;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -22,7 +22,8 @@ public class PersonPage extends AbstractFormPage {
 
 	@Override
 	public void reload() {
-		content.setWidget(0, 0, new HTML("reloaded"));
+		PersonSearchData sd = (PersonSearchData) getSearchFilter();
+		content.setWidget(0, 0, new HTML(Integer.toString(sd.value)));
 	}
 
 }

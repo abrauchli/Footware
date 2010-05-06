@@ -1,6 +1,6 @@
 package org.footware.client;
 
-import org.footware.client.views.Desktop;
+import org.footware.client.Desktop.Desktop;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;

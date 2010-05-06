@@ -2,10 +2,10 @@ package org.footware.client.tree.nodes;
 
 import java.util.List;
 
-import org.footware.client.framework.AbstractPage;
-import org.footware.client.framework.AbstractSearchData;
-import org.footware.client.framework.AbstractSearchForm;
-import org.footware.client.framework.AbstractTreeNode;
+import org.footware.client.framework.pages.AbstractPage;
+import org.footware.client.framework.search.AbstractSearchData;
+import org.footware.client.framework.search.AbstractSearchForm;
+import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.TestTablePage;
 
 public class TestNode extends AbstractTreeNode {

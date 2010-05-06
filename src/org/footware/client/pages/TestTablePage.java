@@ -3,7 +3,7 @@ package org.footware.client.pages;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.footware.client.framework.AbstractTablePage;
+import org.footware.client.framework.pages.AbstractTablePage;
 
 
 public class TestTablePage extends AbstractTablePage {

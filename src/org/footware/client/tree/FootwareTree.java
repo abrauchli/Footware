@@ -3,9 +3,9 @@ package org.footware.client.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.footware.client.framework.AbstractSearchData;
-import org.footware.client.framework.AbstractTree;
-import org.footware.client.framework.AbstractTreeNode;
+import org.footware.client.framework.search.AbstractSearchData;
+import org.footware.client.framework.tree.AbstractTree;
+import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.tree.nodes.PersonNode;
 
 
