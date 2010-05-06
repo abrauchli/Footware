@@ -2,6 +2,7 @@ package org.footware.server;
 
 import org.footware.client.GreetingService;
 import org.footware.shared.FieldVerifier;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
