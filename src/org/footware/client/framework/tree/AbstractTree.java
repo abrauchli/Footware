@@ -28,7 +28,6 @@ public abstract class AbstractTree {
 	
 	public abstract List<AbstractTreeNode> execCreateChildren(AbstractSearchData search);
 
-	public abstract void search(Object search);
 	
 	
 }

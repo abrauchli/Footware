@@ -7,11 +7,13 @@ import org.footware.client.framework.tree.AbstractTreeNode;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
-public class TreeView extends Tree {
+public class TreeView extends ScrollPanel {
 	private AbstractTree myTree;
+	private Tree treeWidget;
 	private DataView myDataView;
 	private SearchView mySearchView;
 
@@ -23,18 +25,19 @@ public class TreeView extends Tree {
 	}
 
 	public void init() {
+		treeWidget = new Tree();
 		loadTreeItems();
-		addSelectionHandler(new SelectionHandler<TreeItem>() {
+
+		treeWidget.addSelectionHandler(new SelectionHandler<TreeItem>() {
 
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event) {
-				if (getSelectedItem() instanceof AbstractTreeNode) {
-					AbstractSearchForm sf = ((AbstractTreeNode) getSelectedItem())
-							.getConfiguredSearchForm();
-					AbstractPage p = ((AbstractTreeNode) getSelectedItem())
-					.getPage();
-					myDataView
-							.displayPage(p);
+				if (treeWidget.getSelectedItem() instanceof AbstractTreeNode) {
+					AbstractSearchForm sf = ((AbstractTreeNode) treeWidget
+							.getSelectedItem()).getConfiguredSearchForm();
+					AbstractPage p = ((AbstractTreeNode) treeWidget
+							.getSelectedItem()).getPage();
+					myDataView.displayPage(p);
 					if (sf != null) {
 						p.setSearchForm(sf);
 						mySearchView.display(sf);
@@ -44,6 +47,8 @@ public class TreeView extends Tree {
 				}
 			}
 		});
+		setHeight("600px");
+		add(treeWidget);
 	}
 
 	private void loadTreeItems() {
@@ -55,7 +60,7 @@ public class TreeView extends Tree {
 	}
 
 	private void addTreeNode(AbstractTreeNode node) {
-		addItem(node);
+		treeWidget.addItem(node);
 	}
 
 }

@@ -6,6 +6,7 @@ import org.footware.client.framework.views.TreeView;
 import org.footware.client.tree.FootwareTree;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -26,17 +27,16 @@ public class Desktop extends HorizontalPanel {
 		// add the tree
 		myTree = new TreeView(new FootwareTree(), dv, sv);
 		another = new TreeView(new FootwareTree(), dv, sv);
+		ScrollPanel scroll = new ScrollPanel();
 		StackPanel sp = new StackPanel();
 		sp.add(myTree, "Public view");
 		sp.add(another,"another view");
 		sp.setWidth("300px");
+		
 		add(sp);
 		VerticalPanel vp = new VerticalPanel();
 		add(vp);
 		vp.add(dv);
 		vp.add(sv);
-		vp.setCellHeight(dv, "500px");
-		vp.setCellHeight(sv, "300px");
-		setCellWidth(dv, "800px");
 	}
 }

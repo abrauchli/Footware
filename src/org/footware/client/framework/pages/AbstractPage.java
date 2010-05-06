@@ -4,6 +4,7 @@ import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractPage extends Grid {
@@ -16,7 +17,16 @@ public abstract class AbstractPage extends Grid {
 	}
 
 	protected void init() {
-		setWidget(0, 0, getConfiguredContent());
+		if (getConfiguredScrollbars()) {
+			ScrollPanel sp = new ScrollPanel();
+			sp.add(getConfiguredContent());
+			sp.setWidth(getConfiguredWidth());
+			sp.setHeight(getConfiguredHeight());
+			setWidget(0, 0, sp);
+		} else {
+			setWidget(0, 0, getConfiguredContent());
+		}
+
 	}
 
 	/**
@@ -44,5 +54,32 @@ public abstract class AbstractPage extends Grid {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * set the width of the table in px
+	 * 
+	 * @return
+	 */
+	public String getConfiguredWidth() {
+		return "800px";
+	}
+
+	/**
+	 * set the height of the table
+	 * 
+	 * @return
+	 */
+	public String getConfiguredHeight() {
+		return "600px";
+	}
+
+	/**
+	 * override to disable scrolling inside the page
+	 * 
+	 * @return
+	 */
+	public boolean getConfiguredScrollbars() {
+		return true;
 	}
 }
