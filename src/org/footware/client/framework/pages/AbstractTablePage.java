@@ -2,15 +2,12 @@ package org.footware.client.framework.pages;
 
 import java.util.List;
 
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.footware.client.framework.search.AbstractSearchData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractTablePage extends AbstractPage {
@@ -128,8 +125,18 @@ public abstract class AbstractTablePage extends AbstractPage {
 	/**
 	 * override to react to the event of a row being clicked
 	 * 
-	 * @param row this is the rownumber. It is NOT ZERO BASED
+	 * @param row
+	 *            this is the rownumber. It is NOT ZERO BASED
 	 */
 	public void rowClicked(int row) {
+	}
+
+	/**
+	 * override this to set headers display to off.
+	 * 
+	 * @return
+	 */
+	public boolean getConfiguredDisplayHeaders() {
+		return true;
 	}
 }
