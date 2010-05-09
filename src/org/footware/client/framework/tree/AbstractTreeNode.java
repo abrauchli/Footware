@@ -107,7 +107,10 @@ public abstract class AbstractTreeNode extends TreeItem {
 	public AbstractPage getPage() {
 		return page;
 	}
-
+	/**
+	 * call this function to open a childpage. 
+	 * @param rowNumber if it's a table page, the translation is obvious...
+	 */
 	public void openChildPage(int rowNumber) {
 		Tree t = getTree();
 		if (childNodes != null) {

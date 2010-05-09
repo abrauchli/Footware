@@ -133,10 +133,10 @@ public abstract class AbstractTablePage extends AbstractPage {
 	/**
 	 * override to react to the event of a row being clicked
 	 * 
-	 * @param row
+	 * @param rowNum
 	 *            this is the rownumber. It is zero based.
 	 */
-	public void rowClicked(int row) {
+	public void rowClicked(int rowNum) {
 	}
 
 	/**

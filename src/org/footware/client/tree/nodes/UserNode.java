@@ -10,8 +10,12 @@ import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.UserPage;
 import org.footware.client.search.UserSearchData;
 import org.footware.client.search.UserSearchForm;
+import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.UserDTO;
 
 public class UserNode extends AbstractTreeNode {
+
+	private UserDTO myUser;
 
 	public UserNode() {
 		super();
@@ -19,7 +23,6 @@ public class UserNode extends AbstractTreeNode {
 
 	@Override
 	protected void execInit() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -31,8 +34,10 @@ public class UserNode extends AbstractTreeNode {
 	@Override
 	protected List<AbstractTreeNode> execCreateChildren() {
 		ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		children.add(new TestNode());
-		children.add(new TestNode());
+		// TODO load tracks of this particular user here
+		TrackNode child = new TrackNode();
+		child.setMyTrack(new TrackDTO());
+		children.add(child);
 		return children;
 	}
 
@@ -46,9 +51,9 @@ public class UserNode extends AbstractTreeNode {
 		return new UserSearchForm(this);
 	}
 
-
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
+	protected List<AbstractTreeNode> execCreateChildren(
+			AbstractSearchData search) {
 		UserSearchData ps = (UserSearchData) search;
 		List<AbstractTreeNode> list = new ArrayList<AbstractTreeNode>();
 		for (int i = 0; i < ps.value; i++) {
@@ -56,8 +61,17 @@ public class UserNode extends AbstractTreeNode {
 		}
 		return list;
 	}
+
 	@Override
 	public void search(AbstractSearchData search) {
 		super.search(search);
+	}
+
+	public void setMyUser(UserDTO myUser) {
+		this.myUser = myUser;
+	}
+
+	public UserDTO getMyUser() {
+		return myUser;
 	}
 }

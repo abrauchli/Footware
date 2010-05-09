@@ -11,6 +11,7 @@ import org.footware.shared.dto.TrackDTO;
 
 public class TrackNode extends AbstractTreeNode{
 
+	
 	public TrackNode() {
 		
 	}
@@ -22,6 +23,12 @@ public class TrackNode extends AbstractTreeNode{
 	private TrackDTO myTrack;
 	
 	
+	public TrackDTO getMyTrack() {
+		return myTrack;
+	}
+	public void setMyTrack(TrackDTO myTrack) {
+		this.myTrack = myTrack;
+	}
 	@Override
 	public String getConfiguredName() {
 		//TODO use trackname from DTO or something like that.

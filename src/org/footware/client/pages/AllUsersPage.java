@@ -53,7 +53,7 @@ public class AllUsersPage extends AbstractTablePage {
 	}
 	
 	@Override
-	public void rowClicked(int row) {
-		getTreeNode().openChildPage(row);
+	public void rowClicked(int rowNum) {
+		getTreeNode().openChildPage(rowNum);
 	}
 }
