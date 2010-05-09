@@ -16,7 +16,8 @@ public class AllTracksPage extends AbstractTablePage {
 
 	@Override
 	public String[][] execLoadTableData() {
-		return new String[][] { { "Please search first to narrow down the selection" } };
+		return null;
+		//return new String[][] { { "Please search first to narrow down the selection" } };
 	}
 
 	@Override
@@ -24,7 +25,7 @@ public class AllTracksPage extends AbstractTablePage {
 		TrackSearchData sd = (TrackSearchData) getSearchFilter();
 		String[][] result = new String[sd.value][2];
 		for (int i = 0; i < sd.value; i++) {
-			result[i] = new String[] { Integer.toString(i), "bogus track" };
+			result[i] = new String[] {  "bogus track", "dumbo user", "666","500 miles", "8.11.1984","0" };
 		}
 		return result;
 	}
@@ -32,9 +33,13 @@ public class AllTracksPage extends AbstractTablePage {
 	@Override
 	protected List<String> getConfiguredHeaders() {
 		ArrayList<String> headers = new ArrayList<String>();
-		headers.add("id");
-		headers.add("data");
-		return null;
+		headers.add("Name");
+		headers.add("User");
+		headers.add("Trackpoints");
+		headers.add("Length");
+		headers.add("Date");
+		headers.add("Number of comments");
+		return headers;
 	}
 
 	@Override
@@ -70,5 +75,9 @@ public class AllTracksPage extends AbstractTablePage {
 		}
 		db.setText("Row clicked: " + Integer.toString(row));
 		db.center();
+	}
+	@Override
+	public String getConfiguredTitle() {
+		return "All tracks";
 	}
 }

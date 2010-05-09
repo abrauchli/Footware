@@ -25,7 +25,7 @@ public class AllTracksNode extends AbstractTreeNode {
 		ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 		TrackSearchData sd = (TrackSearchData) search;
 		for (int i = 0; i < sd.value; i++) {
-			children.add(new PersonNode());
+			children.add(new TrackNode());
 		}
 		return children;
 	}

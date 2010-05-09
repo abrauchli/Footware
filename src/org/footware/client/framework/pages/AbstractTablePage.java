@@ -42,7 +42,7 @@ public abstract class AbstractTablePage extends AbstractPage {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							rowClicked(table.getCellForEvent(event)
+							rowClickedInternal(table.getCellForEvent(event)
 									.getRowIndex());
 						}
 					});
@@ -62,7 +62,9 @@ public abstract class AbstractTablePage extends AbstractPage {
 			table.setStyleName(getConfiguredStyle());
 		}
 		table.clear();
-		loadHeaders();
+		if (getConfiguredDisplayHeaders()) {
+			loadHeaders();
+		}
 		loadTableData();
 		return table;
 	}
@@ -98,7 +100,7 @@ public abstract class AbstractTablePage extends AbstractPage {
 		headers = getConfiguredHeaders();
 		if (headers != null) {
 			for (int i = 0; i < headers.size(); i++) {
-				table.setWidget(0, i, new HTML(headers.get(i)));
+				table.setWidget(0, i, new HTML("<b>" + headers.get(i)+"</b>"));
 			}
 		}
 	}
@@ -122,11 +124,15 @@ public abstract class AbstractTablePage extends AbstractPage {
 		return false;
 	}
 
+	private void rowClickedInternal(int row) {
+			rowClicked(row - 1);
+	}
+
 	/**
 	 * override to react to the event of a row being clicked
 	 * 
 	 * @param row
-	 *            this is the rownumber. It is NOT ZERO BASED
+	 *            this is the rownumber. It is zero based.
 	 */
 	public void rowClicked(int row) {
 	}

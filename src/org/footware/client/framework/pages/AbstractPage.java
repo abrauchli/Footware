@@ -1,9 +1,11 @@
 package org.footware.client.framework.pages;
 
+
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -12,7 +14,7 @@ public abstract class AbstractPage extends Grid {
 	private AbstractSearchForm searchForm;
 
 	public AbstractPage() {
-		super(1, 1);
+		super(2, 1);
 		init();
 	}
 
@@ -22,7 +24,8 @@ public abstract class AbstractPage extends Grid {
 			sp.add(getConfiguredContent());
 			sp.setWidth(getConfiguredWidth());
 			sp.setHeight(getConfiguredHeight());
-			setWidget(0, 0, sp);
+			setWidget(1, 0, sp);
+			setWidget(0, 0, new HTML("<h3>"+getConfiguredTitle()+"</h3>"));
 		} else {
 			setWidget(0, 0, getConfiguredContent());
 		}
@@ -81,5 +84,12 @@ public abstract class AbstractPage extends Grid {
 	 */
 	public boolean getConfiguredScrollbars() {
 		return true;
+	}
+	/**
+	 * This will be put into <code><h3></code> and set as title of the page.
+	 * @return
+	 */
+	public String getConfiguredTitle(){
+		return "";
 	}
 }
