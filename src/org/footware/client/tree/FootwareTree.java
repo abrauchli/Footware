@@ -7,7 +7,8 @@ import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTree;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.tree.nodes.AllTracksNode;
-import org.footware.client.tree.nodes.PersonNode;
+import org.footware.client.tree.nodes.AllUsersNode;
+import org.footware.client.tree.nodes.UserNode;
 
 public class FootwareTree extends AbstractTree {
 
@@ -18,7 +19,7 @@ public class FootwareTree extends AbstractTree {
 	@Override
 	public List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		children.add(new PersonNode());
+		children.add(new AllUsersNode());
 		children.add(new AllTracksNode());
 		return children;
 	}

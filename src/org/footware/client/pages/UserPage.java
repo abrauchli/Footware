@@ -1,13 +1,13 @@
 package org.footware.client.pages;
 
 import org.footware.client.framework.pages.AbstractFormPage;
-import org.footware.client.search.PersonSearchData;
+import org.footware.client.search.UserSearchData;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
-public class PersonPage extends AbstractFormPage {
+public class UserPage extends AbstractFormPage {
 	private Grid content;
 
 	@Override
@@ -22,7 +22,7 @@ public class PersonPage extends AbstractFormPage {
 
 	@Override
 	public void reload() {
-		PersonSearchData sd = (PersonSearchData) getSearchFilter();
+		UserSearchData sd = (UserSearchData) getSearchFilter();
 		content.setWidget(0, 0, new HTML(Integer.toString(sd.value)));
 	}
 

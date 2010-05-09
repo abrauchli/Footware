@@ -23,10 +23,17 @@ import com.google.gwt.user.datepicker.client.DateBox;
 public class TrackDetailPage extends AbstractFormPage {
 
 	private TrackDTO myTrack;
+	private TrackDetailForm content;
 
 	@Override
 	protected Widget getConfiguredContent() {
-		return new TrackDetailForm();
+		content = new TrackDetailForm();
+		loadData();
+		return content;
+	}
+
+	private void loadData() {
+		// TODO load data from myTrack here
 	}
 
 	public void setMyTrack(TrackDTO myTrack) {

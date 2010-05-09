@@ -13,11 +13,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class PersonSearchForm extends AbstractSearchForm {
+public class UserSearchForm extends AbstractSearchForm {
 
 	private TextBox box;
 
-	public PersonSearchForm(AbstractTreeNode node) {
+	public UserSearchForm(AbstractTreeNode node) {
 		super(node);
 	}
 
@@ -41,7 +41,7 @@ public class PersonSearchForm extends AbstractSearchForm {
 
 	@Override
 	public AbstractSearchData getSearch() {
-		PersonSearchData p = new PersonSearchData();
+		UserSearchData p = new UserSearchData();
 		p.value = Integer.parseInt(box.getValue());
 		return p;
 	}

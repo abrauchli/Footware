@@ -7,13 +7,13 @@ import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
-import org.footware.client.pages.PersonPage;
-import org.footware.client.search.PersonSearchData;
-import org.footware.client.search.PersonSearchForm;
+import org.footware.client.pages.UserPage;
+import org.footware.client.search.UserSearchData;
+import org.footware.client.search.UserSearchForm;
 
-public class PersonNode extends AbstractTreeNode {
+public class UserNode extends AbstractTreeNode {
 
-	public PersonNode() {
+	public UserNode() {
 		super();
 	}
 
@@ -38,18 +38,18 @@ public class PersonNode extends AbstractTreeNode {
 
 	@Override
 	public AbstractPage getConfiguredPage() {
-		return new PersonPage();
+		return new UserPage();
 	}
 
 	@Override
 	public AbstractSearchForm getConfiguredSearchForm() {
-		return new PersonSearchForm(this);
+		return new UserSearchForm(this);
 	}
 
 
 	@Override
 	protected List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
-		PersonSearchData ps = (PersonSearchData) search;
+		UserSearchData ps = (UserSearchData) search;
 		List<AbstractTreeNode> list = new ArrayList<AbstractTreeNode>();
 		for (int i = 0; i < ps.value; i++) {
 			list.add(new TestNode());
