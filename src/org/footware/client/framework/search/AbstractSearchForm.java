@@ -5,17 +5,15 @@ import org.footware.client.framework.tree.AbstractTreeNode;
 
 public abstract class AbstractSearchForm extends AbstractPage {
 
-	private AbstractTreeNode myTreeNode;
 
 	public AbstractSearchForm(AbstractTreeNode node) {
-		super();
-		myTreeNode = node;
+		super(node);
 	}
 
 	public abstract AbstractSearchData getSearch();
 
 	public void doSearch() {
 		AbstractSearchData s = getSearch();
-		myTreeNode.search(s);
+		getTreeNode().search(s);
 	}
 }

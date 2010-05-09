@@ -1,6 +1,7 @@
 package org.footware.client.pages;
 
 import org.footware.client.framework.pages.AbstractFormPage;
+import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.search.UserSearchData;
 
 import com.google.gwt.user.client.ui.Grid;
@@ -8,6 +9,10 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class UserPage extends AbstractFormPage {
+	public UserPage(AbstractTreeNode treeNode) {
+		super(treeNode);
+	}
+
 	private Grid content;
 
 	@Override

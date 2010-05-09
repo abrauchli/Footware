@@ -33,7 +33,7 @@ public class TestNode extends AbstractTreeNode {
 	@Override
 	public AbstractPage getConfiguredPage() {
 		// TODO Auto-generated method stub
-		return new TestTablePage();
+		return new TestTablePage(this);
 	}
 
 	@Override

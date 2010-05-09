@@ -5,9 +5,14 @@ import java.util.List;
 
 import org.footware.client.framework.pages.AbstractTablePage;
 import org.footware.client.framework.search.AbstractSearchData;
+import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.search.UserSearchData;
 
 public class AllUsersPage extends AbstractTablePage {
+
+	public AllUsersPage(AbstractTreeNode treeNode) {
+		super(treeNode);
+	}
 
 	@Override
 	public String[][] execLoadTableData() {
@@ -40,5 +45,15 @@ public class AllUsersPage extends AbstractTablePage {
 	@Override
 	public void reload() {
 		loadTableData(getSearchFilter());
+	}
+	
+	@Override
+	public boolean getconfiguredClickEnabled() {
+		return true;
+	}
+	
+	@Override
+	public void rowClicked(int row) {
+		getTreeNode().openChildPage(row);
 	}
 }

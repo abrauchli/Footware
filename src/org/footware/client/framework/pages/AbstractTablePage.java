@@ -3,19 +3,21 @@ package org.footware.client.framework.pages;
 import java.util.List;
 
 import org.footware.client.framework.search.AbstractSearchData;
+import org.footware.client.framework.tree.AbstractTreeNode;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractTablePage extends AbstractPage {
 	private FlexTable table;
 	private List<String> headers;
 
-	public AbstractTablePage() {
-		super();
+	public AbstractTablePage(AbstractTreeNode treeNode) {
+		super(treeNode);
 	}
 
 	protected abstract List<String> getConfiguredHeaders();

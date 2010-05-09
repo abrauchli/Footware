@@ -37,7 +37,7 @@ public class AllTracksNode extends AbstractTreeNode {
 
 	@Override
 	public AbstractPage getConfiguredPage() {
-		return new AllTracksPage();
+		return new AllTracksPage(this);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.footware.client.framework.pages.AbstractTablePage;
 import org.footware.client.framework.search.AbstractSearchData;
+import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.search.TrackSearchData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,6 +14,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 
 public class AllTracksPage extends AbstractTablePage {
+
+	public AllTracksPage(AbstractTreeNode treeNode) {
+		super(treeNode);
+	}
 
 	@Override
 	public String[][] execLoadTableData() {

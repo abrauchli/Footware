@@ -38,7 +38,7 @@ public class UserNode extends AbstractTreeNode {
 
 	@Override
 	public AbstractPage getConfiguredPage() {
-		return new UserPage();
+		return new UserPage(this);
 	}
 
 	@Override

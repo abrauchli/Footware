@@ -6,6 +6,7 @@ import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 
+import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
 /**
@@ -16,6 +17,7 @@ import com.google.gwt.user.client.ui.TreeItem;
  */
 public abstract class AbstractTreeNode extends TreeItem {
 	private AbstractPage page;
+	private List<AbstractTreeNode> childNodes;
 
 	public AbstractTreeNode() {
 		super();
@@ -24,57 +26,68 @@ public abstract class AbstractTreeNode extends TreeItem {
 
 	public void init() {
 		execInit();
-		List<AbstractTreeNode> children = execCreateChildren();
-		if (children != null && !children.isEmpty()) {
-			for (AbstractTreeNode node : children) {
+		childNodes = execCreateChildren();
+		if (childNodes != null && !childNodes.isEmpty()) {
+			for (AbstractTreeNode node : childNodes) {
 				addItem(node);
 			}
 		}
 		setText(getConfiguredName());
 		page = getConfiguredPage();
 	}
+
 	/**
 	 * the name of the node
+	 * 
 	 * @return
 	 */
 	public abstract String getConfiguredName();
+
 	/**
-	 * create the child nodes.
-	 * This is usually done using a service.
+	 * create the child nodes. This is usually done using a service.
+	 * 
 	 * @return
 	 */
 	protected abstract List<AbstractTreeNode> execCreateChildren();
 
 	/**
-	 * create the children using a filter. This is by default just the same as without filter.
-	 * @param search the filter
+	 * create the children using a filter. This is by default just the same as
+	 * without filter.
+	 * 
+	 * @param search
+	 *            the filter
 	 * @return a list of children
 	 */
-	protected List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
+	protected List<AbstractTreeNode> execCreateChildren(
+			AbstractSearchData search) {
 		return execCreateChildren();
 	}
+
 	/**
 	 * hook in case you want to do something before initialization
 	 */
 	protected void execInit() {
 	}
+
 	/**
 	 * return an instance of a page to display when this node is clicked
+	 * 
 	 * @return
 	 */
 	public abstract AbstractPage getConfiguredPage();
+
 	/**
-	 * this is usually: 
-	 * <code>return new constructor(this);</code>
+	 * this is usually: <code>return new constructor(this);</code>
+	 * 
 	 * @return an instance of a searchpage
 	 */
 	public abstract AbstractSearchForm getConfiguredSearchForm();
 
 	protected void reload(AbstractSearchData search) {
 		removeItems();
-		List<AbstractTreeNode> children = execCreateChildren(search);
-		if (children != null && !children.isEmpty()) {
-			for (AbstractTreeNode node : children) {
+		childNodes = execCreateChildren(search);
+		if (childNodes != null && !childNodes.isEmpty()) {
+			for (AbstractTreeNode node : childNodes) {
 				addItem(node);
 			}
 		}
@@ -84,13 +97,24 @@ public abstract class AbstractTreeNode extends TreeItem {
 	/**
 	 * what to do with a search typically you want to:
 	 * <code>reload(search)</code>
+	 * 
 	 * @param search
 	 */
-	public void search(AbstractSearchData search){
+	public void search(AbstractSearchData search) {
 		reload(search);
 	}
 
 	public AbstractPage getPage() {
 		return page;
 	}
+
+	public void openChildPage(int rowNumber) {
+		Tree t = getTree();
+		if (childNodes != null) {
+			AbstractTreeNode item = childNodes.get(rowNumber);
+			t.setSelectedItem(item);
+			t.ensureSelectedItemVisible();
+		}
+	}
+
 }

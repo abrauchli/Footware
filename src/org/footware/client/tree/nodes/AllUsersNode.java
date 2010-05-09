@@ -37,12 +37,11 @@ public class AllUsersNode extends AbstractTreeNode {
 
 	@Override
 	public AbstractPage getConfiguredPage() {
-		return new AllUsersPage();
+		return new AllUsersPage(this);
 	}
 
 	@Override
 	public AbstractSearchForm getConfiguredSearchForm() {
 		return new UserSearchForm(this);
 	}
-
 }

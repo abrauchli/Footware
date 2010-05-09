@@ -3,6 +3,7 @@ package org.footware.client.framework.pages;
 
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
+import org.footware.client.framework.tree.AbstractTreeNode;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -12,10 +13,12 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class AbstractPage extends Grid {
 
 	private AbstractSearchForm searchForm;
+	private AbstractTreeNode treeNode;
 
-	public AbstractPage() {
+	public AbstractPage(AbstractTreeNode treeNode) {
 		super(2, 1);
 		init();
+		this.setTreeNode(treeNode);
 	}
 
 	protected void init() {
@@ -91,5 +94,13 @@ public abstract class AbstractPage extends Grid {
 	 */
 	public String getConfiguredTitle(){
 		return "";
+	}
+
+	private void setTreeNode(AbstractTreeNode treeNode) {
+		this.treeNode = treeNode;
+	}
+
+	public AbstractTreeNode getTreeNode() {
+		return treeNode;
 	}
 }

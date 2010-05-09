@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.footware.client.framework.pages.AbstractFormPage;
+import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.UserDTO;
@@ -21,6 +22,11 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 public class TrackDetailPage extends AbstractFormPage {
+
+	
+	public TrackDetailPage(AbstractTreeNode treeNode) {
+		super(treeNode);
+	}
 
 	private TrackDTO myTrack;
 	private TrackDetailForm content;
