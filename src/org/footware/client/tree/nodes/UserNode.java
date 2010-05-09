@@ -46,10 +46,6 @@ public class UserNode extends AbstractTreeNode {
 		return new UserPage(this);
 	}
 
-	@Override
-	public AbstractSearchForm getConfiguredSearchForm() {
-		return new UserSearchForm(this);
-	}
 
 	@Override
 	protected List<AbstractTreeNode> execCreateChildren(
@@ -73,5 +69,11 @@ public class UserNode extends AbstractTreeNode {
 
 	public UserDTO getMyUser() {
 		return myUser;
+	}
+
+	@Override
+	public AbstractSearchForm getConfiguredSearchForm() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

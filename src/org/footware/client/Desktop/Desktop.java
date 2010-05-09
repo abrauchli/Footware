@@ -27,10 +27,9 @@ public class Desktop extends HorizontalPanel {
 		// add the tree
 		myTree = new TreeView(new FootwareTree(), dv, sv);
 		another = new TreeView(new FootwareTree(), dv, sv);
-		ScrollPanel scroll = new ScrollPanel();
 		StackPanel sp = new StackPanel();
 		sp.add(myTree, "Public view");
-		sp.add(another,"another view");
+		sp.add(another,"Private view");
 		sp.setWidth("300px");
 		
 		add(sp);

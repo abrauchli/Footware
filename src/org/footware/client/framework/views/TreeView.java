@@ -5,6 +5,8 @@ import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTree;
 import org.footware.client.framework.tree.AbstractTreeNode;
 
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -27,7 +29,6 @@ public class TreeView extends ScrollPanel {
 	public void init() {
 		treeWidget = new Tree();
 		loadTreeItems();
-
 		treeWidget.addSelectionHandler(new SelectionHandler<TreeItem>() {
 
 			@Override
