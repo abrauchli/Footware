@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractTablePage extends AbstractPage {
@@ -42,7 +41,6 @@ public abstract class AbstractTablePage extends AbstractPage {
 				if (getconfiguredClickEnabled()) {
 					table.addClickHandler(new ClickHandler() {
 
-						@Override
 						public void onClick(ClickEvent event) {
 							rowClickedInternal(table.getCellForEvent(event)
 									.getRowIndex());

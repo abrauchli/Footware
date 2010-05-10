@@ -6,7 +6,6 @@ import org.footware.client.framework.views.TreeView;
 import org.footware.client.tree.FootwareTree;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 

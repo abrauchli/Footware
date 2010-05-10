@@ -9,7 +9,6 @@ import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.UserPage;
 import org.footware.client.search.UserSearchData;
-import org.footware.client.search.UserSearchForm;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.UserDTO;
 

@@ -3,7 +3,6 @@ package org.footware.client.search;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
-import org.footware.client.tree.nodes.TrackNode;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -11,7 +10,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -69,7 +67,6 @@ public class UserSearchForm extends AbstractSearchForm {
 			Button b = new Button("Search");
 			b.addClickHandler(new ClickHandler() {
 
-				@Override
 				public void onClick(ClickEvent event) {
 					doSearch();
 				}
