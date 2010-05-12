@@ -1,4 +1,5 @@
 package org.footware.server.gpx;
+
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -10,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.SchemaFactory;
-
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 public class GPXImport {
 
 	private static String GPX_NAMESPACE_URI = "http://www.topografix.com/GPX/1/1";
-	private static String GPX_QNAME = "tpx";
+	private static String GPX_NS = "tpx";
 	private static String LATITUDE = "lat";
 	private static String LONGITUDE = "lon";
 	private static String ELEVATION = "ele";
@@ -42,7 +42,7 @@ public class GPXImport {
 		LinkedList<GPXTrack> tracks = new LinkedList<GPXTrack>();
 		try {
 
-			// Import gpx
+			// Parse GPX
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SchemaFactory schemaFactory = SchemaFactory
 					.newInstance("http://www.w3.org/2001/XMLSchema");
@@ -56,51 +56,70 @@ public class GPXImport {
 			Document document = reader.read(in);
 
 			// Define namespaces
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put(GPX_QNAME, GPX_NAMESPACE_URI);
+			HashMap<String, String> namespacesMap = new HashMap<String, String>();
+			namespacesMap.put(GPX_NS, GPX_NAMESPACE_URI);
 
 			// Find tracks
-
-			XPath xpathTrk = DocumentHelper.createXPath("//" + GPX_QNAME
+			XPath xpathTrk = DocumentHelper.createXPath("//" + GPX_NS
 					+ ":trk");
-			xpathTrk.setNamespaceURIs(map);
+			xpathTrk.setNamespaceURIs(namespacesMap);
 
 			List<Element> xmlTracks = xpathTrk.selectNodes(document);
+			
 			GPXTrack track;
 			System.out.println("found " + xmlTracks.size() + " tracks");
-			for (Element xmlTrack : xmlTracks) {
+			
+			// for (Element xmlTrack : xmlTracks) {
+			//Iterate about all tracks of the gpx file
+			for (int currentTrackNummer = 1; currentTrackNummer <= xmlTracks
+					.size(); currentTrackNummer++) {
 				track = new GPXTrack();
+				// System.out.println(xmlTrack.asXML());
 
 				// Find track segments
-				XPath xpathTrkseq = DocumentHelper.createXPath("//" + GPX_QNAME
-						+ ":trkseq");
-				xpathTrkseq.setNamespaceURIs(map);
+				XPath xpathTrkseg = DocumentHelper.createXPath("//" + GPX_NS
+						+ ":trk[" + currentTrackNummer + "]/" + GPX_NS
+						+ ":trkseg");
+				xpathTrkseg.setNamespaceURIs(namespacesMap);
+
+				List<Element> xmlTrackSegs = xpathTrkseg.selectNodes(document);
+				// List<Element> xmlTrackSegs =
+				// xmlTrack.selectNodes("//trkseg");
+
+				System.out
+						.println("found " + xmlTrackSegs.size() + " segments");
 
 				GPXTrackSegment trackSegment;
-
-				List<Element> xmlTrackSegs = xpathTrkseq.selectNodes(xmlTrack);
-				System.out.println("found " + xmlTrackSegs.size() + " segments");
-				for (Element xmlTrackSeq : xmlTrackSegs) {
+				
+				// for (Element xmlTrackSeq : xmlTrackSegs) {
+				//Iterate above all segments of a track
+				for (int currentTrackSegmentNummer = 1; currentTrackSegmentNummer <= xmlTrackSegs
+						.size(); currentTrackSegmentNummer++) {
 					trackSegment = new GPXTrackSegment();
 
 					// Find track points
 					XPath xpathTrkPt = DocumentHelper.createXPath("//"
-							+ GPX_QNAME + ":trkpt");
-					xpathTrkPt.setNamespaceURIs(map);
+							+ GPX_NS + ":trk[" + currentTrackNummer + "]/"
+							+ GPX_NS + ":trkseg["
+							+ currentTrackSegmentNummer + "]/" + GPX_NS
+							+ ":trkpt");
+					xpathTrkPt.setNamespaceURIs(namespacesMap);
+					List<Element> xmlTrackPts = xpathTrkPt
+							.selectNodes(document);
 
 					GPXTrackPoint trackPoint;
-
-					List<Element> xmlTrackPts = xpathTrkPt
-							.selectNodes(xmlTrackSeq);
-//					List<Element> xmlTrackPts = xmlTrackSeq.selectNodes("//trk:trkpt");
-
 					BigDecimal latitude;
 					BigDecimal longitude;
 					BigDecimal elevation;
 					DateTime time;
-					System.out.println("found " + xmlTrackPts.size() + " points");
+					System.out.println("found " + xmlTrackPts.size()
+							+ " points");
+					//Iterate above all points of a segment of a track
 					for (Element xmlTrackPt : xmlTrackPts) {
 
+						// System.out.println(xmlTrackPt.getDocument().asXML());
+						// System.out.println();
+						// System.out.println();
 						latitude = new BigDecimal(xmlTrackPt
 								.attributeValue(LATITUDE));
 						longitude = new BigDecimal(xmlTrackPt
@@ -116,8 +135,11 @@ public class GPXImport {
 						trackSegment.addPoint(trackPoint);
 					}
 					track.addTrackSegment(trackSegment);
+					System.out.println();
 				}
 				System.out.println(track.getLength());
+				System.out.println();
+				System.out.println();
 				tracks.add(track);
 			}
 
@@ -131,7 +153,7 @@ public class GPXImport {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return tracks;
 	}
 }

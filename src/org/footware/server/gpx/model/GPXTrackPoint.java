@@ -1,9 +1,6 @@
 package org.footware.server.gpx.model;
 
 import java.math.BigDecimal;
-
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.joda.time.DateTime;
 
 public class GPXTrackPoint {
@@ -14,6 +11,8 @@ public class GPXTrackPoint {
 	DateTime time;
 	
 	public GPXTrackPoint(BigDecimal latitude, BigDecimal longitude, BigDecimal elevation, DateTime time) {
+		testLongitudeValue(longitude);
+		testLatitudeValue(latitude);
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.elevation = elevation;
@@ -31,6 +30,7 @@ public class GPXTrackPoint {
 	 * @param longitude the longitude to set
 	 */
 	public void setLongitude(BigDecimal longitude) {
+		testLongitudeValue(longitude);
 		this.longitude = longitude;
 	}
 
@@ -45,6 +45,7 @@ public class GPXTrackPoint {
 	 * @param latitude the latitude to set
 	 */
 	public void setLatitude(BigDecimal latitude) {
+		testLatitudeValue(latitude);
 		this.latitude = latitude;
 	}
 
@@ -76,6 +77,16 @@ public class GPXTrackPoint {
 		this.time = time;
 	}
 	
+	private void testLatitudeValue(BigDecimal latitude) {
+		if(latitude.doubleValue() < -90.0 && latitude.doubleValue() > 90.0) {
+			throw new IllegalArgumentException("Latitude value " + latitude.doubleValue() + " not in range -90.0 <= x <= 90.0");
+		}
+	}
 	
+	private void testLongitudeValue(BigDecimal longitude) {
+		if(longitude.doubleValue() < -180.0 && longitude.doubleValue() > 180.0) {
+			throw new IllegalArgumentException("Longitude value " + longitude.doubleValue() + " not in range -180.0 <= x <= 180.0");
+		}
+	}
 	
 }

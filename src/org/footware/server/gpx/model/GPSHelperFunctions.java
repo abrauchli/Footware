@@ -1,6 +1,9 @@
 package org.footware.server.gpx.model;
 
-public class GPSHelperFunction {
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+
+public class GPSHelperFunctions {
 
 	private static int EARTHRADIUS = 6371;
 
@@ -8,8 +11,10 @@ public class GPSHelperFunction {
 	 * returns the distance between two points approximated by the haversine
 	 * formula.
 	 * 
-	 * @param startPoint the start point to calculate the distance from
-	 * @param endPoint the end point to calculate the distance to
+	 * @param startPoint
+	 *            the start point to calculate the distance from
+	 * @param endPoint
+	 *            the end point to calculate the distance to
 	 * @return
 	 */
 	public static double getDistance(GPXTrackPoint startPoint,
@@ -26,6 +31,13 @@ public class GPSHelperFunction {
 				* Math.sin(dLon / 2);
 		double c = 2 * Math.asin(Math.sqrt(a));
 		return EARTHRADIUS * c;
+	}
+
+	public static Period getTimeDifference(GPXTrackPoint startPoint,
+			GPXTrackPoint endPoint) {
+		DateTime startTime = startPoint.getTime();
+		DateTime endTime = endPoint.getTime();
+		return new Period(startTime, endTime);
 	}
 
 }
