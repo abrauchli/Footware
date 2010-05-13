@@ -4,6 +4,10 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+
+  <listener>
+    <listener-class>org.footware.server.db.HibernateListener</listener-class>
+  </listener>
   
   <!-- Servlets -->
   <servlet>

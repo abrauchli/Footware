@@ -59,7 +59,7 @@ public class User implements Serializable {
 		this.isAdmin = user.getIsAdmin();
 
 		Transaction tx = null;
-		Session session = SessionFactoryUtil.getInstance().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			tx = session.beginTransaction();
 			session.save(this);
@@ -137,7 +137,7 @@ public class User implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public static List<User> getAll() {
-		Query q = SessionFactoryUtil.getInstance().getCurrentSession().getNamedQuery("users.getAll");
+		Query q = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("users.getAll");
 		return (List<User>)q.list();
 	}
 }

@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-public class SessionFactoryUtil {
+public class HibernateUtil {
 
 	/** The single instance of hibernate SessionFactory */
 	private static SessionFactory sessionFactory;
@@ -12,7 +12,7 @@ public class SessionFactoryUtil {
 	/**
 	 * disable constructor to guaranty a single instance
 	 */
-	private SessionFactoryUtil() {
+	private HibernateUtil() {
 	}
 
 	static {
@@ -20,7 +20,7 @@ public class SessionFactoryUtil {
 				.buildSessionFactory();
 	}
 
-	public static SessionFactory getInstance() {
+	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
