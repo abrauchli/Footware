@@ -27,7 +27,7 @@ public class Track implements Serializable {
 	private long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@Column(nullable=false)
+	//@Column(nullable=false)
 	private User user;
 	
 	@Column(length=128,nullable=false)

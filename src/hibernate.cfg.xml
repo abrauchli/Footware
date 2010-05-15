@@ -37,7 +37,10 @@
 		<!-- Bind the getCurrentSession() method to the thread. -->
         <property name="current_session_context_class">thread</property>
 
-		<mapping package="org.footware.server.db"/>
+		<mapping class="org.footware.server.db.Comment"/>
+		<mapping class="org.footware.server.db.Tag"/>
+		<mapping class="org.footware.server.db.Track"/>
+		<mapping class="org.footware.server.db.User"/>
 
 	</session-factory>
 </hibernate-configuration>
