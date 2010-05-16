@@ -1,4 +1,4 @@
-package org.footware.client.search;
+package org.footware.shared.dto;
 
 import org.footware.client.framework.search.AbstractSearchData;
 

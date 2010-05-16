@@ -6,7 +6,7 @@ import java.util.List;
 import org.footware.client.framework.pages.AbstractTablePage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
-import org.footware.client.search.UserSearchData;
+import org.footware.shared.dto.UserSearchData;
 
 public class AllUsersPage extends AbstractTablePage {
 

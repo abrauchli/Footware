@@ -6,21 +6,14 @@ import java.util.List;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTree;
 import org.footware.client.framework.tree.AbstractTreeNode;
-import org.footware.client.tree.nodes.AllTracksNode;
-import org.footware.client.tree.nodes.AllUsersNode;
-import org.footware.client.tree.nodes.UserNode;
+import org.footware.client.tree.nodes.OwnPageNode;
 
-public class FootwareTree extends AbstractTree {
-
-	public FootwareTree() {
-		super();
-	}
+public class PrivateViewTree extends AbstractTree {
 
 	@Override
 	public List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		children.add(new AllUsersNode());
-		children.add(new AllTracksNode());
+		children.add(new OwnPageNode());
 		return children;
 	}
 

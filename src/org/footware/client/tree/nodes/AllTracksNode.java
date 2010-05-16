@@ -9,7 +9,7 @@ import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.AllTracksPage;
 import org.footware.client.search.TrackSearch;
-import org.footware.client.search.TrackSearchData;
+import org.footware.shared.dto.TrackSearchData;
 
 public class AllTracksNode extends AbstractTreeNode {
 

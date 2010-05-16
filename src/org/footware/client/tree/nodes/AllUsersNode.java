@@ -8,8 +8,8 @@ import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.AllUsersPage;
-import org.footware.client.search.UserSearchData;
 import org.footware.client.search.UserSearchForm;
+import org.footware.shared.dto.UserSearchData;
 
 public class AllUsersNode extends AbstractTreeNode {
 

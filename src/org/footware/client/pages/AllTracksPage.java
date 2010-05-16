@@ -6,7 +6,7 @@ import java.util.List;
 import org.footware.client.framework.pages.AbstractTablePage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
-import org.footware.client.search.TrackSearchData;
+import org.footware.shared.dto.TrackSearchData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
