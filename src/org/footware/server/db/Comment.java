@@ -23,11 +23,11 @@ public class Comment implements Serializable {
 	private long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@Column(nullable=false)
+	//@Column(nullable=false)
 	private Track track;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@Column(nullable=false)
+	//@Column(nullable=false)
 	private User user;
 	
 	@Column(length=256,nullable=false)

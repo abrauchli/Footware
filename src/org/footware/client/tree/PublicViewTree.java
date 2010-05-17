@@ -8,7 +8,6 @@ import org.footware.client.framework.tree.AbstractTree;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.tree.nodes.AllTracksNode;
 import org.footware.client.tree.nodes.AllUsersNode;
-import org.footware.client.tree.nodes.UserNode;
 
 public class PublicViewTree extends AbstractTree {
 

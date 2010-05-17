@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -66,7 +65,6 @@ public class TrackSearch extends AbstractSearchForm {
 			Button b = new Button("Search!");
 			b.addClickHandler(new ClickHandler() {
 
-				@Override
 				public void onClick(ClickEvent event) {
 					doSearch();
 				}

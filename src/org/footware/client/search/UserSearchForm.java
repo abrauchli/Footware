@@ -70,7 +70,6 @@ public class UserSearchForm extends AbstractSearchForm {
 			Button b = new Button("Search");
 			b.addClickHandler(new ClickHandler() {
 
-				@Override
 				public void onClick(ClickEvent event) {
 					doSearch();
 				}

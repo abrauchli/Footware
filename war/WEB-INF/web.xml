@@ -4,6 +4,10 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+
+  <listener>
+    <listener-class>org.footware.server.db.HibernateListener</listener-class>
+  </listener>
   
   <!-- Servlets -->
   <servlet>
@@ -20,5 +24,27 @@
   <welcome-file-list>
     <welcome-file>Footware.html</welcome-file>
   </welcome-file-list>
+
+  <!-- H2 DB Console applet -->
+  <servlet>
+    <servlet-name>H2Console</servlet-name>
+    <servlet-class>org.h2.server.web.WebServlet</servlet-class>
+<!--
+    <init-param>
+        <param-name>webAllowOthers</param-name>
+        <param-value></param-value>
+    </init-param>
+    <init-param>
+        <param-name>trace</param-name>
+        <param-value></param-value>
+    </init-param>
+-->
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>H2Console</servlet-name>
+    <url-pattern>/console/*</url-pattern>
+  </servlet-mapping>
 
 </web-app>

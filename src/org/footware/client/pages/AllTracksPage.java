@@ -8,11 +8,6 @@ import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.shared.dto.TrackSearchData;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-
 public class AllTracksPage extends AbstractTablePage {
 
 	public AllTracksPage(AbstractTreeNode treeNode) {
