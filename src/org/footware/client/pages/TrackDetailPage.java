@@ -23,7 +23,6 @@ import com.google.gwt.user.datepicker.client.DateBox;
 
 public class TrackDetailPage extends AbstractFormPage {
 
-	
 	public TrackDetailPage(AbstractTreeNode treeNode) {
 		super(treeNode);
 	}
@@ -120,6 +119,11 @@ public class TrackDetailPage extends AbstractFormPage {
 			}
 			return vp;
 		}
+
+	}
+
+	public void editableMode() {
+		content.notes.setReadOnly(false);
 	}
 
 	@Override

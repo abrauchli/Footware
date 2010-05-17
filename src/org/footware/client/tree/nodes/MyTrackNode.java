@@ -1,31 +1,29 @@
 package org.footware.client.tree.nodes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
-import org.footware.client.pages.MyTracksTablePage;
+import org.footware.client.pages.TrackDetailPage;
 
-public class MyTracksNode extends AbstractTreeNode {
+public class MyTrackNode extends AbstractTreeNode {
 
 	@Override
 	protected List<AbstractTreeNode> execCreateChildren() {
-		// TODO load children of user here
-		List<AbstractTreeNode> chidlren = new ArrayList<AbstractTreeNode>();
-		chidlren.add(new MyTrackNode());
-		return chidlren;
+		return null;
 	}
 
 	@Override
 	public String getConfiguredName() {
-		return "My Tracks";
+		return "my track";
 	}
 
 	@Override
 	public AbstractPage getConfiguredPage() {
-		return new MyTracksTablePage(this);
+		TrackDetailPage dp = new TrackDetailPage(this);
+		dp.editableMode();
+		return dp;
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class AllTracksPage extends AbstractTablePage {
 
 	@Override
 	public String[][] execLoadTableData(AbstractSearchData search) {
-		TrackSearchData sd = (TrackSearchData) getSearchFilter();
+		TrackSearchData sd = (TrackSearchData) search;//getSearchFilter();
 		String[][] result = new String[sd.value][2];
 		for (int i = 0; i < sd.value; i++) {
 			result[i] = new String[] { "bogus track", "dumbo user", "666",
@@ -53,6 +53,7 @@ public class AllTracksPage extends AbstractTablePage {
 	public void reload() {
 		loadTableData(getSearchFilter());
 	}
+	
 
 	@Override
 	public int getconfiguredCellPadding() {
@@ -72,6 +73,6 @@ public class AllTracksPage extends AbstractTablePage {
 
 	@Override
 	public String getConfiguredTitle() {
-		return "All tracks";
+		return "Tracks";
 	}
 }
