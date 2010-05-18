@@ -7,6 +7,7 @@ import org.footware.client.tree.PrivateViewTree;
 import org.footware.client.tree.PublicViewTree;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author flwidmer
  * 
  */
-public class Desktop extends HorizontalPanel {
+public class Desktop extends VerticalPanel {
 	TreeView myTree;
 	TreeView priv;
 
@@ -32,10 +33,15 @@ public class Desktop extends HorizontalPanel {
 		sp.add(priv, "Private view");
 		sp.setWidth("300px");
 
-		add(sp);
+		MenuBar mb = new TopMenu();
+		
+		add(mb);
+		HorizontalPanel hp2 = new HorizontalPanel();
+		hp2.add(sp);
 		VerticalPanel vp = new VerticalPanel();
-		add(vp);
+		hp2.add(vp);
 		vp.add(dv);
 		vp.add(sv);
+		add(hp2);
 	}
 }
