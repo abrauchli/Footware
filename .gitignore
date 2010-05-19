@@ -1,6 +1,7 @@
 *.class
 *.swp
 war/WEB-INF/classes/
-war/footware/
+war/footware/*
 war/tomcat/work/
 war/footware.lock.db
+war/footware.trace.db
