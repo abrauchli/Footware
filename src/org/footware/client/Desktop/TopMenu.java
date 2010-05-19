@@ -14,7 +14,7 @@ public class TopMenu extends MenuBar {
 
 	public TopMenu() {
 		setWidth("1300px");
-
+		
 		login = new MenuItem("Login", new Command() {
 
 			@Override

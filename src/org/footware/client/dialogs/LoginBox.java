@@ -1,9 +1,14 @@
 package org.footware.client.dialogs;
 
 import org.footware.client.Desktop.TopMenu;
+import org.footware.client.services.LoginService;
+import org.footware.client.services.LoginServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -43,8 +48,7 @@ public class LoginBox extends DialogBox {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				myTopMenu.login();
-				hide();
+				login();
 			}
 		});
 		g.setWidget(2, 0, login);
@@ -61,5 +65,35 @@ public class LoginBox extends DialogBox {
 		});
 		g.setWidget(3, 0, registerLink);
 		add(g);
+	}
+
+	private void login() {
+		// input verification
+		if (username.getValue().equals("") || password.getValue().equals("")) {
+			Window.alert("Username and Password must be filled out");
+			return;
+		}
+
+		// call server, get authentication
+		LoginServiceAsync svc = GWT.create(LoginService.class);
+		svc.login(username.getValue(), password.getValue(),
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onSuccess(String result) {
+						// save session key
+						Window.alert(result);
+						// do gui changes
+						myTopMenu.login();
+						hide();
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window
+								.alert("There was a Problem contacting the server: " + caught.getMessage());
+					}
+				});
+
 	}
 }
