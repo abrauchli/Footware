@@ -5,10 +5,10 @@ import org.joda.time.Period;
 
 public class GPSHelperFunctions {
 
-	private static int EARTHRADIUS = 6371;
+	private static int EARTHRADIUS = 6371000;
 
 	/**
-	 * returns the distance between two points approximated by the haversine
+	 * returns the distance in meter between two points approximated by the haversine
 	 * formula.
 	 * 
 	 * @param startPoint
@@ -38,6 +38,19 @@ public class GPSHelperFunctions {
 		DateTime startTime = startPoint.getTime();
 		DateTime endTime = endPoint.getTime();
 		return new Period(startTime, endTime);
+	}
+	
+	/**
+	 * Return the speed in m/s 
+	 * @param startPoint the start point
+	 * @param endPoint the end point
+	 * @return
+	 */
+	public static double getSpeed(GPXTrackPoint startPoint,
+			GPXTrackPoint endPoint) {
+		double distance = getDistance(startPoint, endPoint);
+		Period time = getTimeDifference(startPoint, endPoint);
+		return distance / time.getSeconds();
 	}
 
 }
