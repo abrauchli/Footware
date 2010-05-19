@@ -3,13 +3,13 @@
     PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<web-app><!--
+<web-app>
 
   <listener>
     <listener-class>org.footware.server.db.HibernateListener</listener-class>
   </listener>
   
-  --><!-- Servlets -->
+  <!-- Servlets -->
   <servlet>
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>org.footware.server.GreetingServiceImpl</servlet-class>
