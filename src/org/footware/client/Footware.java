@@ -30,8 +30,8 @@ public class Footware implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		Desktop d = new Desktop();
-//		RootPanel.get("desktopContainer").add(d);
-		RootPanel.get("desktopContainer").add(new FootwareMapWidget());
+		RootPanel.get("desktopContainer").add(d);
+//		RootPanel.get("desktopContainer").add(new FootwareMapWidget());
 //		
 //		final Button sendButton = new Button("Send");
 //    final TextBox nameField = new TextBox();

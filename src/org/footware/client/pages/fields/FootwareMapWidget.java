@@ -37,112 +37,96 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
- * @author rene
- * 
- * 
- *         WGS84 projection : EPSG:4326
+ * @author rene WGS84 projection : EPSG:4326
  */
 
 public class FootwareMapWidget extends Composite {
 
-	private final Panel panel;
-	private Map map;
+    private static String EPSG4326 = "EPSG:4326";
 
-	private final TrackServiceAsync trackService = GWT
-			.create(TrackService.class);
+    private final Panel panel;
+    private Map map;
 
-	public FootwareMapWidget() {
-		super();
-		panel = new SimplePanel();
-		initWidget(panel);
-		initMapWidget();
+    public FootwareMapWidget() {
+        super();
+        panel = new SimplePanel();
+        initWidget(panel);
+        initMapWidget();
+    }
 
-	}
+    private void initMapWidget() {
+        MapOptions defaultMapOptions = new MapOptions();
+        defaultMapOptions.setNumZoomLevels(19);
+        defaultMapOptions.setMaxExtent(new Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34));
+        defaultMapOptions.setMaxResolution((float) 156543.0399);
+        defaultMapOptions.setProjection("EPSG:900913");
+        defaultMapOptions.setDisplayProjection(new Projection(EPSG4326));
 
-	private void initMapWidget() {
-		MapOptions defaultMapOptions = new MapOptions();
-		// defaultMapOptions.setControls(new JObjectArray(new JSObject[] {}));
-		defaultMapOptions.setNumZoomLevels(16);
-		// defaultMapOptions.setMaxExtent(new
-		// Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34));
-		// defaultMapOptions.setMaxResolution((float) 156543.0399);
-		// defaultMapOptions.setProjection("EPSG:900913");
-		defaultMapOptions.setProjection("EPSG:4326");
-		defaultMapOptions.setMaxExtent(new Bounds(-180.0, -90.0, 180.0, 90.0));
-		defaultMapOptions.setMaxResolution((float) 1.40625);
-		defaultMapOptions.setUnits(MapUnits.DEGREES);
-		// defaultMapOptions.setProjection("EPSG:4326");
-		// defaultMapOptions.setUnits("m");
-		// defaultMapOptions.setDisplayProjection(new Projection("EPSG:4326"));
+        MapWidget mapWidget = new MapWidget("800px", "400px", defaultMapOptions);
+        map = mapWidget.getMap();
 
-		MapWidget mapWidget = new MapWidget("800px", "400px", defaultMapOptions);
-		map = mapWidget.getMap();
-		
-		map.addControl(new LayerSwitcher());
+        map.addControl(new LayerSwitcher());
+        OSM openStreetMap = OSM.Osmarender("Base Map");
+        openStreetMap.setIsBaseLayer(true);
+        map.addLayer(openStreetMap);
 
-		OSMOptions openStreetMapOptions = new OSMOptions();
-		// openStreetMapOptions.setProjection("EPSG:4326");
-		OSM openStreetMap = OSM.Osmarender("Base Map", openStreetMapOptions);
-		openStreetMap.setIsBaseLayer(true);
-		map.addLayer(openStreetMap);
+        LonLat center =new LonLat(47.0, 8.0);
+        center.transform(EPSG4326, map.getProjection());
+        map.setCenter(center, 3);
 
-		System.out.println(map.getProjection());
-		System.out.println(map.getMaxResolution());
-		System.out.println(map.getMaxExtent());
-		System.out.println(map.getUnits());
+        panel.add(mapWidget);
+    }
 
-		VectorOptions vectorLayerOptions = new VectorOptions();
-		vectorLayerOptions.setProjection(map.getProjection());
-		final Vector tracksLayer = new Vector("Trackname", vectorLayerOptions);
-		tracksLayer.setIsBaseLayer(true);
-		trackService.getTracks(null, new AsyncCallback<List<TrackDTO2>>() {
+    public void displayTracks(TrackDTO2 track) {
+        VectorOptions vectorLayerOptions = new VectorOptions();
+        vectorLayerOptions.setProjection(map.getProjection());
+        final Vector tracksLayer = new Vector("Trackname", vectorLayerOptions);
 
-			@Override
-			public void onSuccess(List<TrackDTO2> result) {
-				System.out.println("hello from client");
-				for (TrackDTO2 track : result) {
+        for (TrackSegmentDTO segment : track.getSegments()) {
+            Point[] pointArray = new Point[segment.getPoints().size()];
 
-					for (TrackSegmentDTO segment : track.getSegments()) {
-						Point[] pointArray = new Point[segment.getPoints()
-								.size()];
+            List<TrackPointDTO> points = segment.getPoints();
+            for (int i = 0; i < points.size(); i++) {
+                LonLat lonLat = new LonLat(points.get(i).getLongitude(), points.get(i).getLatitude());
+                lonLat.transform(EPSG4326, map.getProjection());
+                pointArray[i] = new Point(lonLat.lon(), lonLat.lat());
+            }
 
-						List<TrackPointDTO> points = segment.getPoints();
-						for (int i = 0; i < points.size(); i++) {
-							LonLat lonLat = new LonLat(points.get(i)
-									.getLongitude(), points.get(i)
-									.getLatitude());
-							lonLat.transform("EPSG4326", map.getProjection());
-							// System.out.println(lonLat.lon() + " : " +
-							// lonLat.lat());
-							pointArray[i] = new Point(lonLat.lon(), lonLat
-									.lat());
-						}
+            LineString line = new LineString(pointArray);
+            Style lineStyle = new Style();
+            lineStyle.setFillColor("#000000");
+            lineStyle.setFill(true);
+            lineStyle.setFillOpacity(0.5);
+            lineStyle.setStroke(true);
+            lineStyle.setStrokeColor("#009933");
+            lineStyle.setStrokeWidth(3.0);
+            lineStyle.setStrokeOpacity(0.8);
+            VectorFeature feature = new VectorFeature(line, lineStyle);
 
-						LineString line = new LineString(pointArray);
-						Style lineStyle = new Style();
-						lineStyle.setStrokeWidth(1.0);
-						lineStyle.setStrokeWidth(4.0);
-						VectorFeature feature = new VectorFeature(line,
-								lineStyle);
+            tracksLayer.addFeature(feature);
+        }
+        map.addLayer(tracksLayer);
 
-						tracksLayer.addFeature(feature);
-					}
-				}
+    }
 
-			}
+    public void test() {
+        final TrackServiceAsync trackService = GWT.create(TrackService.class);
+        trackService.getTracks(null, new AsyncCallback<List<TrackDTO2>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				caught.printStackTrace();
+            @Override
+            public void onSuccess(List<TrackDTO2> result) {
+                for (TrackDTO2 track : result) {
+                    displayTracks(track);
+                }
+            }
 
-			}
-		});
+            @Override
+            public void onFailure(Throwable caught) {
+                caught.printStackTrace();
 
-		map.addLayer(tracksLayer);
-		map.setCenter(new LonLat(0.0, 0.0), 3);
+            }
+        });
 
-		panel.add(mapWidget);
-
-	}
+    }
 
 }
