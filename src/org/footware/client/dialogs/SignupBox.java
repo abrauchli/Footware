@@ -50,6 +50,8 @@ public class SignupBox extends DialogBox {
 
 		g.setWidget(5, 0, submit);
 		g.setWidget(5, 1, close);
+		setText("Sign up");
+		add(g);
 	}
 
 }
