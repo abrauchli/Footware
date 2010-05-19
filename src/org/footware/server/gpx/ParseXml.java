@@ -24,18 +24,16 @@ public class ParseXml {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		GPXImport importer = new GPXImport();
-//		
-//		try {
-//			importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		GPXImport importer = new GPXImport();
 		
-		GPXTrackPoint p1 = new GPXTrackPoint(new BigDecimal(10), new BigDecimal(10), new BigDecimal(0), new DateTime());
-		GPXTrackPoint p2 = new GPXTrackPoint(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0), new DateTime());
+		try {
+			File test = new File("");
+			System.out.println(test.getAbsolutePath());
+			importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		System.out.println(GPSHelperFunctions.getDistance(p1, p2));
 	}
 }

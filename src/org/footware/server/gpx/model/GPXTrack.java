@@ -1,5 +1,6 @@
 package org.footware.server.gpx.model;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,5 +33,9 @@ public class GPXTrack {
 			length += segment.getLength();
 		}
 		return length;		
+	}
+
+	public List<GPXTrackSegment> getSegments() {
+		return Collections.unmodifiableList(segments);
 	}
 }

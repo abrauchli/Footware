@@ -3,13 +3,13 @@
     PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<web-app>
+<web-app><!--
 
   <listener>
     <listener-class>org.footware.server.db.HibernateListener</listener-class>
   </listener>
   
-  <!-- Servlets -->
+  --><!-- Servlets -->
   <servlet>
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>org.footware.server.GreetingServiceImpl</servlet-class>
@@ -18,6 +18,16 @@
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/footware/greet</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>trackServlet</servlet-name>
+    <servlet-class>org.footware.server.TracksServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>trackServlet</servlet-name>
+    <url-pattern>/footware/track</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
