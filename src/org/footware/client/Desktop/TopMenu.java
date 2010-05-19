@@ -84,19 +84,4 @@ public class TopMenu extends MenuBar {
 		}
 	}
 
-	private class UploadTrackBox extends DialogBox {
-		public UploadTrackBox() {
-			Button close = new Button("close");
-			setText("Upload a Track");
-			close.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					ub.hide();
-				}
-			});
-			add(close);
-		}
-	}
-
 }
