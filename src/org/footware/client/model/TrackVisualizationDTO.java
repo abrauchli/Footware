@@ -2,7 +2,9 @@ package org.footware.client.model;
 
 import java.util.List;
 
-public class TrackVisualizationDTO {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class TrackVisualizationDTO implements IsSerializable {
     
     public static String TYPE_SPEED = "Speed plot";
     public static String TYPE_ELEVATION = "Elevation plot";

@@ -1,6 +1,8 @@
 package org.footware.client.model;
 
-public class TrackVisualizationPointDTO {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class TrackVisualizationPointDTO implements IsSerializable {
     
     private double xValue;
     private double yValue;

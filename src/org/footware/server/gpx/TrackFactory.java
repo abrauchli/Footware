@@ -3,8 +3,6 @@
  */
 package org.footware.server.gpx;
 
-import java.util.List;
-
 import org.footware.client.model.TrackDTO2;
 import org.footware.client.model.TrackPointDTO;
 import org.footware.client.model.TrackSegmentDTO;
