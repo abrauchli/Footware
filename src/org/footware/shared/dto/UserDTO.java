@@ -16,7 +16,11 @@ public class UserDTO implements Serializable {
 	private boolean isAdmin;
 	private Set<TrackDTO> tracks;
 	private Set<TagDTO> tags;
-	
+
+	/**
+	 * Gets the id of the corresponding DB row
+	 * @return the ID of the row in the DB
+	 */
 	public long getId() {
 		return id;
 	}
