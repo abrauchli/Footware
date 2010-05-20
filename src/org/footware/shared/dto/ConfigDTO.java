@@ -1,4 +1,4 @@
-package org.footware.client.model;
+package org.footware.shared.dto;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

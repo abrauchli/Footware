@@ -2,8 +2,8 @@ package org.footware.client.pages.fields;
 
 import org.footware.client.TrackService;
 import org.footware.client.TrackServiceAsync;
-import org.footware.client.model.TrackVisualizationDTO;
-import org.footware.client.model.TrackVisualizationPointDTO;
+import org.footware.shared.dto.TrackVisualizationDTO;
+import org.footware.shared.dto.TrackVisualizationPointDTO;
 
 import ca.nanometrics.gflot.client.DataPoint;
 import ca.nanometrics.gflot.client.PlotModelStrategy;
