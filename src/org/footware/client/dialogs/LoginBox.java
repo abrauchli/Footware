@@ -22,6 +22,9 @@ public class LoginBox extends DialogBox {
 	private PasswordTextBox password;
 
 	public LoginBox(TopMenu container) {
+		setAutoHideEnabled(true);
+		setGlassEnabled(true);
+		
 		myTopMenu = container;
 		setText("Login");
 

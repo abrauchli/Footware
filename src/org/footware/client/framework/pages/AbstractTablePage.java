@@ -100,7 +100,9 @@ public abstract class AbstractTablePage extends AbstractPage {
 		headers = getConfiguredHeaders();
 		if (headers != null) {
 			for (int i = 0; i < headers.size(); i++) {
-				table.setWidget(0, i, new HTML("<b>" + headers.get(i)+"</b>"));
+				table
+						.setWidget(0, i, new HTML("<b>" + headers.get(i)
+								+ "</b>"));
 			}
 		}
 	}
@@ -125,7 +127,7 @@ public abstract class AbstractTablePage extends AbstractPage {
 	}
 
 	private void rowClickedInternal(int row) {
-			rowClicked(row - 1);
+		rowClicked(row - 1);
 	}
 
 	/**
@@ -145,4 +147,5 @@ public abstract class AbstractTablePage extends AbstractPage {
 	public boolean getConfiguredDisplayHeaders() {
 		return true;
 	}
+
 }

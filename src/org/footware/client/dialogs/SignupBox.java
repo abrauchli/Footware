@@ -20,6 +20,8 @@ public class SignupBox extends DialogBox {
 	private PasswordTextBox password;
 
 	public SignupBox() {
+		setAutoHideEnabled(true);
+		setGlassEnabled(true);
 		username = new TextBox();
 		name = new TextBox();
 		firstName = new TextBox();
