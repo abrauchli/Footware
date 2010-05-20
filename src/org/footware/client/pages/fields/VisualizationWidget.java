@@ -52,6 +52,34 @@ public class VisualizationWidget extends Composite {
     }
     
 
+    /**
+     * @return the widht
+     */
+    public int getWidht() {
+        return widht;
+    }
+
+    /**
+     * @param widht the widht to set
+     */
+    public void setWidht(int widht) {
+        this.widht = widht;
+    }
+
+    /**
+     * @return the height
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * @param height the height to set
+     */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public void displayVisualization(TrackVisualizationDTO dataDTO) {
         // Empty panel
         panel.clear();
