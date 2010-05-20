@@ -50,7 +50,7 @@ public class FootwareMapWidget extends Composite {
         initWidget(panel);
         initMapWidget();
     }
-    
+
     public FootwareMapWidget(int widht, int height) {
         this();
         this.widht = widht;
@@ -65,7 +65,7 @@ public class FootwareMapWidget extends Composite {
         defaultMapOptions.setProjection("EPSG:900913");
         defaultMapOptions.setDisplayProjection(new Projection(EPSG4326));
 
-        MapWidget mapWidget = new MapWidget(widht+"px", height+"px", defaultMapOptions);
+        MapWidget mapWidget = new MapWidget(widht + "px", height + "px", defaultMapOptions);
         map = mapWidget.getMap();
 
         map.addControl(new LayerSwitcher());
@@ -73,7 +73,7 @@ public class FootwareMapWidget extends Composite {
         openStreetMap.setIsBaseLayer(true);
         map.addLayer(openStreetMap);
 
-        LonLat center =new LonLat(47.0, 8.0);
+        LonLat center = new LonLat(47.0, 8.0);
         center.transform(EPSG4326, map.getProjection());
         map.setCenter(center, 3);
 
@@ -105,10 +105,17 @@ public class FootwareMapWidget extends Composite {
             lineStyle.setStrokeWidth(3.0);
             lineStyle.setStrokeOpacity(0.8);
             VectorFeature feature = new VectorFeature(line, lineStyle);
-
             tracksLayer.addFeature(feature);
         }
+
         map.addLayer(tracksLayer);
+
+
+        LonLat center = new LonLat(track.getMidLongitude(), track.getMidLatitude());
+        System.out.println(center.lat() + " " + center.lon());
+        center.transform(EPSG4326, map.getProjection());
+        System.out.println(center.lat() + " " + center.lon());
+        map.setCenter(center, 10);
 
     }
 
@@ -131,7 +138,7 @@ public class FootwareMapWidget extends Composite {
         });
 
     }
-    
+
     /**
      * @return the widht
      */
@@ -140,7 +147,8 @@ public class FootwareMapWidget extends Composite {
     }
 
     /**
-     * @param widht the widht to set
+     * @param widht
+     *            the widht to set
      */
     public void setWidht(int widht) {
         this.widht = widht;
@@ -154,11 +162,11 @@ public class FootwareMapWidget extends Composite {
     }
 
     /**
-     * @param height the height to set
+     * @param height
+     *            the height to set
      */
     public void setHeight(int height) {
         this.height = height;
     }
-
 
 }
