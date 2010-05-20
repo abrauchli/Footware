@@ -27,16 +27,30 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class VisualizationWidget extends Composite {
 
     private final Panel panel;
+    private int widht = 800;
+    private int height = 400;
 
     public VisualizationWidget() {
         panel = new SimplePanel();
-        initWidget(panel);
+        initWidget(panel); 
     }
-
+    
+    public VisualizationWidget(int widht, int height) {
+        this();
+        this.widht = widht;
+        this.height = height;
+    }
+    
     public VisualizationWidget(TrackVisualizationDTO dataDTO) {
         this();
         displayVisualization(dataDTO);
     }
+
+    public VisualizationWidget(int widht, int height, TrackVisualizationDTO dataDTO) {
+        this(widht,height);
+        displayVisualization(dataDTO);
+    }
+    
 
     public void displayVisualization(TrackVisualizationDTO dataDTO) {
         // Empty panel
@@ -62,8 +76,8 @@ public class VisualizationWidget extends Composite {
 
         PlotWithOverview plot = new PlotWithOverview(model, plotOptions, overviewPlotOptions);
         // TODO make this better!!
-        plot.setHeight("400px");
-        plot.setWidth("800px");
+        plot.setHeight(height + "px");
+        plot.setWidth(widht + "px");
 
         SeriesHandler series = model.addSeries(dataDTO.getType());
         for (TrackVisualizationPointDTO datapoint : dataDTO.getData()) {

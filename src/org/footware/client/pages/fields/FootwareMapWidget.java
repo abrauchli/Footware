@@ -41,12 +41,20 @@ public class FootwareMapWidget extends Composite {
 
     private final Panel panel;
     private Map map;
+    private int widht = 800;
+    private int height = 400;;
 
     public FootwareMapWidget() {
         super();
         panel = new SimplePanel();
         initWidget(panel);
         initMapWidget();
+    }
+    
+    public FootwareMapWidget(int widht, int height) {
+        this();
+        this.widht = widht;
+        this.height = height;
     }
 
     private void initMapWidget() {
@@ -57,7 +65,7 @@ public class FootwareMapWidget extends Composite {
         defaultMapOptions.setProjection("EPSG:900913");
         defaultMapOptions.setDisplayProjection(new Projection(EPSG4326));
 
-        MapWidget mapWidget = new MapWidget("800px", "400px", defaultMapOptions);
+        MapWidget mapWidget = new MapWidget(widht+"px", height+"px", defaultMapOptions);
         map = mapWidget.getMap();
 
         map.addControl(new LayerSwitcher());
@@ -123,5 +131,34 @@ public class FootwareMapWidget extends Composite {
         });
 
     }
+    
+    /**
+     * @return the widht
+     */
+    public int getWidht() {
+        return widht;
+    }
+
+    /**
+     * @param widht the widht to set
+     */
+    public void setWidht(int widht) {
+        this.widht = widht;
+    }
+
+    /**
+     * @return the height
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * @param height the height to set
+     */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
 
 }
