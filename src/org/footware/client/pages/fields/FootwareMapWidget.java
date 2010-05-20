@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.footware.client.TrackService;
 import org.footware.client.TrackServiceAsync;
-import org.footware.client.model.TrackDTO2;
-import org.footware.client.model.TrackPointDTO;
-import org.footware.client.model.TrackSegmentDTO;
+import org.footware.shared.dto.TrackDTO2;
+import org.footware.shared.dto.TrackPointDTO;
+import org.footware.shared.dto.TrackSegmentDTO;
 import org.gwtopenmaps.openlayers.client.Bounds;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
@@ -41,12 +41,20 @@ public class FootwareMapWidget extends Composite {
 
     private final Panel panel;
     private Map map;
+    private int widht = 800;
+    private int height = 400;;
 
     public FootwareMapWidget() {
         super();
         panel = new SimplePanel();
         initWidget(panel);
         initMapWidget();
+    }
+
+    public FootwareMapWidget(int widht, int height) {
+        this();
+        this.widht = widht;
+        this.height = height;
     }
 
     private void initMapWidget() {
@@ -57,7 +65,7 @@ public class FootwareMapWidget extends Composite {
         defaultMapOptions.setProjection("EPSG:900913");
         defaultMapOptions.setDisplayProjection(new Projection(EPSG4326));
 
-        MapWidget mapWidget = new MapWidget("800px", "400px", defaultMapOptions);
+        MapWidget mapWidget = new MapWidget(widht + "px", height + "px", defaultMapOptions);
         map = mapWidget.getMap();
 
         map.addControl(new LayerSwitcher());
@@ -65,7 +73,7 @@ public class FootwareMapWidget extends Composite {
         openStreetMap.setIsBaseLayer(true);
         map.addLayer(openStreetMap);
 
-        LonLat center =new LonLat(47.0, 8.0);
+        LonLat center = new LonLat(47.0, 8.0);
         center.transform(EPSG4326, map.getProjection());
         map.setCenter(center, 3);
 
@@ -97,10 +105,17 @@ public class FootwareMapWidget extends Composite {
             lineStyle.setStrokeWidth(3.0);
             lineStyle.setStrokeOpacity(0.8);
             VectorFeature feature = new VectorFeature(line, lineStyle);
-
             tracksLayer.addFeature(feature);
         }
+
         map.addLayer(tracksLayer);
+
+
+        LonLat center = new LonLat(track.getMidLongitude(), track.getMidLatitude());
+        System.out.println(center.lat() + " " + center.lon());
+        center.transform(EPSG4326, map.getProjection());
+        System.out.println(center.lat() + " " + center.lon());
+        map.setCenter(center, 10);
 
     }
 
@@ -122,6 +137,36 @@ public class FootwareMapWidget extends Composite {
             }
         });
 
+    }
+
+    /**
+     * @return the widht
+     */
+    public int getWidht() {
+        return widht;
+    }
+
+    /**
+     * @param widht
+     *            the widht to set
+     */
+    public void setWidht(int widht) {
+        this.widht = widht;
+    }
+
+    /**
+     * @return the height
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * @param height
+     *            the height to set
+     */
+    public void setHeight(int height) {
+        this.height = height;
     }
 
 }

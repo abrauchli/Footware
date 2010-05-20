@@ -3,10 +3,10 @@
  */
 package org.footware.server.gpx;
 
-import org.footware.client.model.TrackVisualizationDTO;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
+import org.footware.shared.dto.TrackVisualizationDTO;
 
 /**
  * @author rene

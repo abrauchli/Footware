@@ -1,4 +1,4 @@
-package org.footware.client.model;
+package org.footware.shared.dto;
 
 import java.util.LinkedList;
 import java.util.List;

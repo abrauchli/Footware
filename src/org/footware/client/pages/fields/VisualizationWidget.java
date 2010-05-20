@@ -2,8 +2,8 @@ package org.footware.client.pages.fields;
 
 import org.footware.client.TrackService;
 import org.footware.client.TrackServiceAsync;
-import org.footware.client.model.TrackVisualizationDTO;
-import org.footware.client.model.TrackVisualizationPointDTO;
+import org.footware.shared.dto.TrackVisualizationDTO;
+import org.footware.shared.dto.TrackVisualizationPointDTO;
 
 import ca.nanometrics.gflot.client.DataPoint;
 import ca.nanometrics.gflot.client.PlotModelStrategy;
@@ -27,15 +27,57 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class VisualizationWidget extends Composite {
 
     private final Panel panel;
+    private int widht = 800;
+    private int height = 400;
 
     public VisualizationWidget() {
         panel = new SimplePanel();
-        initWidget(panel);
+        initWidget(panel); 
     }
-
+    
+    public VisualizationWidget(int widht, int height) {
+        this();
+        this.widht = widht;
+        this.height = height;
+    }
+    
     public VisualizationWidget(TrackVisualizationDTO dataDTO) {
         this();
         displayVisualization(dataDTO);
+    }
+
+    public VisualizationWidget(int widht, int height, TrackVisualizationDTO dataDTO) {
+        this(widht,height);
+        displayVisualization(dataDTO);
+    }
+    
+
+    /**
+     * @return the widht
+     */
+    public int getWidht() {
+        return widht;
+    }
+
+    /**
+     * @param widht the widht to set
+     */
+    public void setWidht(int widht) {
+        this.widht = widht;
+    }
+
+    /**
+     * @return the height
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * @param height the height to set
+     */
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public void displayVisualization(TrackVisualizationDTO dataDTO) {
@@ -62,8 +104,8 @@ public class VisualizationWidget extends Composite {
 
         PlotWithOverview plot = new PlotWithOverview(model, plotOptions, overviewPlotOptions);
         // TODO make this better!!
-        plot.setHeight("400px");
-        plot.setWidth("800px");
+        plot.setHeight(height + "px");
+        plot.setWidth(widht + "px");
 
         SeriesHandler series = model.addSeries(dataDTO.getType());
         for (TrackVisualizationPointDTO datapoint : dataDTO.getData()) {

@@ -7,15 +7,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.footware.client.TrackService;
-import org.footware.client.model.ConfigDTO;
-import org.footware.client.model.TrackDTO2;
-import org.footware.client.model.TrackVisualizationDTO;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackFactory;
 import org.footware.server.gpx.TrackVisualizationElevationStrategy;
 import org.footware.server.gpx.TrackVisualizationFactory;
 import org.footware.server.gpx.TrackVisualizationSpeedStrategy;
 import org.footware.server.gpx.model.GPXTrack;
+import org.footware.shared.dto.ConfigDTO;
+import org.footware.shared.dto.TrackDTO2;
+import org.footware.shared.dto.TrackVisualizationDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
