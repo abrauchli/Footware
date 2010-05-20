@@ -2,6 +2,7 @@ package org.footware.client;
 
 import org.footware.client.Desktop.Desktop;
 import org.footware.client.pages.fields.FootwareMapWidget;
+import org.footware.client.pages.fields.VisualizationWidget;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -30,8 +31,11 @@ public class Footware implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		Desktop d = new Desktop();
+		
+		VisualizationWidget widget = new VisualizationWidget();
+		RootPanel.get("desktopContainer").add(widget);
 //		RootPanel.get("desktopContainer").add(d);
-		RootPanel.get("desktopContainer").add(new FootwareMapWidget());
+//		RootPanel.get("desktopContainer").add(new FootwareMapWidget());
 //		
 //		final Button sendButton = new Button("Send");
 //    final TextBox nameField = new TextBox();

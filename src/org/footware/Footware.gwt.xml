@@ -12,6 +12,7 @@
 
   <!-- Other module inherits                                      -->
   <inherits name='org.gwtopenmaps.openlayers.OpenLayers'/>
+  <inherits name='ca.nanometrics.gflot.GFlot' />
   
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.footware.client.Footware'/>
