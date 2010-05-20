@@ -98,7 +98,7 @@ public class TrackDetailPage extends AbstractFormPage {
 		}
 
 		private Widget loadComments() {
-			// TODO remove stuffe here so it works
+			// TODO remove stuff here so it works
 			List<CommentDTO> c;// = myTrack.getComments();
 			c = new ArrayList<CommentDTO>();
 			for (int i = 0; i < 20; i++) {

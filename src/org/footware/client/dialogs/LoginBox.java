@@ -59,8 +59,8 @@ public class LoginBox extends DialogBox {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO do useful stuff here
 				hide();
+				myTopMenu.startSignup();
 			}
 		});
 		g.setWidget(3, 0, registerLink);
@@ -91,7 +91,8 @@ public class LoginBox extends DialogBox {
 					@Override
 					public void onFailure(Throwable caught) {
 						Window
-								.alert("There was a Problem contacting the server: " + caught.getMessage());
+								.alert("There was a Problem contacting the server: "
+										+ caught.getMessage());
 					}
 				});
 

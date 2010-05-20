@@ -1,7 +1,10 @@
 package org.footware.client.dialogs;
 
+import org.footware.shared.dto.UserDTO;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -39,11 +42,20 @@ public class SignupBox extends DialogBox {
 		g.setWidget(4, 0, new HTML("Email"));
 		g.setWidget(4, 1, email);
 
-		Button submit = new Button("Submit");
+		Button submit = new Button("Submit", new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				doSignup();
+				hide();
+			}
+		});
+
 		Button close = new Button("Close", new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
 				hide();
 			}
 		});
@@ -54,4 +66,21 @@ public class SignupBox extends DialogBox {
 		add(g);
 	}
 
+	private void doSignup() {
+		validate();
+		UserDTO u = new UserDTO();
+		u.setFullName(name.getValue() + " " + firstName.getValue());
+		u.setEmail(email.getValue());
+		u.setPassword(password.getValue());
+		// TODO persist
+		// TODO sign user in directly?
+	}
+
+	private void validate() {
+		if (username.getValue().isEmpty() || name.getValue().isEmpty()
+				|| firstName.getValue().isEmpty()
+				|| password.getValue().isEmpty() || email.getValue().isEmpty()) {
+			Window.alert("Please fill out all fields");
+		}
+	}
 }
