@@ -34,8 +34,8 @@ public class Footware implements EntryPoint {
 		
 //		VisualizationWidget widget = new VisualizationWidget();
 //		RootPanel.get("desktopContainer").add(widget);
-//		RootPanel.get("desktopContainer").add(d);
-		RootPanel.get("desktopContainer").add(new FootwareMapWidget());
+		RootPanel.get("desktopContainer").add(d);
+//		RootPanel.get("desktopContainer").add(new FootwareMapWidget());
 //		
 //		final Button sendButton = new Button("Send");
 //    final TextBox nameField = new TextBox();

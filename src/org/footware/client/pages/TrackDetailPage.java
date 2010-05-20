@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.footware.client.framework.pages.AbstractFormPage;
 import org.footware.client.framework.tree.AbstractTreeNode;
+import org.footware.client.pages.fields.FootwareMapWidget;
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.UserDTO;
@@ -86,10 +87,9 @@ public class TrackDetailPage extends AbstractFormPage {
 			ScrollPanel sp = new ScrollPanel();
 			sp.setHeight("300px");
 			sp.add(loadComments());
-			// TODO use map widget here
-			Frame map = new Frame("http://maps.google.com");
-			map.setHeight("400px");
-			map.setWidth("400px");
+			FootwareMapWidget map = new FootwareMapWidget();
+			// TODO get data from server
+			map.test();
 			add(sp, SOUTH);
 			// TODO use tracktitle here
 			add(new HTML("<b>" + "TRACKTITLE" + "</b>"), NORTH);
@@ -129,5 +129,9 @@ public class TrackDetailPage extends AbstractFormPage {
 	@Override
 	public void reload() {
 		super.reload();
+	}
+	@Override
+	public String getConfiguredWidth() {
+		return "1200px";
 	}
 }

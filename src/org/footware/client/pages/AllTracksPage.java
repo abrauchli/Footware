@@ -70,4 +70,5 @@ public class AllTracksPage extends AbstractTablePage {
 	public String getConfiguredTitle() {
 		return "Tracks";
 	}
+	
 }
