@@ -122,5 +122,14 @@ public class GPSHelperFunctionTest {
 		double dist1 = GPSHelperFunctions.getDistance(p1, p2);
 		assertTrue("distance greater zero 10", dist1 >= 0.0);
 	}
+	
+	@Test
+	public void testTimeDifference() {
+		GPXTrackPoint p1 = new GPXTrackPoint(new BigDecimal(90),
+				new BigDecimal(180), new BigDecimal(0), new DateTime(0));
+		GPXTrackPoint p2 = new GPXTrackPoint(new BigDecimal(0),
+				new BigDecimal(0), new BigDecimal(0), new DateTime(100));
+		assertTrue(GPSHelperFunctions.getTimeDifference(p1, p2).getMillis() == 100);	
+	}
 
 }

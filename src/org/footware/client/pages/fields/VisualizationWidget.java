@@ -100,7 +100,6 @@ public class VisualizationWidget extends Composite {
         overviewPlotOptions.setSelectionOptions(new SelectionOptions().setMode(SelectionOptions.X_SELECTION_MODE).setDragging(
                 true));
         overviewPlotOptions.setXAxisOptions(new TimeSeriesAxisOptions());
-        // create the plot
 
         PlotWithOverview plot = new PlotWithOverview(model, plotOptions, overviewPlotOptions);
         // TODO make this better!!
