@@ -1,6 +1,7 @@
 package org.footware.client;
 
 import org.footware.client.Desktop.Desktop;
+import org.footware.client.pages.fields.VisualizationWidget;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;

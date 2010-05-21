@@ -42,7 +42,7 @@ public class FootwareMapWidget extends Composite {
     private final Panel panel;
     private Map map;
     private int widht = 800;
-    private int height = 400;;
+    private int height = 400;
 
     public FootwareMapWidget() {
         super();
