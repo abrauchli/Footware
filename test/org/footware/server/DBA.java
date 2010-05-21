@@ -16,13 +16,13 @@ public class DBA {
 
 	private Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
+//	@Before
+//	public void setUp() throws Exception {
+//	}
+//
+//	@After
+//	public void tearDown() throws Exception {
+//	}
 	
 	@Test
 	public void t10_newUser() {
@@ -56,8 +56,7 @@ public class DBA {
 	
 	@Test
 	public void t50_addTag() {
-		TagDTO new_tag = new TagDTO();
-		new_tag.setTag("tag");
+		TagDTO new_tag = new TagDTO("tag");
 		Long id = (Long) session.save(new Tag(new_tag));
 		assert (id != null);
 		

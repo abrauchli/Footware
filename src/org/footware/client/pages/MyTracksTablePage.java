@@ -16,7 +16,7 @@ public class MyTracksTablePage extends AllTracksPage{
 	}
 	@Override
 	public String[][] execLoadTableData() {
-		// TODO Auto-generated method stub
+		// TODO do table load
 		return new String[][] {{ "bogus track", "dumbo user", "666",
 			"500 miles", "8.11.1984", "0" }};
 	}

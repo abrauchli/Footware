@@ -133,7 +133,6 @@ public class FootwareMapWidget extends Composite {
             @Override
             public void onFailure(Throwable caught) {
                 caught.printStackTrace();
-
             }
         });
 

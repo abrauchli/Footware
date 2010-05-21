@@ -10,6 +10,9 @@ import javax.persistence.Id;
 
 import org.footware.shared.dto.TagDTO;
 
+/**
+ * Class for ER mapping of Tags
+ */
 @Entity
 public class Tag implements Serializable {
 
@@ -24,23 +27,43 @@ public class Tag implements Serializable {
 	
 	protected Tag() {}
 	
+	/**
+	 * Creates a new Tag
+	 * @param tag name of the tag
+	 */
 	public Tag(String tag) {
 		this.tag = tag;
 	}
-	
+
+	/**
+	 * Creates a new Tag from DTO
+	 * @param tag tag received from web frontend 
+	 */
 	public Tag(TagDTO tag) {
 		this.id = tag.getId();
 		this.tag = tag.getTag();
 	}
-	
+
+	/**
+	 * Gets the id of the corresponding DB row
+	 * @return the ID of the row in the DB
+	 */
 	public long getId() {
 		return id;
 	}
-	
+
+	/**
+	 * Gets the tag
+	 * @return tag the tag name
+	 */
 	public String getTag() {
 		return tag;
 	}
-	
+
+	/**
+	 * Sets / Renames the tag
+	 * @param tag new tag name
+	 */
 	public void setTag(String tag) {
 		this.tag = tag;
 	}

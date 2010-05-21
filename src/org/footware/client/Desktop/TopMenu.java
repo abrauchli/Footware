@@ -71,5 +71,9 @@ public class TopMenu extends MenuBar {
 		login.setVisible(true);
 		signUp.setVisible(true);
 	}
+	
+	public void startSignup(){
+		sb.center();
+	}
 
 }

@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -56,6 +57,8 @@ public class TrackDetailPage extends AbstractFormPage {
 		TextBox trackpoints;
 		TextBox length;
 		DateBox startdate;
+		HorizontalPanel mapPlaceholder;
+		FootwareMapWidget map;
 
 		public TrackDetailForm() {
 			super();
@@ -87,18 +90,17 @@ public class TrackDetailPage extends AbstractFormPage {
 			ScrollPanel sp = new ScrollPanel();
 			sp.setHeight("300px");
 			sp.add(loadComments());
-			FootwareMapWidget map = new FootwareMapWidget();
+			mapPlaceholder = new HorizontalPanel();
 			// TODO get data from server
-			map.test();
 			add(sp, SOUTH);
 			// TODO use tracktitle here
 			add(new HTML("<b>" + "TRACKTITLE" + "</b>"), NORTH);
-			add(map, EAST);
+			add(mapPlaceholder, EAST);
 			add(vp, CENTER);
 		}
 
 		private Widget loadComments() {
-			// TODO remove stuffe here so it works
+			// TODO remove stuff here so it works
 			List<CommentDTO> c;// = myTrack.getComments();
 			c = new ArrayList<CommentDTO>();
 			for (int i = 0; i < 20; i++) {
@@ -130,8 +132,15 @@ public class TrackDetailPage extends AbstractFormPage {
 	public void reload() {
 		super.reload();
 	}
+
 	@Override
 	public String getConfiguredWidth() {
 		return "1200px";
+	}
+
+	@Override
+	public void execLazyload() {
+		content.map = new FootwareMapWidget();
+		content.mapPlaceholder.add(content.map);
 	}
 }

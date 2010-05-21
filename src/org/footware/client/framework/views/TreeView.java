@@ -5,6 +5,8 @@ import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTree;
 import org.footware.client.framework.tree.AbstractTreeNode;
 
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -33,6 +35,10 @@ public class TreeView extends ScrollPanel {
 				if (treeWidget.getSelectedItem() instanceof AbstractTreeNode) {
 					AbstractSearchForm sf = ((AbstractTreeNode) treeWidget
 							.getSelectedItem()).getConfiguredSearchForm();
+//					((AbstractTreeNode) treeWidget.getSelectedItem())
+//							.loadChildren();
+					((AbstractTreeNode) treeWidget.getSelectedItem())
+							.lazyLoad();
 					AbstractPage p = ((AbstractTreeNode) treeWidget
 							.getSelectedItem()).getPage();
 					myDataView.displayPage(p);
@@ -43,6 +49,14 @@ public class TreeView extends ScrollPanel {
 						mySearchView.clear();
 					}
 				}
+			}
+		});
+		treeWidget.addOpenHandler(new OpenHandler<TreeItem>() {
+
+			@Override
+			public void onOpen(OpenEvent<TreeItem> event) {
+//				if (event.getTarget() instanceof AbstractTreeNode)
+//					((AbstractTreeNode) event.getTarget()).loadChildren();
 			}
 		});
 		setHeight("600px");
