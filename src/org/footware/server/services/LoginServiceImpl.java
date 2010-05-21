@@ -10,7 +10,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	@Override
 	public String login(String username, String password)
 			throws IllegalArgumentException {
-		//TODO do something meaningful here.
+		//TODO andy hier sollte eine session id generiert und der user authentifiziert werden.
 		return "1234";
 	}
 

@@ -22,6 +22,8 @@ public class AllTracksNode extends AbstractTreeNode {
 	@Override
 	protected List<AbstractTreeNode> execCreateChildren(
 			AbstractSearchData search) {
+		// TODO andy hier brauche ich eine methode um tracks entsprechend der
+		// suche zu holen (von mir aus list<trackDTO>
 		ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 		TrackSearchData sd = (TrackSearchData) search;
 		for (int i = 0; i < sd.value; i++) {

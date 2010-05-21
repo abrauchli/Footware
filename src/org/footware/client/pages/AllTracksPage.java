@@ -23,7 +23,10 @@ public class AllTracksPage extends AbstractTablePage {
 
 	@Override
 	public String[][] execLoadTableData(AbstractSearchData search) {
-		TrackSearchData sd = (TrackSearchData) search;//getSearchFilter();
+		// TODO andy methode um tracks abhängig von suche als tabelle zu laden.
+		// kann eventuell als separater service implementiert werden: service
+		// holt DTOs und erstellt String[][] auf server
+		TrackSearchData sd = (TrackSearchData) search;// getSearchFilter();
 		String[][] result = new String[sd.value][2];
 		for (int i = 0; i < sd.value; i++) {
 			result[i] = new String[] { "bogus track", "dumbo user", "666",
@@ -48,7 +51,6 @@ public class AllTracksPage extends AbstractTablePage {
 	public void reload() {
 		loadTableData(getSearchFilter());
 	}
-	
 
 	@Override
 	public int getconfiguredCellPadding() {
@@ -60,7 +62,6 @@ public class AllTracksPage extends AbstractTablePage {
 		return true;
 	}
 
-
 	@Override
 	public void rowClicked(int rowNum) {
 		getTreeNode().openChildPage(rowNum);
@@ -70,5 +71,5 @@ public class AllTracksPage extends AbstractTablePage {
 	public String getConfiguredTitle() {
 		return "Tracks";
 	}
-	
+
 }

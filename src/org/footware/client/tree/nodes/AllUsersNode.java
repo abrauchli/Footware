@@ -15,13 +15,14 @@ public class AllUsersNode extends AbstractTreeNode {
 
 	@Override
 	protected List<AbstractTreeNode> execCreateChildren() {
-		// TODO Auto-generated method stub
+		//leaving this empty forces search
 		return null;
 	}
 
 	@Override
 	protected List<AbstractTreeNode> execCreateChildren(
 			AbstractSearchData search) {
+		//TODO andy methode um user gemäss suche als list<userDTO> zu erhalten
 		UserSearchData sd = (UserSearchData) search;
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 		for (int i = 0; i < sd.value; i++) {
