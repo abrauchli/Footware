@@ -13,7 +13,7 @@ public class TagDTO implements Serializable {
 	 * Gets the id of the corresponding DB row
 	 * @return the ID of the row in the DB
 	 */
-	protected long getId() {
+	public long getId() {
 		return id;
 	}
 	
@@ -27,14 +27,14 @@ public class TagDTO implements Serializable {
 	
 	/**
 	 * Gets the tag
-	 * @return tag
+	 * @return tag the tag name
 	 */
 	public String getTag() {
 		return tag;
 	}
 	
 	/**
-	 * Renames the tag
+	 * Sets / Renames the tag
 	 * @param tag new tag name
 	 */
 	public void setTag(String tag) {
