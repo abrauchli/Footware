@@ -4,22 +4,33 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+/**
+ * Helper class for hibernate
+ * Provides a session factory and methods to create independant sessions.
+ */
 public class HibernateUtil {
 
 	/** The single instance of hibernate SessionFactory */
 	private static SessionFactory sessionFactory;
 
 	/**
-	 * disable constructor to guaranty a single instance
+	 * Private constructor to guaranty a single instance
 	 */
 	private HibernateUtil() {
 	}
 
+	/**
+	 * Class initializer setting the session factory
+	 */
 	static {
 		sessionFactory = new AnnotationConfiguration().configure()
 				.buildSessionFactory();
 	}
 
+	/**
+	 * Gets the hibernate session factory
+	 * @return the hibernate session factory
+	 */
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
