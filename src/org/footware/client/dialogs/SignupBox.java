@@ -74,7 +74,7 @@ public class SignupBox extends DialogBox {
 		u.setFullName(name.getValue() + " " + firstName.getValue());
 		u.setEmail(email.getValue());
 		u.setPassword(password.getValue());
-		// TODO persist
+		// TODO andy hier müsste der user persistiert werden... u.persist()?
 		// TODO sign user in directly?
 	}
 

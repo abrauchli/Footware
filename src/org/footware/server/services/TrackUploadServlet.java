@@ -29,6 +29,7 @@ public class TrackUploadServlet extends HttpServlet {
 				if (item.getFieldName().equals("file")) {
 					InputStream stream = item.openStream();
 					// TODO do stuff here
+					//TODO rene hier kommt der fileupload hin. Das File ist in stream
 					TrackDTO track = new TrackDTO();
 				}
 
@@ -36,5 +37,6 @@ public class TrackUploadServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 }

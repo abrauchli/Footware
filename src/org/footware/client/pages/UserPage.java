@@ -23,7 +23,7 @@ public class UserPage extends AbstractFormPage {
 	}
 
 	private void loadContent() {
-		// TODO Auto-generated method stub
+		// TODO flöru load user data here
 
 	}
 
