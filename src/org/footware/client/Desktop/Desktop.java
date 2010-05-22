@@ -24,8 +24,8 @@ public class Desktop extends VerticalPanel {
 
 	public Desktop() {
 		// super(1, 2);
-		setWidth("100%");
-		setHeight("100%");
+//		setWidth("100%");
+//		setHeight("100%");
 		DataView dv = new DataView();
 		SearchView sv = new SearchView();
 		// add the tree
@@ -35,13 +35,13 @@ public class Desktop extends VerticalPanel {
 		sp.add(myTree, "Public view");
 		sp.add(priv, "Private view");
 		sp.setWidth("300px");
-		sp.setHeight("100%");
+//		sp.setHeight("100%");
 
 		MenuBar mb = new TopMenu();
-		mb.setWidth("100%");
+//		mb.setWidth("100%");
 		add(mb);
 		HorizontalPanel hp2 = new HorizontalPanel();
-		hp2.setHeight("100%");
+//		hp2.setHeight("100%");
 		hp2.add(sp);
 		VerticalPanel vp = new VerticalPanel();
 		hp2.add(vp);

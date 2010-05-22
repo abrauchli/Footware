@@ -18,6 +18,7 @@ import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Projection;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
+import org.gwtopenmaps.openlayers.client.control.LayerSwitcherOptions;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.LineString;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
@@ -41,20 +42,20 @@ public class FootwareMapWidget extends Composite {
 
     private final Panel panel;
     private Map map;
-    private int widht = 800;
+    private int width = 800;
     private int height = 400;
 
     public FootwareMapWidget() {
+    	this(800,400);
+    }
+
+    public FootwareMapWidget(int width, int height) {
         super();
+        this.width = width;
+        this.height = height;
         panel = new SimplePanel();
         initWidget(panel);
         initMapWidget();
-    }
-
-    public FootwareMapWidget(int widht, int height) {
-        this();
-        this.widht = widht;
-        this.height = height;
     }
 
     private void initMapWidget() {
@@ -65,7 +66,7 @@ public class FootwareMapWidget extends Composite {
         defaultMapOptions.setProjection("EPSG:900913");
         defaultMapOptions.setDisplayProjection(new Projection(EPSG4326));
 
-        MapWidget mapWidget = new MapWidget(widht + "px", height + "px", defaultMapOptions);
+        MapWidget mapWidget = new MapWidget(width + "px", height + "px", defaultMapOptions);
         map = mapWidget.getMap();
 
         map.addControl(new LayerSwitcher());
@@ -142,7 +143,7 @@ public class FootwareMapWidget extends Composite {
      * @return the widht
      */
     public int getWidht() {
-        return widht;
+        return width;
     }
 
     /**
@@ -150,7 +151,7 @@ public class FootwareMapWidget extends Composite {
      *            the widht to set
      */
     public void setWidht(int widht) {
-        this.widht = widht;
+        this.width = widht;
     }
 
     /**
