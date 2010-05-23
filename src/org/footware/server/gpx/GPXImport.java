@@ -1,7 +1,10 @@
 package org.footware.server.gpx;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -27,30 +30,33 @@ import org.xml.sax.SAXException;
 
 public class GPXImport {
 
-    private static String GPX_NAMESPACE_URI = "http://www.topografix.com/GPX/1/1";
-    private static String GPX_NS = "tpx";
-    private static String LATITUDE = "lat";
-    private static String LONGITUDE = "lon";
-    private static String ELEVATION = "ele";
-    private static String TIME = "time";
+	private static String GPX_NAMESPACE_URI = "http://www.topografix.com/GPX/1/1";
+	private static String GPX_NS = "tpx";
+	private static String LATITUDE = "lat";
+	private static String LONGITUDE = "lon";
+	private static String ELEVATION = "ele";
+	private static String TIME = "time";
 
-    public GPXImport() {
-        // TODO Auto-generated constructor stub
-    }
+	public GPXImport() {
+		// TODO Auto-generated constructor stub
+	}
 
-    public List<GPXTrack> parseXML(InputStream in) {
+	public List<GPXTrack> parseXML(InputStream in) {
         LinkedList<GPXTrack> tracks = new LinkedList<GPXTrack>();
         try {
 
             // Parse GPX
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SchemaFactory schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-            factory.setSchema(schemaFactory.newSchema(new File("gpx.xsd")));
+            File xsd = new File("gpx.xsd");
+            System.out.println(xsd.toString());
+            factory.setSchema(schemaFactory.newSchema(xsd));
 
             SAXParser parser = factory.newSAXParser();
             SAXReader reader = new SAXReader(parser.getXMLReader());
             reader.setValidation(true);
             reader.setErrorHandler(new SimpleErrorHandler());
+
 
             Document document = reader.read(in);
 
