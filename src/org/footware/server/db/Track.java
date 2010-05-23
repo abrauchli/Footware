@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,7 +44,7 @@ public class Track implements Serializable {
 	@Column(length=256)
 	private String notes;
 	
-	//@Enumerated()
+	@Enumerated(EnumType.ORDINAL)
 	private int publicity;
 	
 	private boolean commentsEnabled;
@@ -55,12 +57,19 @@ public class Track implements Serializable {
 	
 	protected Track() {}
 	
+	/**
+	 * Create a track for persistence
+	 * @param u User owning the track
+	 * @param filename filename (as uploaded) of the track
+	 * @param path path where the track is saved on the server TODO: remove?
+	 */
 	public Track(User u, String filename, String path) {
 		this.user = u;
 		this.filename = filename;
 		this.path = path;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public Track(TrackDTO track) {
 		this.id = track.getId();
 		this.user = new User(track.getUser());
