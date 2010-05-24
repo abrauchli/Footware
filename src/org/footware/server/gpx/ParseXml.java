@@ -42,14 +42,14 @@ public class ParseXml {
 	public static void main(String[] args) {
 		GPXImport importer = new GPXImport();
 		
-		try {
-			File test = new File("");
-			System.out.println(test.getAbsolutePath());
-			importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		try {
+//			File test = new File("");
+//			System.out.println(test.getAbsolutePath());
+////			importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 	}
 }

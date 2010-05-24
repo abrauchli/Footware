@@ -29,119 +29,124 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
+import org.footware.server.gpx.GPXImport;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @SuppressWarnings("serial")
 public class TrackUploadServlet extends HttpServlet {
-	
+
+	private Logger logger;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		doPost(req,resp);
+		doPost(req, resp);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
-		System.out.println("attributes");
-		Enumeration atts = req.getAttributeNames();
-		while(atts.hasMoreElements()) {
-			System.out.println((String) atts.nextElement());
-		}
 		
-		File baseDirectory = createDirectories("testUser");
+	    logger = LoggerFactory.getLogger(TrackUploadServlet.class);
 
-		System.out.println(req.getCharacterEncoding());
-		req.setCharacterEncoding("UTF-8");
-		System.out.println(req.getParameterMap().keySet());
+
+		String user = "testUser" + (int) (Math.random() * 100);
+		logger.info("User: " + user);
+
+		File baseDirectory = initFileStructure(user);
+
 		// Check that we have a file upload request
-		// boolean isMultipart = ServletFileUpload.isMultipartContent(req);
-		System.out.println(req.getContentType());
-		System.out.println(req.isRequestedSessionIdValid());
-		// System.out.println(isMultipart);
+		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
 
-		// if (isMultipart) {
-		// Create a factory for disk-based file items
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-		factory.setRepository(new File("tmp"));
+		if (isMultipart) {
 
+			// Create a factory for disk-based file items
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+			factory.setRepository(new File("tmp"));
+			factory.setSizeThreshold(590841);
 
-		// Create a new file upload handler
-		ServletFileUpload upload = new ServletFileUpload(factory);
+			// Create a new file upload handler
+			
+			ServletFileUpload upload = new ServletFileUpload(factory);
 
-		// Parse the request
-		List<FileItem> items = null;
-		try {
-			items = upload.parseRequest(req);
-		} catch (FileUploadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Iterator<FileItem> iter = items.iterator();
-		while (iter.hasNext()) {
-			FileItem item = iter.next();
-			// Process a file upload
-			System.out.println(item.getFieldName());
-			if (!item.isFormField() && item.getFieldName().equals("file")) {
-				System.out.println(item.getContentType());
-				System.out.println(item.getSize());
-				String fieldName = item.getFieldName();
-				String fileName = item.getName();
-				String contentType = item.getContentType();
-				boolean isInMemory = item.isInMemory();
-				long sizeInBytes = item.getSize();
-				System.out.println(fieldName);
-				System.out.println(fileName);
-				System.out.println(contentType);
-				System.out.println(isInMemory);
-				System.out.println(sizeInBytes);
-				System.out.println(baseDirectory.getAbsolutePath());
-				File uploadedFile = new File(baseDirectory.getAbsolutePath()
-						+ "/import.gpx");
-				try {
-					item.write(uploadedFile);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			//Create a progress listener
+			ProgressListener progressListener = new ProgressListener(){
+			   public void update(long pBytesRead, long pContentLength, int pItems) {
+			      logger.info("We are currently reading item " + pItems);
+			       if (pContentLength == -1) {
+			           logger.info("So far, " + pBytesRead + " bytes have been read.");
+			       } else {
+			    	   logger.info("So far, " + pBytesRead + " of " + pContentLength
+			                              + " bytes have been read.");
+			       }
+			   }
+			};
+			upload.setProgressListener(progressListener);
+
+			
+			// Parse the request
+			List<FileItem> items;
+			try {
+				items = upload.parseRequest(req);
+
+				Iterator<FileItem> iter = items.iterator();
+				while (iter.hasNext()) {
+					FileItem item = iter.next();
+
+					// Process a file upload
+
+					if (!item.isFormField()
+							&& item.getFieldName().equals("file")) {
+						
+						//Save file to disk
+						String fileName = item.getName();
+						logger.info("received file:" + fileName);
+						
+						if (fileName != null) {
+							fileName = FilenameUtils.getName(fileName);
+						}
+						
+						String saveFileName = getSavePath(baseDirectory
+								.getAbsolutePath(), fileName);
+						
+						logger.info(saveFileName);
+
+						File uploadedFile = new File(saveFileName);
+						item.write(uploadedFile);
+					
+						// Start GPX Import
+						GPXImport importer = new GPXImport();
+						importer.importTrack(uploadedFile);
+						
+					}
 				}
+			} catch (FileUploadException e1) {
+				logger.error("File upload unsucessful", e1);
+				e1.printStackTrace();
+			} catch (Exception e) {
+				logger.error("File upload unsucessful", e);
+				e.printStackTrace();
 			}
 		}
-
-		// ArrayList files = (ArrayList) req
-		// .getAttribute("org.mortbay.servlet.MultiPartFilter.files");
-
-		// if (files != null) {
-		// System.out.println("yep");
-		// for (int x = 0; x < files.size(); x++) {
-		// File file1 = (File) files.get(x);
-		// File outputFile = new File("outputfile" + (x + 1));
-		// file1.renameTo(outputFile);
-		// System.out.println(outputFile.getName());
-		// }
-		//
-		// StringBuffer buff = new StringBuffer();
-		//
-		// File file1 = (File) req.getAttribute("file");
-		//
-		// if (file1 == null || !file1.exists()) {
-		// buff.append("File does not exist");
-		// } else if (file1.isDirectory()) {
-		// buff.append("File is a directory");
-		// } else {
-		// File outputFile = new File(req.getParameter("file"));
-		// file1.renameTo(outputFile);
-		// }
-		// } else {
-		// System.out.println("nope");
-		// }
+	}
+	
+	private String getSavePath(String base, String fileName) {
+		//TODO calculate save file name
+		return base+"/"+fileName;
 	}
 
-	private File createDirectories(String user) {
+	private File initFileStructure(String user) {
 
 		File tmpDirectory = new File("tmp");
 		if (!tmpDirectory.exists()) {
+			logger.info("Create 'tmp' directory");
 			tmpDirectory.mkdir();
 		}
 		tmpDirectory.setWritable(true);
@@ -149,16 +154,20 @@ public class TrackUploadServlet extends HttpServlet {
 		// Check if import directory exists
 		File importDirectory = new File("import");
 		if (!importDirectory.exists()) {
+			logger.info("Create 'import' directory");
 			importDirectory.mkdir();
 		}
 
 		// Check if user directoy exists
-		File userDirectory = new File("import/" + user);
+		File userDirectory = new File(importDirectory.getAbsolutePath() + "/" + user);
 		if (!userDirectory.exists()) {
+			logger.info("Create '"+ importDirectory.getAbsolutePath() + "/" + user +"' directory");
 			userDirectory.mkdir();
 		}
 		return userDirectory;
 
 	}
 	
+
+
 }
