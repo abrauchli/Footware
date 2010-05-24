@@ -7,9 +7,8 @@ import org.footware.server.db.Track;
 import org.footware.server.db.User;
 import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.UserDTO;
+import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class DBA {
@@ -34,9 +33,13 @@ public class DBA {
 		Long id = (Long) session.save(new User(new_user));
 		assert (id != null);
 		
-		User u = (User) session.load(User.class, id);
-		assert (u != null);
-		assert (u.getEmail().equals(email));
+		try {
+			User u = (User) session.load(User.class, id);
+			assert (u != null);
+			assert (u.getEmail().equals(email));
+		} catch (HibernateException e) {
+			assert (false);
+		}
 	}
 	
 	@Test
@@ -46,20 +49,48 @@ public class DBA {
 	
 	@Test
 	public void t30_addTrack() {
+		User u = User.getByEmail("test@footware.org");
+		assert (u != null);
+		Track t = new Track(u, "foo", "/foo");
 		
+		Long id = (Long) session.save(t);
+		assert (id != null);
 	}
 	
 	@Test
 	public void t40_addTrackComment() {
-		
+		User u = User.getByEmail("test@footware.org");
+		assert (u != null);
+
+		Track[] tracks = new Track[0];
+		u.getTracks().toArray(tracks);
+		assert (tracks.length > 0);
+
+		Comment c = new Comment("test comment", u);
+		tracks[0].addComment(c);
+		session.update(tracks[0]);
+
+		Long id = (Long) session.save(c);
+		assert (id != null);
+
+		u = User.getByEmail("test@footware.org");
+		u.getTracks().toArray(tracks);
+		boolean found = false;
+		for (Comment tc : tracks[0].getComments()) {
+			if (tc.getText().equals("test comment")) {
+				found = true;
+				break;
+			}
+		}
+		assert (found);
 	}
-	
+
 	@Test
 	public void t50_addTag() {
 		TagDTO new_tag = new TagDTO("tag");
 		Long id = (Long) session.save(new Tag(new_tag));
 		assert (id != null);
-		
+
 		Tag t = (Tag) session.load(Tag.class, id);
 		assert (t != null);
 		assert (t.getTag().equals("tag"));
