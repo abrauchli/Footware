@@ -40,8 +40,13 @@ public class GPXImport {
 	public GPXImport() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void importTrack(File file) {
+		List<GPXTrack> tracks = parseXML(file);
+		
+	}
 
-	public List<GPXTrack> parseXML(InputStream in) {
+	private List<GPXTrack> parseXML(File file) {
         LinkedList<GPXTrack> tracks = new LinkedList<GPXTrack>();
         try {
 
@@ -58,7 +63,7 @@ public class GPXImport {
             reader.setErrorHandler(new SimpleErrorHandler());
 
 
-            Document document = reader.read(in);
+            Document document = reader.read(file);
 
             // Define namespaces
             HashMap<String, String> namespacesMap = new HashMap<String, String>();

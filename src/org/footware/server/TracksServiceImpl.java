@@ -28,11 +28,11 @@ TrackService {
 		GPXImport importer = new GPXImport();
 		List<GPXTrack> tracks = new LinkedList<GPXTrack>();
 		
-		try {
-			tracks = importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			tracks = importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
 		
 		LinkedList<TrackDTO2> result = new LinkedList<TrackDTO2>();
 		for(GPXTrack gpxTrack : tracks) {
@@ -47,11 +47,11 @@ TrackService {
         GPXImport importer = new GPXImport();
         List<GPXTrack> tracks = new LinkedList<GPXTrack>();
         
-        try {
-            tracks = importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            tracks = importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
         
         TrackVisualizationFactory factory = new TrackVisualizationFactory(new TrackVisualizationElevationStrategy());
         return factory.create(tracks.get(6));
