@@ -18,7 +18,6 @@ package org.footware.server.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,10 +33,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.footware.server.gpx.GPXImport;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 @SuppressWarnings("serial")
 public class TrackUploadServlet extends HttpServlet {
@@ -53,11 +50,10 @@ public class TrackUploadServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-	    logger = LoggerFactory.getLogger(TrackUploadServlet.class);
 
+		logger = LoggerFactory.getLogger(TrackUploadServlet.class);
 
-		String user = "testUser" + (int) (Math.random() * 100);
+		String user = "testUser";
 		logger.info("User: " + user);
 
 		File baseDirectory = initFileStructure(user);
@@ -70,27 +66,27 @@ public class TrackUploadServlet extends HttpServlet {
 			// Create a factory for disk-based file items
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			factory.setRepository(new File("tmp"));
-			factory.setSizeThreshold(590841);
+			factory.setSizeThreshold(10000000);
 
 			// Create a new file upload handler
-			
 			ServletFileUpload upload = new ServletFileUpload(factory);
 
-			//Create a progress listener
-			ProgressListener progressListener = new ProgressListener(){
-			   public void update(long pBytesRead, long pContentLength, int pItems) {
-			      logger.info("We are currently reading item " + pItems);
-			       if (pContentLength == -1) {
-			           logger.info("So far, " + pBytesRead + " bytes have been read.");
-			       } else {
-			    	   logger.info("So far, " + pBytesRead + " of " + pContentLength
-			                              + " bytes have been read.");
-			       }
-			   }
+			// Create a progress listener
+			ProgressListener progressListener = new ProgressListener() {
+				public void update(long pBytesRead, long pContentLength,
+						int pItems) {
+					logger.info("We are currently reading item " + pItems);
+					if (pContentLength == -1) {
+						logger.info("So far, " + pBytesRead
+								+ " bytes have been read.");
+					} else {
+						logger.info("So far, " + pBytesRead + " of "
+								+ pContentLength + " bytes have been read.");
+					}
+				}
 			};
 			upload.setProgressListener(progressListener);
 
-			
 			// Parse the request
 			List<FileItem> items;
 			try {
@@ -104,27 +100,24 @@ public class TrackUploadServlet extends HttpServlet {
 
 					if (!item.isFormField()
 							&& item.getFieldName().equals("file")) {
-						
-						//Save file to disk
+
+						// Save file to disk
 						String fileName = item.getName();
 						logger.info("received file:" + fileName);
-						
+
 						if (fileName != null) {
 							fileName = FilenameUtils.getName(fileName);
 						}
-						
-						String saveFileName = getSavePath(baseDirectory
-								.getAbsolutePath(), fileName);
-						
-						logger.info(saveFileName);
 
-						File uploadedFile = new File(saveFileName);
+						File uploadedFile = getSavePath(baseDirectory
+								.getAbsolutePath(), fileName);
+						logger.info(uploadedFile.getAbsolutePath());
 						item.write(uploadedFile);
-					
+
 						// Start GPX Import
 						GPXImport importer = new GPXImport();
 						importer.importTrack(uploadedFile);
-						
+
 					}
 				}
 			} catch (FileUploadException e1) {
@@ -136,17 +129,52 @@ public class TrackUploadServlet extends HttpServlet {
 			}
 		}
 	}
-	
-	private String getSavePath(String base, String fileName) {
-		//TODO calculate save file name
-		return base+"/"+fileName;
+
+	private File getSavePath(String base, String fileName) {
+		File file = new File(base + "/" + fileName);
+		if (file.exists()) {
+			String baseName = fileName.substring(0, fileName.length() - 3);
+			logger.debug("baseName: " + baseName);
+			String suffix = fileName.substring(fileName.length() - 3, fileName
+					.length());
+			logger.debug("suffix: " + suffix);
+
+			// If the file is already here, the file name is a_name.gpx
+			if (suffix.equals("gpx")) {
+				suffix += "_001";
+				logger.debug("suffix: " + suffix);
+
+				// If the fileName was already uploaded more than to times, the
+				// file has the form a_name.gpx_xxx
+			} else if (fileName.substring(fileName.length() - 4,
+					fileName.length() - 3).equals("_")) {
+
+				// We increment the suffix number by 1 to generate a new unique
+				// file name
+				int nr = Integer.parseInt(suffix);
+				logger.debug("suffix int: " + nr);
+
+				// If we have already 999 with the same file name, we add a new
+				// round at the end
+				if (nr == 999) {
+					suffix = suffix + "_001";
+				} else {
+					nr++;
+					suffix = String.format("%03d", nr);
+				}
+				logger.debug("suffix: " + suffix);
+			}
+			logger.debug("new name: " + baseName + suffix);
+			return getSavePath(base, baseName + suffix);
+		}
+		return file;
 	}
 
 	private File initFileStructure(String user) {
 
 		File tmpDirectory = new File("tmp");
 		if (!tmpDirectory.exists()) {
-			logger.info("Create 'tmp' directory");
+			logger.debug("Create 'tmp' directory");
 			tmpDirectory.mkdir();
 		}
 		tmpDirectory.setWritable(true);
@@ -154,20 +182,20 @@ public class TrackUploadServlet extends HttpServlet {
 		// Check if import directory exists
 		File importDirectory = new File("import");
 		if (!importDirectory.exists()) {
-			logger.info("Create 'import' directory");
+			logger.debug("Create 'import' directory");
 			importDirectory.mkdir();
 		}
 
 		// Check if user directoy exists
-		File userDirectory = new File(importDirectory.getAbsolutePath() + "/" + user);
+		File userDirectory = new File(importDirectory.getAbsolutePath() + "/"
+				+ user);
 		if (!userDirectory.exists()) {
-			logger.info("Create '"+ importDirectory.getAbsolutePath() + "/" + user +"' directory");
+			logger.debug("Create '" + importDirectory.getAbsolutePath() + "/"
+					+ user + "' directory");
 			userDirectory.mkdir();
 		}
 		return userDirectory;
 
 	}
-	
-
 
 }
