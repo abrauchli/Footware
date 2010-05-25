@@ -42,116 +42,126 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class VisualizationWidget extends Composite {
 
-    private final Panel panel;
-    private int widht = 800;
-    private int height = 400;
+	private final Panel panel;
+	private String width = "100%";
+	private String height = "100%";
 
-    public VisualizationWidget() {
-        panel = new SimplePanel();
-        initWidget(panel); 
-    }
-    
-    public VisualizationWidget(int widht, int height) {
-        this();
-        this.widht = widht;
-        this.height = height;
-    }
-    
-    public VisualizationWidget(TrackVisualizationDTO dataDTO) {
-        this();
-        displayVisualization(dataDTO);
-    }
+	public VisualizationWidget() {
+		panel = new SimplePanel();
+		initWidget(panel);
+	}
 
-    public VisualizationWidget(int widht, int height, TrackVisualizationDTO dataDTO) {
-        this(widht,height);
-        displayVisualization(dataDTO);
-    }
-    
+	public VisualizationWidget(String width, String height) {
+		this();
+		this.width = width;
+		this.height = height;
+	}
 
-    /**
-     * @return the widht
-     */
-    public int getWidht() {
-        return widht;
-    }
+	public VisualizationWidget(TrackVisualizationDTO dataDTO) {
+		this();
+		displayVisualization(dataDTO);
+	}
 
-    /**
-     * @param widht the widht to set
-     */
-    public void setWidht(int widht) {
-        this.widht = widht;
-    }
+	public VisualizationWidget(String width, String height,
+			TrackVisualizationDTO dataDTO) {
+		this(width, height);
+		displayVisualization(dataDTO);
+	}
 
-    /**
-     * @return the height
-     */
-    public int getHeight() {
-        return height;
-    }
+	/**
+	 * @return the widht
+	 */
+	public String getWidht() {
+		return width;
+	}
 
-    /**
-     * @param height the height to set
-     */
-    public void setHeight(int height) {
-        this.height = height;
-    }
+	/**
+	 * @param widht
+	 *            the widht to set
+	 */
+	public void setWidht(String widht) {
+		this.width = widht;
+	}
 
-    public void displayVisualization(TrackVisualizationDTO dataDTO) {
-        // Empty panel
-        panel.clear();
+	/**
+	 * @return the height
+	 */
+	public String getHeight() {
+		return height;
+	}
 
-        // Create plot
-        PlotWithOverviewModel model = new PlotWithOverviewModel(PlotModelStrategy.defaultStrategy());
-        PlotOptions plotOptions = new PlotOptions();
-        plotOptions.setDefaultLineSeriesOptions(new LineSeriesOptions().setLineWidth(1).setShow(true));
-        plotOptions.setDefaultPointsOptions(new PointsSeriesOptions().setRadius(0).setShow(true));
-        plotOptions.setDefaultShadowSize(0);
-        plotOptions.setXAxisOptions(new TimeSeriesAxisOptions());
-        plotOptions.setLegendOptions(new LegendOptions().setShow(false));
-        plotOptions.setGridOptions(new GridOptions().setHoverable(true));
+	/**
+	 * @param height
+	 *            the height to set
+	 */
+	public void setHeight(String height) {
+		this.height = height;
+	}
 
-        PlotOptions overviewPlotOptions = new PlotOptions();
-        overviewPlotOptions.setDefaultShadowSize(0).setLegendOptions(new LegendOptions().setShow(false));
-        overviewPlotOptions.setDefaultLineSeriesOptions(new LineSeriesOptions().setLineWidth(1).setFill(true));
-        overviewPlotOptions.setSelectionOptions(new SelectionOptions().setMode(SelectionOptions.X_SELECTION_MODE).setDragging(
-                true));
-        overviewPlotOptions.setXAxisOptions(new TimeSeriesAxisOptions());
+	public void displayVisualization(TrackVisualizationDTO dataDTO) {
+		// Empty panel
+		panel.clear();
 
-        PlotWithOverview plot = new PlotWithOverview(model, plotOptions, overviewPlotOptions);
-        // TODO make this better!!
-        plot.setHeight(height + "px");
-        plot.setWidth(widht + "px");
+		// Create plot
+		PlotWithOverviewModel model = new PlotWithOverviewModel(
+				PlotModelStrategy.defaultStrategy());
+		PlotOptions plotOptions = new PlotOptions();
+		plotOptions.setDefaultLineSeriesOptions(new LineSeriesOptions()
+				.setLineWidth(1).setShow(true));
+		plotOptions.setDefaultPointsOptions(new PointsSeriesOptions()
+				.setRadius(0).setShow(true));
+		plotOptions.setDefaultShadowSize(0);
+		plotOptions.setXAxisOptions(new TimeSeriesAxisOptions());
+		plotOptions.setLegendOptions(new LegendOptions().setShow(false));
+		plotOptions.setGridOptions(new GridOptions().setHoverable(true));
 
-        SeriesHandler series = model.addSeries(dataDTO.getType());
-        for (TrackVisualizationPointDTO datapoint : dataDTO.getData()) {
-            series.add(new DataPoint(datapoint.getX(), datapoint.getY()));
-        }
+		PlotOptions overviewPlotOptions = new PlotOptions();
+		overviewPlotOptions.setDefaultShadowSize(0).setLegendOptions(
+				new LegendOptions().setShow(false));
+		overviewPlotOptions.setDefaultLineSeriesOptions(new LineSeriesOptions()
+				.setLineWidth(1).setFill(true));
+		overviewPlotOptions.setSelectionOptions(new SelectionOptions().setMode(
+				SelectionOptions.X_SELECTION_MODE).setDragging(true));
+		overviewPlotOptions.setXAxisOptions(new TimeSeriesAxisOptions());
 
-        panel.add(plot);
+		PlotWithOverview plot = new PlotWithOverview(model, plotOptions,
+				overviewPlotOptions);
 
-    }
+		// TODO make this better!!
+		plot.setHeight(height);
+		plot.setWidth(width);
 
-    public void test() {
-        final TrackServiceAsync trackService = GWT.create(TrackService.class);
-        trackService.getTrackVisualization(null, new AsyncCallback<TrackVisualizationDTO>() {
+		SeriesHandler series = model.addSeries(dataDTO.getType());
+		for (TrackVisualizationPointDTO datapoint : dataDTO.getData()) {
+			series.add(new DataPoint(datapoint.getX(), datapoint.getY()));
+		}
 
-            @Override
-            public void onSuccess(TrackVisualizationDTO result) {
-                displayVisualization(result);
+		panel.add(plot);
 
-            }
+	}
 
-            @Override
-            public void onFailure(Throwable caught) {
-                caught.printStackTrace();
+	public void test() {
+		final TrackServiceAsync trackService = GWT.create(TrackService.class);
+		trackService.getTrackVisualization(null,
+				new AsyncCallback<TrackVisualizationDTO>() {
 
-            }
-        });
-    }
+					@Override
+					public void onSuccess(TrackVisualizationDTO result) {
+						displayVisualization(result);
 
-    protected void onLoad() {
-        super.onLoad();
-        test();
-    }
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						caught.printStackTrace();
+
+					}
+				});
+	}
+
+	protected void onLoad() {
+		super.onLoad();
+		test();
+	}
 
 }
