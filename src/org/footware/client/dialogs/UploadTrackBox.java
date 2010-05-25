@@ -30,6 +30,15 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class UploadTrackBox extends DialogBox {
+
+	public static String NAME = "name";
+	public static String PRIVACY = "privacy";
+	public static String PRIVACY_PUBLIC = "public";
+	public static String PRIVACY_PRIVATE = "private";
+	public static String COMMENTS = "comments";
+	public static String NOTES = "notes";
+	public static String FILE = "file";
+
 	private TextBox trackName;
 	private CheckBox enableComments;
 	private ListBox privacy;
@@ -46,30 +55,30 @@ public class UploadTrackBox extends DialogBox {
 		setGlassEnabled(true);
 
 		trackName = new TextBox();
-		trackName.setName("name");
+		trackName.setName(NAME);
 		g.setWidget(0, 0, new HTML("Name"));
 		g.setWidget(0, 1, trackName);
 
 		privacy = new ListBox();
-		privacy.setName("privacy");
-		privacy.addItem("Public", "public");
-		privacy.addItem("Private", "private");
+		privacy.setName(PRIVACY);
+		privacy.addItem("Public", PRIVACY_PUBLIC);
+		privacy.addItem("Private", PRIVACY_PRIVATE);
 		g.setWidget(1, 0, new HTML("Privacy"));
 		g.setWidget(1, 1, privacy);
 
 		enableComments = new CheckBox();
-		enableComments.setName("comments");
+		enableComments.setName(COMMENTS);
 		g.setWidget(2, 0, new HTML("Enable comments"));
 		g.setWidget(2, 1, enableComments);
 
 		notes = new TextArea();
-		notes.setName("notes");
+		notes.setName(NOTES);
 		notes.setSize("200px", "50px");
 		g.setWidget(3, 0, new HTML("Notes"));
 		g.setWidget(3, 1, notes);
 
 		file = new FileUpload();
-		file.setName("file");
+		file.setName(FILE);
 		g.setWidget(4, 0, new HTML("Select File"));
 		g.setWidget(4, 1, file);
 

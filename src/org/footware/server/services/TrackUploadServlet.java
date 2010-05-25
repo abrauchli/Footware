@@ -32,7 +32,9 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
+import org.footware.client.dialogs.UploadTrackBox;
 import org.footware.server.gpx.GPXImport;
+import org.footware.shared.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,13 +56,18 @@ public class TrackUploadServlet extends HttpServlet {
 
 		logger = LoggerFactory.getLogger(TrackUploadServlet.class);
 
-		String user = "testUser";
-		logger.info("User: " + user);
+		UserDTO user = new UserDTO();
+		user.setEmail("test@user.ch");
 
-		File baseDirectory = initFileStructure(user);
+		logger.info("User: " + user);
+		String userDirectoryString = user.getEmail().replace("@", "_at_");
+
+		File baseDirectory = initFileStructure(userDirectoryString);
 
 		// Check that we have a file upload request
 		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
+
+		File uploadedFile = null;
 
 		if (isMultipart) {
 
@@ -100,7 +107,7 @@ public class TrackUploadServlet extends HttpServlet {
 					// Process a file upload
 
 					if (!item.isFormField()
-							&& item.getFieldName().equals("file")) {
+							&& item.getFieldName().equals(UploadTrackBox.FILE)) {
 
 						// Save file to disk
 						String fileName = item.getName();
@@ -110,15 +117,23 @@ public class TrackUploadServlet extends HttpServlet {
 							fileName = FilenameUtils.getName(fileName);
 						}
 
-						File uploadedFile = getSavePath(baseDirectory
-								.getAbsolutePath(), fileName);
+						getSavePath(baseDirectory.getAbsolutePath(), fileName);
 						logger.info(uploadedFile.getAbsolutePath());
 						item.write(uploadedFile);
-
-						// Start GPX Import
-						GPXImport importer = new GPXImport();
-						importer.importTrack(uploadedFile);
-
+					} else if (item.isFormField()
+							&& item.getFieldName().equals(UploadTrackBox.NOTES)) {
+						String notes = item.getString();
+					} else if(item.isFormField()
+							&& item.getFieldName().equals(UploadTrackBox.COMMENTS)) {
+						logger.info(UploadTrackBox.COMMENTS + ": " +item.getString());
+						
+					} else if(item.isFormField()
+							&& item.getFieldName().equals(UploadTrackBox.PRIVACY)) {
+						logger.info(UploadTrackBox.PRIVACY + ": " +item.getString());
+					} else if(item.isFormField()
+							&& item.getFieldName().equals(UploadTrackBox.NAME)) {
+						logger.info(UploadTrackBox.NAME + ": " +item.getString());
+						//TODO
 					}
 				}
 			} catch (FileUploadException e1) {
@@ -128,6 +143,12 @@ public class TrackUploadServlet extends HttpServlet {
 				logger.error("File upload unsucessful", e);
 				e.printStackTrace();
 			}
+		}
+
+		// Start GPX Import
+		if (uploadedFile != null) {
+			GPXImport importer = new GPXImport(user);
+			importer.importTrack(uploadedFile);
 		}
 	}
 

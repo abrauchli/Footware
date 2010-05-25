@@ -25,13 +25,14 @@ import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackpointDTO;
 import org.footware.shared.dto.TrackSegmentDTO;
+import org.footware.shared.dto.UserDTO;
 
 /**
  * @author rene
  */
 public class TrackFactory {
 
-    public static TrackDTO create(GPXTrack inputTrack) {
+    public static TrackDTO create(GPXTrack inputTrack, UserDTO user, int publicity, String notes, boolean commentsEnabled) {
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
         double minLongitude = Double.MAX_VALUE;
@@ -63,6 +64,13 @@ public class TrackFactory {
         
         track.setMidLatitude((minLatitude+maxLatitude)/2);
         track.setMidLongitude((minLongitude+maxLongitude)/2);
+        track.setUser(user);
+        track.setCommentsEnabled(commentsEnabled);
+        track.setLength(inputTrack.getLength());
+        track.setNotes(notes);
+        track.setPublicity(publicity);
+        track.setStartTime(inputTrack.getSegments().get(0).getPoints().get(0).getTime().toDate());
+        track.setTrackpoints(inputTrack.getNumberOfDataPoints());
         return track;
     }
 

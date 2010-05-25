@@ -38,27 +38,29 @@ TrackService {
 	@Override
 	public List<TrackDTO> getTracks(ConfigDTO config)
 			throws IllegalArgumentException {
-		GPXImport importer = new GPXImport();
-		List<GPXTrack> tracks = new LinkedList<GPXTrack>();
-		
-		importer.importTrack(new File("foo_trk.gpx"));
-
-		
-		LinkedList<TrackDTO> result = new LinkedList<TrackDTO>();
-		for(GPXTrack gpxTrack : tracks) {
-			result.add(TrackFactory.create(gpxTrack));
-		}
-		return result;
+//		GPXImport importer = new GPXImport();
+//		List<GPXTrack> tracks = new LinkedList<GPXTrack>();
+//		
+//		importer.importTrack(new File("foo_trk.gpx"));
+//
+//		
+//		LinkedList<TrackDTO> result = new LinkedList<TrackDTO>();
+//		for(GPXTrack gpxTrack : tracks) {
+//			result.add(TrackFactory.create(gpxTrack));
+//		}
+//		return result;
+		return null;
 	}
 
     @Override
     public TrackVisualizationDTO getTrackVisualization(ConfigDTO config) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        GPXImport importer = new GPXImport();
-        List<GPXTrack> tracks = new LinkedList<GPXTrack>();
-        
-        TrackVisualizationFactory factory = new TrackVisualizationFactory(new TrackVisualizationElevationStrategy());
-        return factory.create(tracks.get(6));
+//        // TODO Auto-generated method stub
+//        GPXImport importer = new GPXImport();
+//        List<GPXTrack> tracks = new LinkedList<GPXTrack>();
+//        
+//        TrackVisualizationFactory factory = new TrackVisualizationFactory(new TrackVisualizationElevationStrategy());
+//        return factory.create(tracks.get(6));
+    	return null;
     }
 
 }

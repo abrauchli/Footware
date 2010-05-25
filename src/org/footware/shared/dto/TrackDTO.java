@@ -37,7 +37,7 @@ public class TrackDTO implements Serializable {
 	private int publicity;
 	private boolean commentsEnabled;
 	private int trackpoints;
-	private int length;
+	private double length;
 	private double midLongitude;
 	private double midLatitude;
 	private Date startTime;
@@ -163,7 +163,7 @@ public class TrackDTO implements Serializable {
 	 * Gets the length in meters (TODO: Check unit) of this track
 	 * @return the length in meters of this track
 	 */
-	public int getLength() {
+	public double getLength() {
 		return length;
 	}
 	
@@ -172,7 +172,7 @@ public class TrackDTO implements Serializable {
 	 * Should probably not be used from the client side
 	 * @param length new length in meters for this track
 	 */
-	public void setLength(int length) {
+	public void setLength(double length) {
 		this.length = length;
 	}
 	

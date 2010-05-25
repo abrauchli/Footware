@@ -19,12 +19,12 @@
  */
 package org.footware.client.pages.fields;
 
-<<<<<<< HEAD
+
 import java.util.List;
 
-import org.footware.shared.dto.TrackDTO2;
-import org.footware.shared.dto.TrackPointDTO;
+import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSegmentDTO;
+import org.footware.shared.dto.TrackpointDTO;
 import org.gwtopenmaps.openlayers.client.Bounds;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
@@ -39,9 +39,6 @@ import org.gwtopenmaps.openlayers.client.geometry.Point;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
-=======
-import org.footware.shared.dto.TrackDTO;
->>>>>>> 06b4869affa49c2c983b503ca390ebb9944528a5
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Panel;
@@ -96,8 +93,7 @@ public class FootwareMapWidget extends Composite {
         panel.add(mapWidget);
     }
 
-<<<<<<< HEAD
-    public void displayTracks(TrackDTO2 track) {
+    public void displayTracks(TrackDTO track) {
         VectorOptions vectorLayerOptions = new VectorOptions();
         vectorLayerOptions.setProjection(map.getProjection());
         final Vector tracksLayer = new Vector("Trackname", vectorLayerOptions);
@@ -105,7 +101,7 @@ public class FootwareMapWidget extends Composite {
         for (TrackSegmentDTO segment : track.getSegments()) {
             Point[] pointArray = new Point[segment.getPoints().size()];
 
-            List<TrackPointDTO> points = segment.getPoints();
+            List<TrackpointDTO> points = segment.getPoints();
             for (int i = 0; i < points.size(); i++) {
                 LonLat lonLat = new LonLat(points.get(i).getLongitude(), points.get(i).getLatitude());
                 lonLat.transform(EPSG4326, map.getProjection());
@@ -136,7 +132,7 @@ public class FootwareMapWidget extends Composite {
 
     }
 
-	public void test() {
+//	public void test() {
 //		final TrackServiceAsync trackService = GWT.create(TrackService.class);
 //		trackService.getTracks(null, new AsyncCallback<List<TrackDTO2>>() {
 //
@@ -146,65 +142,8 @@ public class FootwareMapWidget extends Composite {
 //					displayTracks(track);
 //				}
 //			}
-=======
-    public void displayTracks(TrackDTO track) {
-//        VectorOptions vectorLayerOptions = new VectorOptions();
-//        vectorLayerOptions.setProjection(map.getProjection());
-//        final Vector tracksLayer = new Vector("Trackname", vectorLayerOptions);
-//
-//        for (TrackSegmentDTO segment : track.getSegments()) {
-//            Point[] pointArray = new Point[segment.getPoints().size()];
-//
-//            List<TrackPointDTO> points = segment.getPoints();
-//            for (int i = 0; i < points.size(); i++) {
-//                LonLat lonLat = new LonLat(points.get(i).getLongitude(), points.get(i).getLatitude());
-//                lonLat.transform(EPSG4326, map.getProjection());
-//                pointArray[i] = new Point(lonLat.lon(), lonLat.lat());
-//            }
-//
-//            LineString line = new LineString(pointArray);
-//            Style lineStyle = new Style();
-//            lineStyle.setFillColor("#000000");
-//            lineStyle.setFill(true);
-//            lineStyle.setFillOpacity(0.5);
-//            lineStyle.setStroke(true);
-//            lineStyle.setStrokeColor("#009933");
-//            lineStyle.setStrokeWidth(3.0);
-//            lineStyle.setStrokeOpacity(0.8);
-//            VectorFeature feature = new VectorFeature(line, lineStyle);
-//            tracksLayer.addFeature(feature);
-//        }
-//
-//        map.addLayer(tracksLayer);
-//
-//
-//        LonLat center = new LonLat(track.getMidLongitude(), track.getMidLatitude());
-//        System.out.println(center.lat() + " " + center.lon());
-//        center.transform(EPSG4326, map.getProjection());
-//        System.out.println(center.lat() + " " + center.lon());
-//        map.setCenter(center, 10);
 
-    }
 
-//    public void test() {
-//        final TrackServiceAsync trackService = GWT.create(TrackService.class);
-//        trackService.getTracks(null, new AsyncCallback<List<TrackDTO>>() {
-//
-//            @Override
-//            public void onSuccess(List<TrackDTO> result) {
-//                for (TrackDTO track : result) {
-//                    displayTracks(track);
-//                }
-//            }
->>>>>>> 06b4869affa49c2c983b503ca390ebb9944528a5
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				caught.printStackTrace();
-//			}
-//		});
-
-	}
 
     /**
      * @return the width

@@ -40,10 +40,9 @@ public class Footware implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-//		Desktop d = new Desktop();
-		
-//		RootPanel.get("desktopContainer").add(d);
-		RootPanel.get("desktopContainer").add(new TrackAnalyzeTool());
+		Desktop d = new Desktop();
+		RootPanel.get("desktopContainer").add(d);
+//		RootPanel.get("desktopContainer").add(new TrackAnalyzeTool());
 //		
 //		final Button sendButton = new Button("Send");
 //    final TextBox nameField = new TextBox();
