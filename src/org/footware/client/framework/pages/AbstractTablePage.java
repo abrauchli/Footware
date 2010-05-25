@@ -187,8 +187,4 @@ public abstract class AbstractTablePage extends AbstractPage {
 		return true;
 	}
 	
-	public void displayError(String msg){
-		Window.alert(msg);
-	}
-
 }

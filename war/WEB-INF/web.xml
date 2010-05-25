@@ -28,8 +28,12 @@
 		<servlet-name>outlineService</servlet-name>
 		<servlet-class>org.footware.server.services.OutlineServiceImpl</servlet-class>
 	</servlet>
-	
-	
+	<servlet>
+		<servlet-name>userService</servlet-name>
+		<servlet-class>org.footware.server.services.UserServiceImpl</servlet-class>
+	</servlet>
+
+
 
 	<!-- H2 DB Console applet -->
 	<servlet>
@@ -44,6 +48,10 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
+		<servlet-name>userService</servlet-name>
+		<url-pattern>user</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>outlineService</servlet-name>
 		<url-pattern>/footware/outline</url-pattern>
 	</servlet-mapping>
@@ -51,7 +59,7 @@
 		<servlet-name>trackUploadServlet</servlet-name>
 		<url-pattern>/footware/trackUpload</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>trackServlet</servlet-name>
 		<url-pattern>/footware/track</url-pattern>

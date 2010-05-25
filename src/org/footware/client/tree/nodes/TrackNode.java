@@ -32,8 +32,7 @@ public class TrackNode extends AbstractTreeNode{
 		
 	}
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
-		return null;
+	protected void execCreateChildren() {
 	}
 
 	private TrackDTO myTrack;

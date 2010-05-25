@@ -32,10 +32,10 @@ import org.footware.client.pages.OwnPage;
 public class OwnPageNode extends AbstractTreeNode {
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
+	protected void execCreateChildren() {
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 		children.add(new MyTracksNode());
-		return children;
+		setChildNodes(children);
 	}
 
 	@Override

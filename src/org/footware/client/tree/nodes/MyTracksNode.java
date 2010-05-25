@@ -27,11 +27,11 @@ import org.footware.client.pages.MyTracksTablePage;
 public class MyTracksNode extends AbstractTreeNode {
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
+	protected void execCreateChildren() {
 		// TODO andy methode um tracks eines users zu laden
-		List<AbstractTreeNode> chidlren = new ArrayList<AbstractTreeNode>();
-		chidlren.add(new MyTrackNode());
-		return chidlren;
+		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
+		children.add(new MyTrackNode());
+		setChildNodes(children);
 	}
 
 	@Override

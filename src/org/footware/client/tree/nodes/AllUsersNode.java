@@ -25,26 +25,44 @@ import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.AllUsersPage;
 import org.footware.client.search.UserSearchForm;
+import org.footware.client.services.OutlineService;
+import org.footware.client.services.OutlineServiceAsync;
+import org.footware.shared.dto.UserDTO;
 import org.footware.shared.dto.UserSearchData;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AllUsersNode extends AbstractTreeNode {
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
+	protected void execCreateChildren() {
 		//leaving this empty forces search
-		return null;
 	}
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren(
+	protected void execCreateChildren(
 			AbstractSearchData search) {
 		//TODO andy methode um user gemäss suche als list<userDTO> zu erhalten
 		UserSearchData sd = (UserSearchData) search;
-		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		for (int i = 0; i < sd.value; i++) {
-			children.add(new UserNode());
-		}
-		return children;
+		OutlineServiceAsync svc = GWT.create(OutlineService.class);
+		svc.getUserList(sd, new AsyncCallback<List<UserDTO>>() {
+			
+			@Override
+			public void onSuccess(List<UserDTO> result) {
+				List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
+				for(UserDTO u : result){
+					children.add(new UserNode(u));
+				}
+				setChildNodes(children);
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Mo connection to server");
+			}
+		});
 	}
 
 	@Override
@@ -61,4 +79,5 @@ public class AllUsersNode extends AbstractTreeNode {
 	public AbstractSearchForm getConfiguredSearchForm() {
 		return new UserSearchForm(this);
 	}
+	
 }

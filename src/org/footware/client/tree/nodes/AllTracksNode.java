@@ -30,13 +30,12 @@ import org.footware.shared.dto.TrackSearchData;
 public class AllTracksNode extends AbstractTreeNode {
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
+	protected void execCreateChildren() {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren(
+	protected void execCreateChildren(
 			AbstractSearchData search) {
 		// TODO andy hier brauche ich eine methode um tracks entsprechend der
 		// suche zu holen (von mir aus list<trackDTO>
@@ -45,7 +44,7 @@ public class AllTracksNode extends AbstractTreeNode {
 		for (int i = 0; i < sd.value; i++) {
 			children.add(new TrackNode());
 		}
-		return children;
+		setChildNodes(children);
 	}
 
 	@Override

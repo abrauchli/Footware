@@ -32,8 +32,9 @@ public class UserNode extends AbstractTreeNode {
 
 	private UserDTO myUser;
 
-	public UserNode() {
+	public UserNode(UserDTO user) {
 		super();
+		myUser = user;
 	}
 
 	@Override
@@ -47,13 +48,13 @@ public class UserNode extends AbstractTreeNode {
 	}
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
+	protected void execCreateChildren() {
 		ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 		// TODO andy methode um tracks eines users zu laden
 		TrackNode child = new TrackNode();
 		child.setMyTrack(new TrackDTO());
 		children.add(child);
-		return children;
+		setChildNodes(children);
 	}
 
 	@Override
@@ -63,14 +64,14 @@ public class UserNode extends AbstractTreeNode {
 
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren(
+	protected void execCreateChildren(
 			AbstractSearchData search) {
 		UserSearchData ps = (UserSearchData) search;
 		List<AbstractTreeNode> list = new ArrayList<AbstractTreeNode>();
 		for (int i = 0; i < ps.value; i++) {
 			list.add(new TestNode());
 		}
-		return list;
+		setChildNodes(list);
 	}
 
 	@Override

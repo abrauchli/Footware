@@ -26,8 +26,7 @@ import org.footware.client.pages.TrackDetailPage;
 public class MyTrackNode extends AbstractTreeNode {
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
-		return null;
+	protected void execCreateChildren() {
 	}
 
 	@Override

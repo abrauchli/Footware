@@ -21,6 +21,7 @@ import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -123,6 +124,9 @@ public abstract class AbstractPage extends Grid {
 	 * override this finction in order to lazily load stuff on a page
 	 */
 	public void execLazyload() {
+	}
+	public void displayError(String msg){
+		Window.alert(msg);
 	}
 
 }
