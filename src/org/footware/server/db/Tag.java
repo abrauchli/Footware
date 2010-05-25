@@ -84,4 +84,12 @@ public class Tag implements Serializable {
 		this.tag = tag;
 	}
 
+	/**
+	 * Gets the TagDTO for the current Tag state
+	 * @return the TagDTO for the current Tag state
+	 */
+	public TagDTO getTagDTO() {
+		return new TagDTO(this);
+	}
+
 }

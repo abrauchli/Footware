@@ -25,6 +25,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.footware.server.gpx.model.GPXTrackPoint;
+import org.footware.shared.dto.TrackpointDTO;
 
 /**
  * Class for ER Mapping of persisted Trackpoints
@@ -157,5 +158,11 @@ public class Trackpoint implements Serializable {
 	 */
 	public void setSpeed(double speed) {
 		this.speed = speed;
+	}
+	
+	public TrackpointDTO getTrackpointDTO() {
+		TrackpointDTO t = new TrackpointDTO(longitude, latitude);
+		//set time, speed
+		return t;
 	}
 }

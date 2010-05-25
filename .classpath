@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/h2-1.2.135.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/antlr-2.7.6.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dom4j-1.6.1.jar" sourcepath="/home/rene/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1-sources.jar"/>
@@ -20,6 +21,9 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/openlayers_gwt-0.5-SNAPSHOT2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-io-1.4.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-collections-3.1.jar"/>
+<<<<<<< HEAD
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+=======
+>>>>>>> 06b4869affa49c2c983b503ca390ebb9944528a5
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

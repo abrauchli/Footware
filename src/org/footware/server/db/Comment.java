@@ -140,4 +140,14 @@ public class Comment implements Serializable {
 		this.time = time;
 	}
 
+	/**
+	 * Gets a CommentDTO representing this current object's state
+	 * @return CommentDTO representing this object's state
+	 */
+	public CommentDTO getCommentDTO() {
+		CommentDTO c = new CommentDTO(text, user.getUserDTO());
+		c.setTime(time);
+		return c;
+	}
+
 }

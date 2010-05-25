@@ -5,6 +5,7 @@ import org.footware.server.db.HibernateUtil;
 import org.footware.server.db.Tag;
 import org.footware.server.db.Track;
 import org.footware.server.db.User;
+import org.footware.server.db.UserUtil;
 import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.UserDTO;
 import org.hibernate.HibernateException;
@@ -49,7 +50,7 @@ public class DBA {
 	
 	@Test
 	public void t30_addTrack() {
-		User u = User.getByEmail("test@footware.org");
+		User u = UserUtil.getByEmail("test@footware.org");
 		assert (u != null);
 		Track t = new Track(u, "foo", "/foo");
 		
@@ -59,7 +60,7 @@ public class DBA {
 	
 	@Test
 	public void t40_addTrackComment() {
-		User u = User.getByEmail("test@footware.org");
+		User u = UserUtil.getByEmail("test@footware.org");
 		assert (u != null);
 
 		Track[] tracks = new Track[0];
@@ -73,7 +74,7 @@ public class DBA {
 		Long id = (Long) session.save(c);
 		assert (id != null);
 
-		u = User.getByEmail("test@footware.org");
+		u = UserUtil.getByEmail("test@footware.org");
 		u.getTracks().toArray(tracks);
 		boolean found = false;
 		for (Comment tc : tracks[0].getComments()) {

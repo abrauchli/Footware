@@ -19,6 +19,7 @@ package org.footware.client.dialogs;
 import org.footware.client.desktop.TopMenu;
 import org.footware.client.services.LoginService;
 import org.footware.client.services.LoginServiceAsync;
+import org.footware.shared.dto.UserDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -96,12 +97,11 @@ public class LoginBox extends DialogBox {
 		// call server, get authentication
 		LoginServiceAsync svc = GWT.create(LoginService.class);
 		svc.login(username.getValue(), password.getValue(),
-				new AsyncCallback<String>() {
+				new AsyncCallback<UserDTO>() {
 
 					@Override
-					public void onSuccess(String result) {
-						// save session key
-						Window.alert(result);
+					public void onSuccess(UserDTO user) {
+						Window.alert("Hello "+ user.getFullName());
 						// do gui changes
 						myTopMenu.login();
 						hide();
@@ -109,8 +109,7 @@ public class LoginBox extends DialogBox {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window
-								.alert("There was a Problem contacting the server: "
+						Window.alert("There was a Problem contacting the server: "
 										+ caught.getMessage());
 					}
 				});

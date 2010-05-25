@@ -18,7 +18,6 @@ package org.footware.server.db;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -27,13 +26,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import org.footware.shared.dto.UserDTO;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -41,14 +37,6 @@ import org.hibernate.Transaction;
  * Class for ER mapping of Users
  */
 @Entity()
-@NamedQueries(value = {
-	//Get user by email
-	@NamedQuery(name = "users.getByEmail", query = "FROM User u WHERE u.email = :email"),
-	//Get all users
-	@NamedQuery(name = "users.getAll", query = "FROM User"),
-	//Get user from email/password pair
-	@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password")
-})
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -93,8 +81,7 @@ public class User implements Serializable {
 		this.id = user.getId();
 		this.email = user.getEmail();
 		this.fullName = user.getFullName();
-		this.password = (new org.apache.catalina.util.MD5Encoder()).encode(
-				user.getPassword().getBytes()).toCharArray();
+		this.password = UserUtil.getPasswordHash(user.getPassword()).toCharArray();
 		this.isAdmin = user.getIsAdmin();
 
 		Transaction tx = null;
@@ -225,46 +212,20 @@ public class User implements Serializable {
 	public Set<Tag> getTags() {
 		return tags;
 	}
-	
-	/**
-	 * Gets a single user by email
-	 * @param email the email belonging to the user
-	 * @return user object if email is valid, null otherwise
-	 */
-	public static User getByEmail(String email) {
-		Query q = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("users.getByEmail");
-		q.setParameter("email", email);
-		User res = null;
-		try {
-			res = (User)q.uniqueResult();
-		} catch (HibernateException e) {}
-		return res;
-	}
 
 	/**
-	 * Gets all users registered with the system
-	 * @return collection of all users
+	 * Creates a new UserDTO from this User object's current state
+	 * @return UserDTO with this user's current state
 	 */
-	@SuppressWarnings("unchecked")
-	public static List<User> getAll() {
-		Query q = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("users.getAll");
-		return (List<User>)q.list();
-	}
-	
-	/**
-	 * Gets a single user by email and password hash
-	 * @param email the email belonging to the user
-	 * @param pw_hash the password hash to try as password
-	 * @return user object if email/pw-hash pair is valid, null otherwise
-	 */
-	public static User getIfValid(String email, String pw_hash) {
-		Query q = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("users.getIfValid");
-		q.setParameter("email", email);
-		q.setParameter("password", pw_hash);
-		User res = null;
-		try {
-			res = (User)q.uniqueResult();
-		} catch (HibernateException e) {}
-		return res;
+	public UserDTO getUserDTO() {
+		UserDTO u = new UserDTO();
+		u.setEmail(email);
+		u.setFullName(fullName);
+		for (Track t : tracks)
+			u.addTrackDTO(t.getTrackDTO());
+		//do not set password (it's only the hash anyway)
+		for (Tag t : tags)
+			u.addTag(t.getTagDTO());
+		return u;
 	}
 }

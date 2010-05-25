@@ -25,6 +25,8 @@ CREATE TABLE track (
 
     trackpoints INTEGER         DEFAULT(0),         /* number of points in the track */
     length      INTEGER         DEFAULT(0),         /* track length in meters */
+	mid_latitude	DECIMAL(3,10)	DEFAULT(0),		/* mean latitude of the track */
+	mid_longitude	DECIMAL(3,10)	DEFAULT(0),		/* mean longitude of the track */
     time_start  DATETIME,                           /* timestamp of the first trackpoint; timezones? */
 
     FOREIGN KEY (user_id)	REFERENCES user (id)
