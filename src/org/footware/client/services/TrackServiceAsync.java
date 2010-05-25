@@ -17,7 +17,7 @@
 /**
  * 
  */
-package org.footware.client;
+package org.footware.client.services;
 
 import java.util.List;
 

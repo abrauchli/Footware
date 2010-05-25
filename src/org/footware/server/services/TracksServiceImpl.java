@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.footware.server;
+package org.footware.server.services;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import org.footware.client.TrackService;
+import org.footware.client.services.TrackService;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackFactory;
 import org.footware.server.gpx.TrackVisualizationElevationStrategy;

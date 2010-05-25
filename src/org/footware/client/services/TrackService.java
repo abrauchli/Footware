@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-/**
- * 
- */
-package org.footware.client;
+package org.footware.client.services;
 
 import java.util.List;
 
@@ -25,20 +22,15 @@ import org.footware.shared.dto.ConfigDTO;
 import org.footware.shared.dto.TrackDTO2;
 import org.footware.shared.dto.TrackVisualizationDTO;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
- * @author rene
- *
+ * The client side stub for the RPC service.
  */
-public interface TrackServiceAsync {
+@RemoteServiceRelativePath("track")
+public interface TrackService extends RemoteService {
+    List<TrackDTO2> getTracks(ConfigDTO config) throws IllegalArgumentException;
 
-	/**
-	 * 
-	 * @see org.footware.client.services.TrackService#greetServer(org.footware.shared.dto.ConfigDTO)
-	 */
-	void getTracks(ConfigDTO config, AsyncCallback<List<TrackDTO2>> callback);
-
-    void getTrackVisualization(ConfigDTO config, AsyncCallback<TrackVisualizationDTO> callback);
-
+    TrackVisualizationDTO getTrackVisualization(ConfigDTO config) throws IllegalArgumentException;
 }

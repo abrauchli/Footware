@@ -18,7 +18,7 @@
 
 	<servlet>
 		<servlet-name>trackServlet</servlet-name>
-		<servlet-class>org.footware.server.TracksServiceImpl</servlet-class>
+		<servlet-class>org.footware.server.services.TracksServiceImpl</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>trackUploadServlet</servlet-name>
