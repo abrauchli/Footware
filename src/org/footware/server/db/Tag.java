@@ -89,7 +89,7 @@ public class Tag implements Serializable {
 	 * @return the TagDTO for the current Tag state
 	 */
 	public TagDTO getTagDTO() {
-		return new TagDTO(this);
+		return new TagDTO(tag);
 	}
 
 }
