@@ -39,7 +39,7 @@ import org.hibernate.annotations.ManyToAny;
  * Class for ER mapping of Tracks
  */
 @Entity
-public class Track implements Serializable {
+public class Track extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

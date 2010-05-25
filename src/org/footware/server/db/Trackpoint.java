@@ -31,7 +31,7 @@ import org.footware.shared.dto.TrackpointDTO;
  * Class for ER Mapping of persisted Trackpoints
  */
 @Entity
-public class Trackpoint implements Serializable {
+public class Trackpoint extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

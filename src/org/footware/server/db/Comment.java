@@ -33,7 +33,7 @@ import org.footware.shared.dto.CommentDTO;
  * Class for ER mapping of comments
  */
 @Entity
-public class Comment implements Serializable {
+public class Comment extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

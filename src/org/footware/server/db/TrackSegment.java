@@ -35,7 +35,7 @@ import org.footware.server.gpx.model.GPXTrackSegment;
  * the ("sub-")tracks in a single track file
  */
 @Entity
-public class TrackSegment implements Serializable {
+public class TrackSegment extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
