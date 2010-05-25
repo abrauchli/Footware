@@ -55,29 +55,42 @@ public class GPXImport {
 	private static String ELEVATION = "ele";
 	private static String TIME = "time";
 	private Logger logger;
-	
+
 	private UserDTO user;
+	private String notes;
+	private Boolean comments;
+	private int privacy;
+	private String name;
 
 	private String GPX_NAMESPACE_URI = GPX_NAMESPACE_URI_1_1;
-	
+
 	private List<TrackVisualizationDTO> speedVisualization = new LinkedList<TrackVisualizationDTO>();
 	private List<TrackVisualizationDTO> elevationVisualization = new LinkedList<TrackVisualizationDTO>();
-	private List<TrackDTO> tracks = new LinkedList<TrackDTO>(); 
+	private List<TrackDTO> tracks = new LinkedList<TrackDTO>();
 
-	public GPXImport(UserDTO user) {
-		this.user = user; 
+	public GPXImport(UserDTO user, String notes, Boolean comments, int privacy,
+			String name) {
+		this.user = user;
+		this.comments = comments;
+		this.privacy = privacy;
+		this.name = name;
+		this.notes = notes;
+
 		logger = LoggerFactory.getLogger(GPXImport.class);
 	}
 
 	public void importTrack(File file) {
 		logger.info("Import file: " + file.getAbsolutePath());
 		List<GPXTrack> gpxTracks = parseXML(file);
-		
-		TrackVisualizationFactory speedFactory = new TrackVisualizationFactory(new TrackVisualizationSpeedStrategy());
-		TrackVisualizationFactory elevationFactory = new TrackVisualizationFactory(new TrackVisualizationElevationStrategy());
-		
-		for(GPXTrack track : gpxTracks) {
-//			tracks.add(TrackFactory.create(track));
+
+		TrackVisualizationFactory speedFactory = new TrackVisualizationFactory(
+				new TrackVisualizationSpeedStrategy());
+		TrackVisualizationFactory elevationFactory = new TrackVisualizationFactory(
+				new TrackVisualizationElevationStrategy());
+
+		for (GPXTrack track : gpxTracks) {
+			tracks.add(TrackFactory.create(track, user, notes, comments,
+					privacy, name));
 			speedVisualization.add(speedFactory.create(track));
 			elevationVisualization.add(elevationFactory.create(track));
 		}
@@ -219,7 +232,7 @@ public class GPXImport {
 					track.addTrackSegment(trackSegment);
 				}
 				tracks.add(track);
-				
+
 			}
 			logger.info("Done parsing +"
 					+ (System.currentTimeMillis() - startTime));

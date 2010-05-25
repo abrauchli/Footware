@@ -32,7 +32,7 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
-import org.footware.client.dialogs.UploadTrackBox;
+
 import org.footware.server.gpx.GPXImport;
 import org.footware.shared.dto.UserDTO;
 import org.slf4j.Logger;
@@ -67,7 +67,12 @@ public class TrackUploadServlet extends HttpServlet {
 		// Check that we have a file upload request
 		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
 
+		// Init fields of form
 		File uploadedFile = null;
+		String notes = null;
+		String name = null;
+		int privacy = 0;
+		Boolean comments = false;
 
 		if (isMultipart) {
 
@@ -107,33 +112,53 @@ public class TrackUploadServlet extends HttpServlet {
 					// Process a file upload
 
 					if (!item.isFormField()
-							&& item.getFieldName().equals(UploadTrackBox.FILE)) {
+							&& item.getFieldName().equals("file")) {
 
 						// Save file to disk
 						String fileName = item.getName();
+						if (fileName == null) {
+							logger.info("empty file name");
+							break;
+						}
 						logger.info("received file:" + fileName);
 
 						if (fileName != null) {
 							fileName = FilenameUtils.getName(fileName);
 						}
 
-						getSavePath(baseDirectory.getAbsolutePath(), fileName);
-						logger.info(uploadedFile.getAbsolutePath());
+						uploadedFile = getSavePath(baseDirectory
+								.getAbsolutePath(), fileName);
+						logger.debug(uploadedFile.getAbsolutePath());
 						item.write(uploadedFile);
+
 					} else if (item.isFormField()
-							&& item.getFieldName().equals(UploadTrackBox.NOTES)) {
-						String notes = item.getString();
-					} else if(item.isFormField()
-							&& item.getFieldName().equals(UploadTrackBox.COMMENTS)) {
-						logger.info(UploadTrackBox.COMMENTS + ": " +item.getString());
-						
-					} else if(item.isFormField()
-							&& item.getFieldName().equals(UploadTrackBox.PRIVACY)) {
-						logger.info(UploadTrackBox.PRIVACY + ": " +item.getString());
-					} else if(item.isFormField()
-							&& item.getFieldName().equals(UploadTrackBox.NAME)) {
-						logger.info(UploadTrackBox.NAME + ": " +item.getString());
-						//TODO
+							&& item.getFieldName().equals("notes")) {
+						notes = item.getString();
+						logger.debug("notes" + ": " + item.getString());
+					} else if (item.isFormField()
+							&& item.getFieldName().equals("comments")) {
+						if (item.getString().equals("on")) {
+							comments = true;
+						} else {
+							comments = false;
+						}
+						logger.debug("comments" + ": " + item.getString());
+
+					} else if (item.isFormField()
+							&& item.getFieldName().equals("privacy")) {
+						String priv = item.getString();
+						if (priv.equals("public")) {
+							privacy = 5;
+						} else if (priv.equals("private")) {
+							privacy = 0;
+						} else {
+							privacy = 0;
+						}
+						logger.debug("privacy" + ": " + item.getString());
+					} else if (item.isFormField()
+							&& item.getFieldName().equals("name")) {
+						name = item.getString();
+						logger.debug("name" + ": " + item.getString());
 					}
 				}
 			} catch (FileUploadException e1) {
@@ -147,7 +172,8 @@ public class TrackUploadServlet extends HttpServlet {
 
 		// Start GPX Import
 		if (uploadedFile != null) {
-			GPXImport importer = new GPXImport(user);
+			GPXImport importer = new GPXImport(user, notes, comments, privacy,
+					name);
 			importer.importTrack(uploadedFile);
 		}
 	}
