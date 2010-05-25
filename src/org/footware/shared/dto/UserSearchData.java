@@ -16,10 +16,12 @@
 
 package org.footware.shared.dto;
 
+import java.io.Serializable;
+
 import org.footware.client.framework.search.AbstractSearchData;
 
 
-public class UserSearchData extends AbstractSearchData {
+public class UserSearchData extends AbstractSearchData implements Serializable{
 
 	public int value;
 	

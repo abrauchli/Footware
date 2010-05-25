@@ -10,10 +10,6 @@
 	</listener>
 
 	<!-- Servlets -->
-	<servlet>
-		<servlet-name>greetServlet</servlet-name>
-		<servlet-class>org.footware.server.GreetingServiceImpl</servlet-class>
-	</servlet>
 
 	<servlet>
 		<servlet-name>loginServlet</servlet-name>
@@ -30,7 +26,7 @@
 	</servlet>
 	<servlet>
 		<servlet-name>outlineService</servlet-name>
-		<servlet-class>org.footware.server.services.OutlineService</servlet-class>
+		<servlet-class>org.footware.server.services.OutlineServiceImpl</servlet-class>
 	</servlet>
 	
 	
@@ -59,10 +55,6 @@
 	<servlet-mapping>
 		<servlet-name>trackServlet</servlet-name>
 		<url-pattern>/footware/track</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>greetServlet</servlet-name>
-		<url-pattern>/footware/greet</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

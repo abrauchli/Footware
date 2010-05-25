@@ -22,6 +22,7 @@ import java.util.List;
 import org.footware.client.framework.pages.AbstractTablePage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
+import org.footware.client.services.OutlineService;
 import org.footware.client.services.OutlineServiceAsync;
 import org.footware.shared.dto.UserSearchData;
 
@@ -50,7 +51,7 @@ public class AllUsersPage extends AbstractTablePage {
 	@Override
 	public void execLoadTableData(AbstractSearchData search) {
 		//TODO service call
-		OutlineServiceAsync svc = GWT.create(OutlineServiceAsync.class);
+		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		svc.getUsersTable((UserSearchData) search, new AsyncCallback<String[][]>() {
 			
 			@Override
