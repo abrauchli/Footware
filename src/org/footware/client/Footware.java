@@ -18,7 +18,6 @@ package org.footware.client;
 
 import org.footware.client.desktop.Desktop;
 import org.footware.client.pages.fields.VisualizationWidget;
-import org.footware.client.playground.trackAnalyzeTool.TrackAnalyzeTool;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
