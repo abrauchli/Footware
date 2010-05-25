@@ -17,17 +17,24 @@
 package org.footware.server.services;
 
 import org.footware.client.services.LoginService;
+import org.footware.server.db.User;
+import org.footware.server.db.UserUtil;
+import org.footware.shared.dto.UserDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
-public class LoginServiceImpl extends RemoteServiceServlet implements LoginService{
+public class LoginServiceImpl extends RemoteServiceServlet implements LoginService {
 
 	@Override
-	public String login(String username, String password)
+	public UserDTO login(String email, String password)
 			throws IllegalArgumentException {
-		//TODO andy hier sollte eine session id generiert und der user authentifiziert werden.
-		return "1234";
+		User u = UserUtil.getIfValid(email, UserUtil.getPasswordHash(password));
+		if (u != null) {
+			getThreadLocalRequest().getSession().setAttribute("user", u);
+			return u.getUserDTO();
+		}
+		return null;
 	}
 
 }

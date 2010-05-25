@@ -16,17 +16,27 @@
 
 package org.footware.shared.dto;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import java.io.Serializable;
 
-public class TrackPointDTO implements IsSerializable {
+public class TrackpointDTO implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private double latitude;
 	private double longitude;
 	
-	public TrackPointDTO() {
+	/**
+	 * Creates a new empty TrackpointDTO instance
+	 */
+	public TrackpointDTO() {
 	}
 	
-	public TrackPointDTO(double longitude, double latitude) {
+	/**
+	 * Creates a new TrackpointDTO instance from a lat/lon pair
+	 * @param longitude longitude to set
+	 * @param latitude latitude to set
+	 */
+	public TrackpointDTO(double longitude, double latitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}

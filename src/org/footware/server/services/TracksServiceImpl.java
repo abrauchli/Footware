@@ -26,7 +26,7 @@ import org.footware.server.gpx.TrackVisualizationElevationStrategy;
 import org.footware.server.gpx.TrackVisualizationFactory;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.shared.dto.ConfigDTO;
-import org.footware.shared.dto.TrackDTO2;
+import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackVisualizationDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -35,7 +35,7 @@ public class TracksServiceImpl  extends RemoteServiceServlet implements
 TrackService {
 
 	@Override
-	public List<TrackDTO2> getTracks(ConfigDTO config)
+	public List<TrackDTO> getTracks(ConfigDTO config)
 			throws IllegalArgumentException {
 		GPXImport importer = new GPXImport();
 		List<GPXTrack> tracks = new LinkedList<GPXTrack>();
@@ -46,7 +46,7 @@ TrackService {
 //			e.printStackTrace();
 //		}
 		
-		LinkedList<TrackDTO2> result = new LinkedList<TrackDTO2>();
+		LinkedList<TrackDTO> result = new LinkedList<TrackDTO>();
 		for(GPXTrack gpxTrack : tracks) {
 			result.add(TrackFactory.create(gpxTrack));
 		}

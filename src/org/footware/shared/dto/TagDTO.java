@@ -18,6 +18,8 @@ package org.footware.shared.dto;
 
 import java.io.Serializable;
 
+import org.footware.server.db.Tag;
+
 public class TagDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,6 +43,14 @@ public class TagDTO implements Serializable {
 		this.tag = tag;
 	}
 	
+	/**
+	 * Creates a TagDTO from a Tag 
+	 * @param tag Tag object to create the TagDTO from
+	 */
+	public TagDTO(Tag tag) {
+		this.tag = tag.getTag();
+	}
+
 	/**
 	 * Gets the tag
 	 * @return tag the tag name

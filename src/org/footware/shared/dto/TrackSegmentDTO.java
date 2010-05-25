@@ -19,10 +19,13 @@ package org.footware.shared.dto;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import java.io.Serializable;
 
-public class TrackSegmentDTO  implements IsSerializable {
-	List<TrackPointDTO> points = new LinkedList<TrackPointDTO>();
+public class TrackSegmentDTO  implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	List<TrackpointDTO> points = new LinkedList<TrackpointDTO>();
 	
 	public TrackSegmentDTO() {
 	}
@@ -30,23 +33,23 @@ public class TrackSegmentDTO  implements IsSerializable {
 	/**
 	 * @return the points
 	 */
-	public List<TrackPointDTO> getPoints() {
+	public List<TrackpointDTO> getPoints() {
 		return points;
 	}
 
 	/**
 	 * @param points the points to set
 	 */
-	public void setPoints(List<TrackPointDTO> points) {
+	public void setPoints(List<TrackpointDTO> points) {
 		this.points = points;
 	}
 	
-	public void addPoint(TrackPointDTO point) {
+	/**
+	 * Adds a Trackpoint to this segment
+	 * @param point point to add
+	 */
+	public void addPoint(TrackpointDTO point) {
 		points.add(point);
-	}
-	
-	public void addPoint(List<TrackPointDTO> points) {
-		points.addAll(points);
 	}
 
 }

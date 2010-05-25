@@ -19,7 +19,7 @@
  */
 package org.footware.client.pages.fields;
 
-import org.footware.shared.dto.TrackDTO2;
+import org.footware.shared.dto.TrackDTO;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Panel;
@@ -75,7 +75,7 @@ public class FootwareMapWidget extends Composite {
 //        panel.add(mapWidget);
     }
 
-    public void displayTracks(TrackDTO2 track) {
+    public void displayTracks(TrackDTO track) {
 //        VectorOptions vectorLayerOptions = new VectorOptions();
 //        vectorLayerOptions.setProjection(map.getProjection());
 //        final Vector tracksLayer = new Vector("Trackname", vectorLayerOptions);
@@ -116,11 +116,11 @@ public class FootwareMapWidget extends Composite {
 
 //    public void test() {
 //        final TrackServiceAsync trackService = GWT.create(TrackService.class);
-//        trackService.getTracks(null, new AsyncCallback<List<TrackDTO2>>() {
+//        trackService.getTracks(null, new AsyncCallback<List<TrackDTO>>() {
 //
 //            @Override
-//            public void onSuccess(List<TrackDTO2> result) {
-//                for (TrackDTO2 track : result) {
+//            public void onSuccess(List<TrackDTO> result) {
+//                for (TrackDTO track : result) {
 //                    displayTracks(track);
 //                }
 //            }

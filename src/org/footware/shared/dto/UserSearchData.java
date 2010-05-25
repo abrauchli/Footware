@@ -23,6 +23,7 @@ import org.footware.client.framework.search.AbstractSearchData;
 
 public class UserSearchData extends AbstractSearchData implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	public int value;
 	
 }

@@ -66,6 +66,8 @@ public class Track implements Serializable {
 	private boolean commentsEnabled;
 	private int trackpoints;
 	private int length;
+	private double midLongitude;
+	private double midLatitude;
 	private Date startTime;
 	
 	@ManyToAny(metaColumn=@Column(name="comment_id"), fetch=FetchType.LAZY)
@@ -85,12 +87,11 @@ public class Track implements Serializable {
 		this.path = path;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public Track(TrackDTO track) {
 		this.id = track.getId();
 		this.user = new User(track.getUser());
 		this.filename = track.getFilename();
-		this.path = track.getPath();
+		//this.path = track.getPath(); //cannot be modified by the client
 		this.notes = track.getNotes();
 		this.publicity = track.getPublicity();
 		this.commentsEnabled = track.isCommentsEnabled();
@@ -250,6 +251,37 @@ public class Track implements Serializable {
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
+	/**
+	 * Gets the mean latitude of the track
+	 * @return mean latitude of the track
+	 */
+	public double getMidLatitude() {
+		return midLatitude;
+	}
+
+	/**
+	 * Sets the mean latitude of the track
+	 * @param midLatitude mean latitude of the track
+	 */
+	public void setMidLatitude(double midLatitude) {
+		this.midLatitude = midLatitude;
+	}
+	
+	/**
+	 * Gets the mean longitude of the track
+	 * @return mean longitude of the track
+	 */
+	public double getMidLongitude() {
+		return midLongitude;
+	}
+
+	/**
+	 * Sets the mean longitude of the track
+	 * @param midLongitude mean longitude of the track
+	 */
+	public void setMidLongitude(double midLongitude) {
+		this.midLongitude = midLongitude;
+	}
 	
 	/**
 	 * Gets all comments for this track
@@ -268,6 +300,27 @@ public class Track implements Serializable {
 		if (comments == null)
 			comments = new ArrayList<Comment>();
 		comments.add(comment);
+	}
+
+	/**
+	 * Gets the TrackDTO object from this Track's current state
+	 * @return TrackDTO with this tracks current state
+	 */
+	public TrackDTO getTrackDTO() {
+		TrackDTO t = new TrackDTO();
+		t.setUser(user.getUserDTO());
+		t.setFilename(filename);
+		t.setNotes(notes);
+		t.setPublicity(publicity);
+		t.setCommentsEnabled(commentsEnabled);
+		t.setTrackpoints(trackpoints);
+		t.setLength(length);
+		t.setMidLatitude(midLatitude);
+		t.setMidLongitude(midLongitude);
+		t.setStartTime(startTime);
+		for (Comment c : comments)
+			t.addComment(c.getCommentDTO());
+		return t;
 	}
 	
 }

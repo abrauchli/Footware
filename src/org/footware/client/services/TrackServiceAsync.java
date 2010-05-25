@@ -22,7 +22,7 @@ package org.footware.client.services;
 import java.util.List;
 
 import org.footware.shared.dto.ConfigDTO;
-import org.footware.shared.dto.TrackDTO2;
+import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackVisualizationDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -37,7 +37,7 @@ public interface TrackServiceAsync {
 	 * 
 	 * @see org.footware.client.services.TrackService#greetServer(org.footware.shared.dto.ConfigDTO)
 	 */
-	void getTracks(ConfigDTO config, AsyncCallback<List<TrackDTO2>> callback);
+	void getTracks(ConfigDTO config, AsyncCallback<List<TrackDTO>> callback);
 
     void getTrackVisualization(ConfigDTO config, AsyncCallback<TrackVisualizationDTO> callback);
 
