@@ -23,6 +23,7 @@ import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.OwnPage;
+import org.footware.shared.dto.UserDTO;
 
 /**
  * 
@@ -30,12 +31,17 @@ import org.footware.client.pages.OwnPage;
  * 
  */
 public class OwnPageNode extends AbstractTreeNode {
+	private UserDTO myUser;
+
+	public OwnPageNode(UserDTO user) {
+		myUser = user;
+	}
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
+	protected void execCreateChildren() {
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		children.add(new MyTracksNode());
-		return children;
+		children.add(new MyTracksNode(myUser));
+		setChildNodes(children);
 	}
 
 	@Override

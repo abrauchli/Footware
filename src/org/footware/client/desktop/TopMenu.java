@@ -19,6 +19,7 @@ package org.footware.client.desktop;
 import org.footware.client.dialogs.LoginBox;
 import org.footware.client.dialogs.SignupBox;
 import org.footware.client.dialogs.UploadTrackBox;
+
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;

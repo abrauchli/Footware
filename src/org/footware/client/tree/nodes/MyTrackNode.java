@@ -22,12 +22,18 @@ import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.TrackDetailPage;
+import org.footware.shared.dto.TrackDTO;
 
 public class MyTrackNode extends AbstractTreeNode {
 
+	private TrackDTO myTrack;
+
+	public MyTrackNode(TrackDTO track) {
+		myTrack = track;
+	}
+
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
-		return null;
+	protected void execCreateChildren() {
 	}
 
 	@Override

@@ -24,17 +24,23 @@ import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.UserPage;
-import org.footware.client.search.UserSearchForm;
+import org.footware.client.services.OutlineService;
+import org.footware.client.services.OutlineServiceAsync;
 import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackSearchData;
 import org.footware.shared.dto.UserDTO;
 import org.footware.shared.dto.UserSearchData;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class UserNode extends AbstractTreeNode {
 
 	private UserDTO myUser;
 
-	public UserNode() {
+	public UserNode(UserDTO user) {
 		super();
+		myUser = user;
 	}
 
 	@Override
@@ -48,13 +54,14 @@ public class UserNode extends AbstractTreeNode {
 	}
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
+	protected void execCreateChildren() {
 		ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 		// TODO andy methode um tracks eines users zu laden
-		TrackNode child = new TrackNode();
-		child.setMyTrack(new TrackDTO());
-		children.add(child);
-		return children;
+		for (TrackDTO t : myUser.getTracks()) {
+			TrackNode child = new TrackNode(t);
+			children.add(child);
+		}
+		setChildNodes(children);
 	}
 
 	@Override
@@ -62,16 +69,27 @@ public class UserNode extends AbstractTreeNode {
 		return new UserPage(this);
 	}
 
-
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren(
-			AbstractSearchData search) {
-		UserSearchData ps = (UserSearchData) search;
-		List<AbstractTreeNode> list = new ArrayList<AbstractTreeNode>();
-		for (int i = 0; i < ps.value; i++) {
-			list.add(new TestNode());
-		}
-		return list;
+	protected void execCreateChildren(AbstractSearchData search) {
+		UserSearchData sd = (UserSearchData) search;
+		OutlineServiceAsync svc = GWT.create(OutlineService.class);
+		svc.getUserList(sd, new AsyncCallback<List<UserDTO>>() {
+
+			@Override
+			public void onSuccess(List<UserDTO> result) {
+				List<AbstractTreeNode> list = new ArrayList<AbstractTreeNode>();
+				for (UserDTO u : result) {
+					list.add(new UserNode(u));
+				}
+				setChildNodes(list);
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				noConnection();
+			}
+		});
+
 	}
 
 	@Override

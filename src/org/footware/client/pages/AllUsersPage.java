@@ -22,7 +22,12 @@ import java.util.List;
 import org.footware.client.framework.pages.AbstractTablePage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
+import org.footware.client.services.OutlineService;
+import org.footware.client.services.OutlineServiceAsync;
 import org.footware.shared.dto.UserSearchData;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AllUsersPage extends AbstractTablePage {
 
@@ -31,8 +36,8 @@ public class AllUsersPage extends AbstractTablePage {
 	}
 
 	@Override
-	public String[][] execLoadTableData() {
-		return null;
+	public void execLoadTableData() {
+		//dont do anything here...
 	}
 
 	@Override
@@ -44,16 +49,23 @@ public class AllUsersPage extends AbstractTablePage {
 	}
 
 	@Override
-	public String[][] execLoadTableData(AbstractSearchData search) {
-		// TODO andy methode um alle user als tabelle anzuzeigen abhängig von
-		// suche. analog AllTracksPage
-		UserSearchData sd = (UserSearchData) search;
-		String[][] result = new String[sd.value][];
-		for (int i = 0; i < sd.value; i++) {
-			result[i] = new String[] { "ttt", "23" };
+	public void execLoadTableData(AbstractSearchData search) {
+		//TODO service call
+		OutlineServiceAsync svc = GWT.create(OutlineService.class);
+		svc.getUsersTable((UserSearchData) search, new AsyncCallback<String[][]>() {
+			
+			@Override
+			public void onSuccess(String[][] result) {
+				setTableData(result);
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				displayError("Unable to contact server");
+			}
+		});
+
 		}
-		return result;
-	}
 
 	@Override
 	public String getConfiguredTitle() {

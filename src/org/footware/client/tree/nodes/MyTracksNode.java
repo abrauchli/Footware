@@ -23,15 +23,27 @@ import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.MyTracksTablePage;
+import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.UserDTO;
 
 public class MyTracksNode extends AbstractTreeNode {
+	private UserDTO myUser;
+
+	public MyTracksNode(UserDTO user) {
+		myUser = user;
+	}
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
+	protected void execCreateChildren() {
 		// TODO andy methode um tracks eines users zu laden
-		List<AbstractTreeNode> chidlren = new ArrayList<AbstractTreeNode>();
-		chidlren.add(new MyTrackNode());
-		return chidlren;
+		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
+		for (TrackDTO t : myUser.getTracks()) {
+
+			children.add(new MyTrackNode(t));
+
+		}
+
+		setChildNodes(children);
 	}
 
 	@Override

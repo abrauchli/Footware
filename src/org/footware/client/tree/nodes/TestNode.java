@@ -16,8 +16,6 @@
 
 package org.footware.client.tree.nodes;
 
-import java.util.List;
-
 import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
@@ -41,9 +39,8 @@ public class TestNode extends AbstractTreeNode {
 	}
 
 	@Override
-	protected List<AbstractTreeNode> execCreateChildren() {
+	protected void execCreateChildren() {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

@@ -16,8 +16,8 @@
 
 package org.footware.client.pages.fields;
 
-import org.footware.client.TrackService;
-import org.footware.client.TrackServiceAsync;
+import org.footware.client.services.TrackService;
+import org.footware.client.services.TrackServiceAsync;
 import org.footware.shared.dto.TrackVisualizationDTO;
 import org.footware.shared.dto.TrackVisualizationPointDTO;
 

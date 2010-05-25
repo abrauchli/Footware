@@ -22,16 +22,17 @@ import java.util.List;
 import org.footware.client.framework.pages.AbstractTablePage;
 import org.footware.client.framework.tree.AbstractTreeNode;
 
-
 public class TestTablePage extends AbstractTablePage {
 
 	public TestTablePage(AbstractTreeNode treeNode) {
-		super( treeNode);
+		super(treeNode);
 	}
 
 	@Override
-	public String[][] execLoadTableData() {
-		return new String[][] { { "one", "two" }, { "three", "four" } };
+	public void execLoadTableData() {
+		setTableData(new String[][] { 
+				{ "one", "two" }, 
+				{ "three", "four" } });
 	}
 
 	@Override
@@ -55,6 +56,6 @@ public class TestTablePage extends AbstractTablePage {
 	@Override
 	public void reload() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

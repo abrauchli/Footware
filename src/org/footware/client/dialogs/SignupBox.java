@@ -92,6 +92,7 @@ public class SignupBox extends DialogBox {
 		u.setPassword(password.getValue());
 		// TODO andy hier müsste der user persistiert werden... u.persist()?
 		// TODO sign user in directly?
+		
 	}
 
 	private void validate() {

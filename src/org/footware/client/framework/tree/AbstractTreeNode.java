@@ -22,6 +22,7 @@ import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -42,14 +43,18 @@ public abstract class AbstractTreeNode extends TreeItem {
 
 	public void init() {
 		execInit();
-		childNodes = execCreateChildren();
+		execCreateChildren();
+		setText(getConfiguredName());
+		page = getConfiguredPage();
+	}
+
+	private void reloadChildren() {
 		if (childNodes != null && !childNodes.isEmpty()) {
+			removeItems();
 			for (AbstractTreeNode node : childNodes) {
 				addItem(node);
 			}
 		}
-		setText(getConfiguredName());
-		page = getConfiguredPage();
 	}
 
 	/**
@@ -60,23 +65,28 @@ public abstract class AbstractTreeNode extends TreeItem {
 	public abstract String getConfiguredName();
 
 	/**
-	 * create the child nodes. This is usually done using a service.
+	 * create the child nodes. This is usually done using a service. call
+	 * setChildnodes asynchronously...
 	 * 
 	 * @return
 	 */
-	protected abstract List<AbstractTreeNode> execCreateChildren();
+	protected abstract void execCreateChildren();
+
+	public void setChildNodes(List<AbstractTreeNode> data) {
+		childNodes = data;
+		reloadChildren();
+	}
 
 	/**
 	 * create the children using a filter. This is by default just the same as
-	 * without filter.
+	 * without filter. call setChildnodes asynchronously...
 	 * 
 	 * @param search
 	 *            the filter
 	 * @return a list of children
 	 */
-	protected List<AbstractTreeNode> execCreateChildren(
-			AbstractSearchData search) {
-		return execCreateChildren();
+	protected void execCreateChildren(AbstractSearchData search) {
+		execCreateChildren();
 	}
 
 	/**
@@ -101,12 +111,7 @@ public abstract class AbstractTreeNode extends TreeItem {
 
 	protected void reload(AbstractSearchData search) {
 		removeItems();
-		childNodes = execCreateChildren(search);
-		if (childNodes != null && !childNodes.isEmpty()) {
-			for (AbstractTreeNode node : childNodes) {
-				addItem(node);
-			}
-		}
+		execCreateChildren(search);
 		page.reload();
 	}
 
@@ -139,9 +144,10 @@ public abstract class AbstractTreeNode extends TreeItem {
 		}
 	}
 
-
 	public void lazyLoad() {
 		getPage().execLazyload();
 	}
-
+	public void noConnection(){
+		Window.alert("Mo connection to server");
+	}
 }
