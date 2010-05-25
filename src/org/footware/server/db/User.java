@@ -82,7 +82,7 @@ public class User extends DbEntity implements Serializable {
 		this.email = user.getEmail();
 		this.fullName = user.getFullName();
 		this.password = UserUtil.getPasswordHash(user.getPassword()).toCharArray();
-		this.isAdmin = user.getIsAdmin();
+		//this.isAdmin = user.getIsAdmin();
 
 		Transaction tx = null;
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();

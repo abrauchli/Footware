@@ -19,4 +19,13 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
+	@Override
+	public UserDTO registerUser(UserDTO user) {
+		if (UserUtil.getByEmail(user.getEmail()) != null)
+			return null;
+		User u = new User(user);
+		u.store();
+		return u.getUserDTO();
+	}
+
 }

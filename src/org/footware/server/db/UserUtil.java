@@ -24,6 +24,8 @@ import javax.persistence.NamedQuery;
 import org.apache.catalina.util.MD5Encoder;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @NamedQueries(value = {
 	//Get user by email
@@ -45,12 +47,17 @@ public class UserUtil {
 	 * @return user object if email is valid, null otherwise
 	 */
 	public static User getByEmail(String email) {
-		Query q = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("users.getByEmail");
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction t = s.beginTransaction();
+		Query q = s.getNamedQuery("users.getByEmail");
 		q.setParameter("email", email);
 		User res = null;
 		try {
 			res = (User)q.uniqueResult();
-		} catch (HibernateException e) {}
+			t.commit();
+		} catch (HibernateException e) {
+			t.rollback();
+		}
 		return res;
 	}
 

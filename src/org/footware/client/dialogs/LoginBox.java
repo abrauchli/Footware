@@ -36,7 +36,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class LoginBox extends DialogBox {
 	private TopMenu myTopMenu;
-	private TextBox username;
+	private TextBox email;
 	private PasswordTextBox password;
 
 	public LoginBox(TopMenu container) {
@@ -47,11 +47,11 @@ public class LoginBox extends DialogBox {
 		setText("Login");
 
 		Grid g = new Grid(4, 2);
-		username = new TextBox();
+		email = new TextBox();
 		password = new PasswordTextBox();
 
-		g.setWidget(0, 0, new HTML("Username"));
-		g.setWidget(0, 1, username);
+		g.setWidget(0, 0, new HTML("Email Address"));
+		g.setWidget(0, 1, email);
 
 		g.setWidget(1, 0, new HTML("Password"));
 		g.setWidget(1, 1, password);
@@ -90,14 +90,14 @@ public class LoginBox extends DialogBox {
 
 	private void login() {
 		// input verification
-		if (username.getValue().equals("") || password.getValue().equals("")) {
-			Window.alert("Username and Password must be filled out");
+		if (email.getValue().equals("") || password.getValue().equals("")) {
+			Window.alert("Email and password must be filled out");
 			return;
 		}
 
 		// call server, get authentication
 		LoginServiceAsync svc = GWT.create(LoginService.class);
-		svc.login(username.getValue(), password.getValue(),
+		svc.login(email.getValue(), password.getValue(),
 				new AsyncCallback<UserDTO>() {
 
 					@Override

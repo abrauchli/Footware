@@ -12,12 +12,12 @@
 	<!-- Servlets -->
 
 	<servlet>
-		<servlet-name>loginServlet</servlet-name>
+		<servlet-name>loginService</servlet-name>
 		<servlet-class>org.footware.server.services.LoginServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet>
-		<servlet-name>trackServlet</servlet-name>
+		<servlet-name>trackService</servlet-name>
 		<servlet-class>org.footware.server.services.TracksServiceImpl</servlet-class>
 	</servlet>
 	<servlet>
@@ -47,26 +47,29 @@
 		-->
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>userService</servlet-name>
-		<url-pattern>user</url-pattern>
+		<url-pattern>/footware/user</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>outlineService</servlet-name>
 		<url-pattern>/footware/outline</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>trackUploadServlet</servlet-name>
 		<url-pattern>/footware/trackUpload</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>trackServlet</servlet-name>
+		<servlet-name>trackService</servlet-name>
 		<url-pattern>/footware/track</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>loginServlet</servlet-name>
+		<servlet-name>loginService</servlet-name>
 		<url-pattern>/footware/login</url-pattern>
 	</servlet-mapping>
 
