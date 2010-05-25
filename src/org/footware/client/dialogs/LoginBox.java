@@ -16,7 +16,7 @@
 
 package org.footware.client.dialogs;
 
-import org.footware.client.Desktop.TopMenu;
+import org.footware.client.desktop.TopMenu;
 import org.footware.client.services.LoginService;
 import org.footware.client.services.LoginServiceAsync;
 
