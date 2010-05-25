@@ -36,6 +36,9 @@ import org.dom4j.io.SAXReader;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
+import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackDTO2;
+import org.footware.shared.dto.TrackVisualizationDTO;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -54,6 +57,10 @@ public class GPXImport {
 	private Logger logger;
 
 	private String GPX_NAMESPACE_URI = GPX_NAMESPACE_URI_1_1;
+	
+	private List<TrackVisualizationDTO> speedVisualization = new LinkedList<TrackVisualizationDTO>();
+	private List<TrackVisualizationDTO> elevationVisualization = new LinkedList<TrackVisualizationDTO>();
+	private List<TrackDTO2> tracks; 
 
 	public GPXImport() {
 		logger = LoggerFactory.getLogger(GPXImport.class);
@@ -61,8 +68,16 @@ public class GPXImport {
 
 	public void importTrack(File file) {
 		logger.info("Import file: " + file.getAbsolutePath());
-		List<GPXTrack> tracks = parseXML(file);
-
+		List<GPXTrack> gpxTracks = parseXML(file);
+		
+		TrackVisualizationFactory speedFactory = new TrackVisualizationFactory(new TrackVisualizationSpeedStrategy());
+		TrackVisualizationFactory elevationFactory = new TrackVisualizationFactory(new TrackVisualizationElevationStrategy());
+		
+		for(GPXTrack track : gpxTracks) {
+			tracks.add(TrackFactory.create(track));
+			speedVisualization.add(speedFactory.create(track));
+			elevationVisualization.add(elevationFactory.create(track));
+		}
 	}
 
 	private List<GPXTrack> parseXML(File file) {
@@ -137,7 +152,6 @@ public class GPXImport {
 						+ (System.currentTimeMillis() - startTime));
 
 				track = new GPXTrack();
-				// System.out.println(xmlTrack.asXML());
 
 				// Find track segments
 				XPath xpathTrkseg = DocumentHelper.createXPath("//" + GPX_NS

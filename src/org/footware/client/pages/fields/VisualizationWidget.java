@@ -159,9 +159,4 @@ public class VisualizationWidget extends Composite {
 				});
 	}
 
-	protected void onLoad() {
-		super.onLoad();
-		test();
-	}
-
 }

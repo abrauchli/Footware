@@ -57,7 +57,7 @@ public class FootwareMapWidget extends Composite {
     private String height = "100%";
 
     public FootwareMapWidget() {
-    	this("800px","400px");
+    	this("100%","100%");
     }
 
     public FootwareMapWidget(String width, String height) {
@@ -161,8 +161,8 @@ public class FootwareMapWidget extends Composite {
      * @param widht
      *            the width to set
      */
-    public void setWidht(String widht) {
-        this.width = widht;
+    public void setWidht(String width) {
+        this.width = width;
     }
 
     /**
