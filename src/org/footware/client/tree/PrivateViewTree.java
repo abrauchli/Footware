@@ -19,6 +19,7 @@ package org.footware.client.tree;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.footware.client.Session;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTree;
 import org.footware.client.framework.tree.AbstractTreeNode;
@@ -30,9 +31,10 @@ public class PrivateViewTree extends AbstractTree {
 	@Override
 	public List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		//TODO get the logged in user here
-		children.add(new OwnPageNode(new UserDTO()));
+		UserDTO u = Session.getUser();
+		//only add if the user is logged in
+		if (u != null)
+			children.add(new OwnPageNode(u));
 		return children;
 	}
-
 }

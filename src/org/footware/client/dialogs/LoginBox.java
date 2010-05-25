@@ -16,6 +16,7 @@
 
 package org.footware.client.dialogs;
 
+import org.footware.client.Session;
 import org.footware.client.desktop.TopMenu;
 import org.footware.client.services.LoginService;
 import org.footware.client.services.LoginServiceAsync;
@@ -102,6 +103,7 @@ public class LoginBox extends DialogBox {
 					@Override
 					public void onSuccess(UserDTO user) {
 						Window.alert("Hello "+ user.getFullName());
+						Session.setUser(user);
 						// do gui changes
 						myTopMenu.login();
 						hide();

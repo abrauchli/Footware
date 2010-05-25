@@ -45,7 +45,11 @@ public class Desktop extends VerticalPanel {
 		SearchView sv = new SearchView();
 		// add the tree
 		myTree = new TreeView(new PublicViewTree(), dv, sv);
+		
+		//TODO: CHECK if we really need this prior to the user's login!
+		//PrivateViewTree requires a User to be logged in
 		priv = new TreeView(new PrivateViewTree(), dv, sv);
+		
 		StackPanel sp = new StackPanel();
 		sp.add(myTree, "Public view");
 		sp.add(priv, "Private view");
