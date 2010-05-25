@@ -70,3 +70,22 @@ CREATE TABLE `comment` (
     FOREIGN KEY (track_id)	REFERENCES track (id),
     FOREIGN KEY (user_id)	REFERENCES user (id)
 );
+
+CREATE TABLE trackpoint (
+	id			BIGINT			NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	tracksegment_id	INTEGER		NOT NULL,
+	latitude	DECIMAL(3,10)	NOT NULL DEFAULT(0),
+	longitude	DECIMAL(3,10)	NOT NULL DEFAULT(0),
+	time		DATETIME,
+	speed		DECIMAL(5,2)
+
+	FOREIGN KEY (tracksegment_id) REFERENCES tracksegment (id)
+);
+
+CREATE TABLE tracksegment (
+	id			INTEGER			NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	max_speed	INTEGER			NOT NULL DEFAULT(0),
+	max_elevation	INTEGER		NOT NULL DEFAULT(0),
+	min_elevation	INTEGER		NOT NULL DEFAULT(0),
+	length		INTEGER			NOT NULL DEFAULT(0)
+);

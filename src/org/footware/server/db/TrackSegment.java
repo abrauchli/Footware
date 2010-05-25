@@ -19,6 +19,7 @@ package org.footware.server.db;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -43,9 +44,12 @@ public class TrackSegment implements Serializable {
 	private long id;
 
 	// Statistics
+	@Column(name="max_speed")
 	private double maxSpeed = 0.0;
-	private long minElevation = Long.MAX_VALUE;
-	private long maxElevation = Long.MIN_VALUE;
+	@Column(name="min_elevation")
+	private int minElevation = Integer.MAX_VALUE;
+	@Column(name="max_elevation")
+	private int maxElevation = Integer.MIN_VALUE;
 	private long length = 0;
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Track track;
@@ -57,7 +61,7 @@ public class TrackSegment implements Serializable {
 	 */
 	protected TrackSegment() {
 	}
-	
+
 	/**
 	 * Create a track segment from a GPXTrackSegment for persistence
 	 * This also creates Trackpoints from the linked GPXTrackPoints
@@ -65,18 +69,18 @@ public class TrackSegment implements Serializable {
 	 */
 	public TrackSegment(GPXTrackSegment gpx) {
 		this.maxSpeed = gpx.getMaxSpeed();
-		this.minElevation = gpx.getMinElevation().longValue();
-		this.maxElevation = gpx.getMaxElevation().longValue();
-		//TODO: this.length = gpx.getLength();
-		
+		this.minElevation = gpx.getMinElevation().intValue();
+		this.maxElevation = gpx.getMaxElevation().intValue();
+		this.length = (long) gpx.getLength();
+
 		//Deep replication
 		for (GPXTrackPoint gpt : gpx.getPoints()) {
-			Trackpoint tp = new Trackpoint(gpt);
+			Trackpoint tp = new Trackpoint(this, gpt);
 			this.trackpoints.add(tp);
 			//TODO: Check if we should persist here
 		}
 	}
-	
+
 	/**
 	 * Gets the id of the corresponding DB row
 	 * @return the ID of the row in the DB
@@ -121,7 +125,7 @@ public class TrackSegment implements Serializable {
 	 * Gets the maximum speed encountered in this segment
 	 * @return maximum speed encountered in this segment
 	 */
-	public void setMinElevation(long minElevation) {
+	public void setMinElevation(int minElevation) {
 		this.minElevation = minElevation;
 	}
 
@@ -137,7 +141,7 @@ public class TrackSegment implements Serializable {
 	 * Sets the maximal elevation encountered in this segment
 	 * @param maxElevation the maximal elevation encountered in this segment
 	 */
-	public void setMaxElevation(long maxElevation) {
+	public void setMaxElevation(int maxElevation) {
 		this.maxElevation = maxElevation;
 	}
 
