@@ -38,8 +38,9 @@ public class Trackpoint implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	double longitude;
+	TrackSegment segment;
 	double latitude;
+	double longitude;
 	int elevation;
 	Date time;
 	double speed;
@@ -52,11 +53,13 @@ public class Trackpoint implements Serializable {
 	
 	/**
 	 * Create a trackpoint from a GPXTrackPoint for persistence
+	 * @param seg the segment this point belongs to
 	 * @param gpx the GPXTrackPoint to create this object from
 	 */
-	public Trackpoint(GPXTrackPoint gpx) {
-		this.longitude = gpx.getLongitude().doubleValue();
+	public Trackpoint(TrackSegment seg, GPXTrackPoint gpx) {
+		this.segment = seg;
 		this.latitude = gpx.getLatitude().doubleValue();
+		this.longitude = gpx.getLongitude().doubleValue();
 		this.elevation = gpx.getElevation().intValue();
 		this.time = gpx.getTime().toDate();
 		this.speed = gpx.getSpeed();
@@ -69,7 +72,22 @@ public class Trackpoint implements Serializable {
 	public long getId() {
 		return id;
 	}
-	
+
+	/**
+	 * Gets the segment this point is part of
+	 * @return the segment this point is part of
+	 */
+	public TrackSegment getSegment() {
+		return this.segment;
+	}
+
+	/**
+	 * Sets the new segment belonging to this trackpoint
+	 * @param seg the new segment this trackpoint is part of
+	 */
+	public void setSegment(TrackSegment seg) {
+		this.segment = seg;
+	}
 
 	/**
 	 * @return the longitude

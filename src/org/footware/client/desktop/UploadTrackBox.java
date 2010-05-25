@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.footware.client.Desktop;
+package org.footware.client.desktop;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

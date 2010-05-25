@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.footware.client.Desktop;
+package org.footware.client.desktop;
 
 import org.footware.client.dialogs.LoginBox;
 import org.footware.client.dialogs.SignupBox;
