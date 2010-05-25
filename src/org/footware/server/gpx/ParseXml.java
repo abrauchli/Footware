@@ -32,11 +32,12 @@ public class ParseXml {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		GPXImport importer = new GPXImport();
-
-		File test = new File("war/import/testUser/zh_to_laegeren_2010_03_19.gpx");
-		System.out.println(test.getAbsolutePath());
-		importer.importTrack(test);
+		
+//		GPXImport importer = new GPXImport();
+//
+//		File test = new File("war/import/testUser/zh_to_laegeren_2010_03_19.gpx");
+//		System.out.println(test.getAbsolutePath());
+//		importer.importTrack(test);
 
 	}
 }

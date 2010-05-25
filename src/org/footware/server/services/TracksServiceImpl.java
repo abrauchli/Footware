@@ -16,6 +16,7 @@
 
 package org.footware.server.services;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,36 +38,29 @@ TrackService {
 	@Override
 	public List<TrackDTO> getTracks(ConfigDTO config)
 			throws IllegalArgumentException {
-		GPXImport importer = new GPXImport();
-		List<GPXTrack> tracks = new LinkedList<GPXTrack>();
-		
-//		try {
-//			tracks = importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
+//		GPXImport importer = new GPXImport();
+//		List<GPXTrack> tracks = new LinkedList<GPXTrack>();
+//		
+//		importer.importTrack(new File("foo_trk.gpx"));
+//
+//		
+//		LinkedList<TrackDTO> result = new LinkedList<TrackDTO>();
+//		for(GPXTrack gpxTrack : tracks) {
+//			result.add(TrackFactory.create(gpxTrack));
 //		}
-		
-		LinkedList<TrackDTO> result = new LinkedList<TrackDTO>();
-		for(GPXTrack gpxTrack : tracks) {
-			result.add(TrackFactory.create(gpxTrack));
-		}
-		return result;
+//		return result;
+		return null;
 	}
 
     @Override
     public TrackVisualizationDTO getTrackVisualization(ConfigDTO config) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        GPXImport importer = new GPXImport();
-        List<GPXTrack> tracks = new LinkedList<GPXTrack>();
-        
-//        try {
-//            tracks = importer.parseXML(new FileInputStream(new File("foo_trk.gpx")));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        
-        TrackVisualizationFactory factory = new TrackVisualizationFactory(new TrackVisualizationElevationStrategy());
-        return factory.create(tracks.get(6));
+//        // TODO Auto-generated method stub
+//        GPXImport importer = new GPXImport();
+//        List<GPXTrack> tracks = new LinkedList<GPXTrack>();
+//        
+//        TrackVisualizationFactory factory = new TrackVisualizationFactory(new TrackVisualizationElevationStrategy());
+//        return factory.create(tracks.get(6));
+    	return null;
     }
 
 }

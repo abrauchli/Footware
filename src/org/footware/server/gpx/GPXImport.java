@@ -36,6 +36,9 @@ import org.dom4j.io.SAXReader;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
+import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackVisualizationDTO;
+import org.footware.shared.dto.UserDTO;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -53,16 +56,44 @@ public class GPXImport {
 	private static String TIME = "time";
 	private Logger logger;
 
+	private UserDTO user;
+	private String notes;
+	private Boolean comments;
+	private int privacy;
+	private String name;
+
 	private String GPX_NAMESPACE_URI = GPX_NAMESPACE_URI_1_1;
 
-	public GPXImport() {
+	private List<TrackVisualizationDTO> speedVisualization = new LinkedList<TrackVisualizationDTO>();
+	private List<TrackVisualizationDTO> elevationVisualization = new LinkedList<TrackVisualizationDTO>();
+	private List<TrackDTO> tracks = new LinkedList<TrackDTO>();
+
+	public GPXImport(UserDTO user, String notes, Boolean comments, int privacy,
+			String name) {
+		this.user = user;
+		this.comments = comments;
+		this.privacy = privacy;
+		this.name = name;
+		this.notes = notes;
+
 		logger = LoggerFactory.getLogger(GPXImport.class);
 	}
 
 	public void importTrack(File file) {
 		logger.info("Import file: " + file.getAbsolutePath());
-		List<GPXTrack> tracks = parseXML(file);
+		List<GPXTrack> gpxTracks = parseXML(file);
 
+		TrackVisualizationFactory speedFactory = new TrackVisualizationFactory(
+				new TrackVisualizationSpeedStrategy());
+		TrackVisualizationFactory elevationFactory = new TrackVisualizationFactory(
+				new TrackVisualizationElevationStrategy());
+
+		for (GPXTrack track : gpxTracks) {
+			tracks.add(TrackFactory.create(track, user, notes, comments,
+					privacy, name));
+			speedVisualization.add(speedFactory.create(track));
+			elevationVisualization.add(elevationFactory.create(track));
+		}
 	}
 
 	private List<GPXTrack> parseXML(File file) {
@@ -137,7 +168,6 @@ public class GPXImport {
 						+ (System.currentTimeMillis() - startTime));
 
 				track = new GPXTrack();
-				// System.out.println(xmlTrack.asXML());
 
 				// Find track segments
 				XPath xpathTrkseg = DocumentHelper.createXPath("//" + GPX_NS
@@ -202,7 +232,7 @@ public class GPXImport {
 					track.addTrackSegment(trackSegment);
 				}
 				tracks.add(track);
-				
+
 			}
 			logger.info("Done parsing +"
 					+ (System.currentTimeMillis() - startTime));

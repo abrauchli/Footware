@@ -51,8 +51,8 @@ public class Desktop extends VerticalPanel {
 		priv = new TreeView(new PrivateViewTree(), dv, sv);
 		
 		StackPanel sp = new StackPanel();
-		sp.add(myTree, "Public view");
-		sp.add(priv, "Private view");
+//		sp.add(myTree, "Public view");
+//		sp.add(priv, "Private view");
 		sp.setWidth("300px");
 //		sp.setHeight("100%");
 
