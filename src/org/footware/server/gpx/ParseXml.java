@@ -15,14 +15,6 @@
  */
 
 package org.footware.server.gpx;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.math.BigDecimal;
-
-import org.footware.server.gpx.model.GPSHelperFunctions;
-import org.footware.server.gpx.model.GPXTrackPoint;
-import org.joda.time.DateTime;
 
 /**
  * 

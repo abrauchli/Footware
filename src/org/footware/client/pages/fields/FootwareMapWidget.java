@@ -31,7 +31,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class FootwareMapWidget extends Composite {
 
-    private static String EPSG4326 = "EPSG:4326";
+    @SuppressWarnings("unused")
+	private static String EPSG4326 = "EPSG:4326";
 
     private final Panel panel;
 //    private Map map;

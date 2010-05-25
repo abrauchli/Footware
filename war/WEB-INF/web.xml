@@ -28,15 +28,12 @@
 		<servlet-name>trackUploadServlet</servlet-name>
 		<servlet-class>org.footware.server.services.TrackUploadServlet</servlet-class>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>trackUploadServlet</servlet-name>
-		<url-pattern>/footware/trackUpload</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>trackServlet</servlet-name>
-		<url-pattern>/footware/track</url-pattern>
-	</servlet-mapping>
+	<servlet>
+		<servlet-name>outlineService</servlet-name>
+		<servlet-class>org.footware.server.services.OutlineService</servlet-class>
+	</servlet>
+	
+	
 
 	<!-- H2 DB Console applet -->
 	<servlet>
@@ -50,6 +47,19 @@
 		-->
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>outlineService</servlet-name>
+		<url-pattern>/footware/outline</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>trackUploadServlet</servlet-name>
+		<url-pattern>/footware/trackUpload</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>trackServlet</servlet-name>
+		<url-pattern>/footware/track</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>greetServlet</servlet-name>
 		<url-pattern>/footware/greet</url-pattern>

@@ -31,14 +31,13 @@ public class AllTracksPage extends AbstractTablePage {
 	}
 
 	@Override
-	public String[][] execLoadTableData() {
-		return null;
+	public void execLoadTableData() {
 		// return new String[][] { {
 		// "Please search first to narrow down the selection" } };
 	}
 
 	@Override
-	public String[][] execLoadTableData(AbstractSearchData search) {
+	public void execLoadTableData(AbstractSearchData search) {
 		// TODO andy methode um tracks abhängig von suche als tabelle zu laden.
 		// kann eventuell als separater service implementiert werden: service
 		// holt DTOs und erstellt String[][] auf server
@@ -48,7 +47,7 @@ public class AllTracksPage extends AbstractTablePage {
 			result[i] = new String[] { "bogus track", "dumbo user", "666",
 					"500 miles", "8.11.1984", "0" };
 		}
-		return result;
+		setTableData(result);
 	}
 
 	@Override

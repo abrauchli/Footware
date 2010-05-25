@@ -17,7 +17,6 @@
 package org.footware.client;
 
 import org.footware.client.desktop.Desktop;
-import org.footware.client.pages.fields.VisualizationWidget;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -31,6 +30,7 @@ public class Footware implements EntryPoint {
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
 	 */
+	@SuppressWarnings("unused")
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
@@ -38,6 +38,7 @@ public class Footware implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
+	@SuppressWarnings("unused")
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 

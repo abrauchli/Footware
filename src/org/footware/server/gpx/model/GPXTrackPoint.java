@@ -17,6 +17,7 @@
 package org.footware.server.gpx.model;
 
 import java.math.BigDecimal;
+
 import org.joda.time.DateTime;
 
 public class GPXTrackPoint {

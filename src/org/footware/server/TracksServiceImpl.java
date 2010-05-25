@@ -16,9 +16,6 @@
 
 package org.footware.server;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +24,6 @@ import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackFactory;
 import org.footware.server.gpx.TrackVisualizationElevationStrategy;
 import org.footware.server.gpx.TrackVisualizationFactory;
-import org.footware.server.gpx.TrackVisualizationSpeedStrategy;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.shared.dto.ConfigDTO;
 import org.footware.shared.dto.TrackDTO2;

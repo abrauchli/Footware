@@ -1,7 +1,7 @@
 package org.footware.server;
 
-import org.footware.server.db.HibernateUtil;
 import org.footware.server.db.Comment;
+import org.footware.server.db.HibernateUtil;
 import org.footware.server.db.Tag;
 import org.footware.server.db.Track;
 import org.footware.server.db.User;

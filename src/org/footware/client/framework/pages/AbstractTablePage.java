@@ -23,6 +23,7 @@ import org.footware.client.framework.tree.AbstractTreeNode;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
@@ -30,6 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class AbstractTablePage extends AbstractPage {
 	private FlexTable table;
 	private List<String> headers;
+	private String[][] tableData;
 
 	public AbstractTablePage(AbstractTreeNode treeNode) {
 		super(treeNode);
@@ -42,12 +44,17 @@ public abstract class AbstractTablePage extends AbstractPage {
 	}
 
 	protected void loadTableData(AbstractSearchData search) {
-		String[][] tableData;
 		if (search == null) {
-			tableData = execLoadTableData();
+			execLoadTableData();
 		} else {
-			tableData = execLoadTableData(search);
+			execLoadTableData(search);
 		}
+		if (tableData != null) {
+			updateTable();
+		}
+	}
+
+	private void updateTable() {
 		if (tableData != null) {
 			for (int i = 0; i < tableData.length; i++) {
 				for (int k = 0; k < tableData[i].length; k++) {
@@ -123,10 +130,26 @@ public abstract class AbstractTablePage extends AbstractPage {
 		}
 	}
 
-	public abstract String[][] execLoadTableData();
+	/**
+	 * use the callback function setTableData(String[][]) in a service call
+	 */
+	public abstract void execLoadTableData();
 
-	public String[][] execLoadTableData(AbstractSearchData search) {
-		return execLoadTableData();
+	/**
+	 * use the callback function setTableData(String[][]) in a service call
+	 */
+	public void execLoadTableData(AbstractSearchData search) {
+		execLoadTableData();
+	}
+
+	/**
+	 * DO NOT OVERRIDE
+	 * 
+	 * @param data
+	 */
+	public void setTableData(String[][] data) {
+		tableData = data;
+		updateTable();
 	}
 
 	@Override
@@ -162,6 +185,10 @@ public abstract class AbstractTablePage extends AbstractPage {
 	 */
 	public boolean getConfiguredDisplayHeaders() {
 		return true;
+	}
+	
+	public void displayError(String msg){
+		Window.alert(msg);
 	}
 
 }

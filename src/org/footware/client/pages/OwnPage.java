@@ -18,7 +18,6 @@ package org.footware.client.pages;
 
 import org.footware.client.framework.pages.AbstractFormPage;
 import org.footware.client.framework.tree.AbstractTreeNode;
-import org.hibernate.envers.synchronization.work.AddWorkUnit;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
