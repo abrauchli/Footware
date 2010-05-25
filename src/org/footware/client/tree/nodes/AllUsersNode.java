@@ -60,7 +60,7 @@ public class AllUsersNode extends AbstractTreeNode {
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Mo connection to server");
+				noConnection();
 			}
 		});
 	}

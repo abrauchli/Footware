@@ -16,37 +16,35 @@
 
 package org.footware.client.tree.nodes;
 
-import java.util.List;
-
 import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.TrackDetailPage;
 import org.footware.shared.dto.TrackDTO;
 
+public class TrackNode extends AbstractTreeNode {
 
-public class TrackNode extends AbstractTreeNode{
+	private TrackDTO myTrack;
 
-	
-	public TrackNode() {
-		
+	public TrackNode(TrackDTO track) {
+		myTrack = track;
 	}
+
 	@Override
 	protected void execCreateChildren() {
 	}
 
-	private TrackDTO myTrack;
-	
-	
 	public TrackDTO getMyTrack() {
 		return myTrack;
 	}
+
 	public void setMyTrack(TrackDTO myTrack) {
 		this.myTrack = myTrack;
 	}
+
 	@Override
 	public String getConfiguredName() {
-		//TODO use trackname from DTO or something like that.
+		// TODO use trackname from DTO or something like that.
 		return "GETTRACKNAME";
 	}
 
@@ -55,7 +53,7 @@ public class TrackNode extends AbstractTreeNode{
 		TrackDetailPage p = new TrackDetailPage(this);
 		p.setMyTrack(myTrack);
 		return p;
-		
+
 	}
 
 	@Override

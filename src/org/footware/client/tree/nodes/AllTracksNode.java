@@ -25,26 +25,44 @@ import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.AllTracksPage;
 import org.footware.client.search.TrackSearch;
+import org.footware.client.services.OutlineService;
+import org.footware.client.services.OutlineServiceAsync;
+import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AllTracksNode extends AbstractTreeNode {
 
 	@Override
 	protected void execCreateChildren() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
-	protected void execCreateChildren(
-			AbstractSearchData search) {
+	protected void execCreateChildren(AbstractSearchData search) {
 		// TODO andy hier brauche ich eine methode um tracks entsprechend der
 		// suche zu holen (von mir aus list<trackDTO>
-		ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
+		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		TrackSearchData sd = (TrackSearchData) search;
-		for (int i = 0; i < sd.value; i++) {
-			children.add(new TrackNode());
-		}
-		setChildNodes(children);
+		svc.getTrackList(sd, new AsyncCallback<List<TrackDTO>>() {
+
+			@Override
+			public void onSuccess(List<TrackDTO> result) {
+				ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
+				for (TrackDTO t : result) {
+					children.add(new TrackNode(t));
+				}
+				setChildNodes(children);
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				noConnection();
+			}
+		});
+
 	}
 
 	@Override

@@ -22,4 +22,5 @@ import org.footware.client.framework.search.AbstractSearchData;
 
 public class TrackSearchData extends AbstractSearchData implements Serializable{
 	public int value;
+	public UserDTO user;
 }

@@ -23,13 +23,15 @@ import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTree;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.tree.nodes.OwnPageNode;
+import org.footware.shared.dto.UserDTO;
 
 public class PrivateViewTree extends AbstractTree {
 
 	@Override
 	public List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		children.add(new OwnPageNode());
+		//TODO get the logged in user here
+		children.add(new OwnPageNode(new UserDTO()));
 		return children;
 	}
 

@@ -22,6 +22,7 @@ import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.search.AbstractSearchForm;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -146,5 +147,7 @@ public abstract class AbstractTreeNode extends TreeItem {
 	public void lazyLoad() {
 		getPage().execLazyload();
 	}
-
+	public void noConnection(){
+		Window.alert("Mo connection to server");
+	}
 }
