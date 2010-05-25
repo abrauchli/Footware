@@ -1,9 +1,11 @@
-DROP TABLE user     IF EXISTS;
-DROP TABLE track    IF EXISTS;
-DROP TABLE tag      IF EXISTS;
+DROP TABLE user      IF EXISTS;
+DROP TABLE track     IF EXISTS;
+DROP TABLE tag       IF EXISTS;
 DROP TABLE track_tag IF EXISTS;
 DROP TABLE `comment` IF EXISTS;
-DROP VIEW  user_tag IF EXISTS;
+DROP VIEW  user_tag  IF EXISTS;
+DROP TABLE  tracksegment IF EXISTS;
+DROP TABLE  trackpoint   IF EXISTS;
 
 CREATE TABLE user (
     id          INTEGER         NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -25,8 +27,8 @@ CREATE TABLE track (
 
     trackpoints INTEGER         DEFAULT(0),         /* number of points in the track */
     length      INTEGER         DEFAULT(0),         /* track length in meters */
-    mid_latitude    DOUBLE      DEFAULT(0),         /* mean latitude of the track */,
-    mid_longitude   DOUBLE      DEFAULT(0),         /* mean longitude of the track */
+    mid_latitude    DOUBLE      DEFAULT(0.0),       /* mean latitude of the track */
+    mid_longitude   DOUBLE      DEFAULT(0.0),       /* mean longitude of the track */
     time_start  DATETIME,                           /* timestamp of the first trackpoint; timezones? */
 
     FOREIGN KEY (user_id)    REFERENCES user (id)
@@ -75,22 +77,22 @@ CREATE TABLE `comment` (
     FOREIGN KEY (user_id)       REFERENCES user (id)
 );
 
-CREATE TABLE trackpoint (
-    id            BIGINT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    tracksegment_id    INTEGER      NOT NULL,
-    latitude     DOUBLE             NOT NULL DEFAULT(0),
-    longitude    DOUBLE             NOT NULL DEFAULT(0),
-    time         DATETIME,
-    speed        DOUBLE,
-
-    FOREIGN KEY (tracksegment_id) REFERENCES tracksegment (id)
-);
-
 CREATE TABLE tracksegment (
     id           INTEGER            NOT NULL AUTO_INCREMENT PRIMARY KEY,
     max_speed    INTEGER            NOT NULL DEFAULT(0),
     max_elevation    INTEGER        NOT NULL DEFAULT(0),
     min_elevation    INTEGER        NOT NULL DEFAULT(0),
     length       INTEGER            NOT NULL DEFAULT(0)
+);
+
+CREATE TABLE trackpoint (
+    id            BIGINT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tracksegment_id    INTEGER      NOT NULL,
+    latitude     DOUBLE             NOT NULL DEFAULT(0.0),
+    longitude    DOUBLE             NOT NULL DEFAULT(0.0),
+    time         DATETIME,
+    speed        DOUBLE,
+
+    FOREIGN KEY (tracksegment_id) REFERENCES tracksegment (id)
 );
 
