@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,7 +32,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TagDTO;
@@ -74,22 +77,24 @@ public class Track extends DbEntity implements Serializable {
 
 	private double length;
 
-	@Column(name = "mid_latitude")
+	@Column(name="mid_latitude")
 	private double midLatitude;
 
-	@Column(name = "mid_longitude")
+	@Column(name="mid_longitude")
 	private double midLongitude;
 
-	@Column(name = "time_start")
+	@Column(name="time_start")
 	private Date startTime;
 
-	@ManyToAny(metaColumn = @Column(name = "comment_id"), fetch = FetchType.EAGER)
+	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.EAGER)
 	private List<Comment> comments = new LinkedList<Comment>();
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	private List<TrackSegment> segments = new LinkedList<TrackSegment>();
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@JoinColumn(name="track_id")
+	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@JoinColumn(name="track_id")
 	private Set<Tag> tags = new HashSet<Tag>();
 
 	protected Track() {
@@ -368,7 +373,7 @@ public class Track extends DbEntity implements Serializable {
 	 * Gets the segments belonging to this track
 	 * @return segments of this track
 	 */
-	public List<TrackSegment> getSegments() {
+	public Set<TrackSegment> getSegments() {
 		Hibernate.initialize(segments);
 		return segments;
 	}

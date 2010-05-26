@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,6 +28,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
@@ -58,10 +60,10 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	private double length = 0.0;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Track track;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
 	private List<Trackpoint> trackpoints = new LinkedList<Trackpoint>();
 
 	/**
