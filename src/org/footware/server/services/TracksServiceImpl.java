@@ -24,7 +24,7 @@ import org.footware.client.services.TrackService;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackFactory;
 import org.footware.server.gpx.TrackVisualizationElevationStrategy;
-import org.footware.server.gpx.TrackVisualizationFactory;
+import org.footware.server.gpx.TrackVisualizationFactoryImpl;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.shared.dto.ConfigDTO;
 import org.footware.shared.dto.TrackDTO;

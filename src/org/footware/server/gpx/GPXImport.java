@@ -74,9 +74,9 @@ public class GPXImport implements TrackImporter {
 		logger.info("Import file: " + file.getAbsolutePath());
 		List<GPXTrack> gpxTracks = parseXML(file);
 
-		TrackVisualizationFactory speedFactory = new TrackVisualizationFactory(
+		TrackVisualizationFactoryImpl speedFactory = new TrackVisualizationFactoryImpl(
 				new TrackVisualizationSpeedStrategy());
-		TrackVisualizationFactory elevationFactory = new TrackVisualizationFactory(
+		TrackVisualizationFactoryImpl elevationFactory = new TrackVisualizationFactoryImpl(
 				new TrackVisualizationElevationStrategy());
 
 		for (GPXTrack track : gpxTracks) {
