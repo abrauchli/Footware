@@ -16,7 +16,6 @@
 
 package org.footware.server.gpx;
 
-import java.io.File;
 
 /**
  * 

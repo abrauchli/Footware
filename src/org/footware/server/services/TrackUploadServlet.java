@@ -39,6 +39,7 @@ import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
 import org.footware.shared.dto.TrackDTO;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,14 +47,14 @@ import org.slf4j.LoggerFactory;
 public class TrackUploadServlet extends HttpServlet {
 
 	private Logger logger;
-	
-	private static HashMap <String,TrackImporter> importerMap = new HashMap<String, TrackImporter>();
+
+	private static HashMap<String, TrackImporter> importerMap = new HashMap<String, TrackImporter>();
 
 	static {
 		importerMap.put("gpx", new GPXImport());
 		// Importer for different formats can be added here
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -64,9 +65,7 @@ public class TrackUploadServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
 		logger = LoggerFactory.getLogger(TrackUploadServlet.class);
-		
 
 		// Check that we have a file upload request
 		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
@@ -79,7 +78,8 @@ public class TrackUploadServlet extends HttpServlet {
 		int privacy = 0;
 		Boolean comments = false;
 		String fileName = null;
-		String email = null;;
+		String email = null;
+		;
 		FileItem file = null;
 
 		if (isMultipart) {
@@ -122,21 +122,22 @@ public class TrackUploadServlet extends HttpServlet {
 							&& item.getFieldName().equals("file")) {
 
 						// Get file name
-						 fileName = item.getName();
+						fileName = item.getName();
 
 						// If file is not set, we cancel import
 						if (fileName == null) {
 							logger.info("empty file name");
 							break;
 						}
-						logger.info("received file:" + fileName);
 
 						// We have to parse the filename because of IE again
-						if (fileName != null) {
+						else {
+							logger.info("received file:" + fileName);
 							fileName = FilenameUtils.getName(fileName);
+
+							file = item;
+
 						}
-						
-						file = item;
 
 						// Read notes field
 					} else if (item.isFormField()
@@ -179,6 +180,56 @@ public class TrackUploadServlet extends HttpServlet {
 						logger.debug("name" + ": " + item.getString());
 					}
 				}
+
+				// If we read all fields, we can start the import
+				if (file != null) {
+
+					// Get UserDTO
+					User user = (User) req.getSession().getAttribute("user");
+						
+//						UserUtil.getByEmail(email);
+					logger.info("User: " + user.getFullName() + " "
+							+ user.getEmail());
+					String userDirectoryString = user.getEmail().replace("@",
+							"_at_");
+
+					File baseDirectory = initFileStructure(userDirectoryString);
+
+					// If already a file exist with the same name, we have
+					// to search for a new name
+					extension = fileName.substring(fileName.length() - 3,
+							fileName.length());
+					uploadedFile = getSavePath(baseDirectory.getAbsolutePath(),
+							fileName);
+					logger.debug(uploadedFile.getAbsolutePath());
+
+					// Finally write the file to disk
+					try {
+						file.write(uploadedFile);
+					} catch (Exception e) {
+						logger.error("File upload unsucessful", e);
+						e.printStackTrace();
+					}
+
+					TrackImporter importer = importerMap.get(extension);
+					importer.importTrack(uploadedFile);
+
+					// Add meta information to track
+					for (TrackDTO track : importer.getTracks()) {
+						track.setCommentsEnabled(comments);
+						track.setNotes(notes);
+						track.setPublicity(privacy);
+						track.setFilename(uploadedFile.getAbsolutePath());
+						Track dbTrack = new Track(track);
+						dbTrack.setPath(fileName);
+						dbTrack.setUser(user);
+						Track finalTrack = new Track(track);
+						finalTrack.store();
+					}
+
+				} else {
+					logger.error("error: file: " + (file != null));
+				}
 			} catch (FileUploadException e1) {
 				logger.error("File upload unsucessful", e1);
 				e1.printStackTrace();
@@ -186,48 +237,6 @@ public class TrackUploadServlet extends HttpServlet {
 				logger.error("File upload unsucessful", e);
 				e.printStackTrace();
 			}
-		}
-
-		// If we read all fields, we can start the import
-		if (uploadedFile != null && file != null) {
-			
-			//Get User
-			User user = UserUtil.getByEmail(email);
-			logger.info("User: " + user.getFullName() + " " + user.getEmail());
-			String userDirectoryString = user.getEmail().replace("@", "_at_");
-			
-			File baseDirectory = initFileStructure(userDirectoryString);
-			
-			// If already a file exist with the same name, we have
-			// to search for a new name
-			extension = fileName.substring(fileName.length() - 3, fileName
-					.length());
-			uploadedFile = getSavePath(baseDirectory
-					.getAbsolutePath(), fileName);
-			logger.debug(uploadedFile.getAbsolutePath());
-
-			// Finally write the file to disk
-			try {
-				file.write(uploadedFile);
-			} catch (Exception e) {
-				logger.error("File upload unsucessful", e);
-				e.printStackTrace();
-			}
-			
-			TrackImporter importer = importerMap.get(extension);
-			importer.importTrack(uploadedFile);
-
-			// Add meta information to track
-			for (TrackDTO track : importer.getTracks()) {
-				track.setCommentsEnabled(comments);
-				track.setNotes(notes);
-				track.setPublicity(privacy);
-				track.setFilename(uploadedFile.getAbsolutePath());
-				Track dbTrack = new Track(track);
-				dbTrack.setPath(fileName);
-				dbTrack.setUser(user);
-			}
-
 		}
 	}
 

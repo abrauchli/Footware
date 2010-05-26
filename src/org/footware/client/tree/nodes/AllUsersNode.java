@@ -31,11 +31,12 @@ import org.footware.shared.dto.UserDTO;
 import org.footware.shared.dto.UserSearchData;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AllUsersNode extends AbstractTreeNode {
-
+	public AllUsersNode() {
+		init();
+	}
 	private boolean admin = false;
 
 	@Override
@@ -45,7 +46,6 @@ public class AllUsersNode extends AbstractTreeNode {
 
 	@Override
 	protected void execCreateChildren(AbstractSearchData search) {
-		// TODO andy methode um user gemäss suche als list<userDTO> zu erhalten
 		UserSearchData sd = (UserSearchData) search;
 		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		svc.getUserList(sd, new AsyncCallback<List<UserDTO>>() {

@@ -15,8 +15,12 @@ public class AdminViewTree extends AbstractTree {
 	public List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
 		// TODO implement
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		children.add(new AllUsersNode());
-		children.add(new AllTracksNode());
+		AllUsersNode users = new AllUsersNode();
+		users.startAdmin();
+		children.add(users);
+		AllTracksNode tracks = new AllTracksNode();
+		tracks.startAdmin();
+		children.add(tracks);
 
 		return children;
 	}

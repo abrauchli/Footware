@@ -27,15 +27,17 @@ import org.footware.client.pages.AllTracksPage;
 import org.footware.client.search.TrackSearch;
 import org.footware.client.services.OutlineService;
 import org.footware.client.services.OutlineServiceAsync;
-import org.footware.client.tree.AdminViewTree;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AllTracksNode extends AbstractTreeNode {
+	
+	public AllTracksNode() {
+		init();
+	}
 
 	@Override
 	protected void execCreateChildren() {

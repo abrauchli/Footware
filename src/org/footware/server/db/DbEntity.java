@@ -20,9 +20,8 @@ import java.io.Serializable;
 
 import org.footware.server.db.util.HibernateUtil;
 import org.hibernate.HibernateException;
-import org.hibernate.Transaction;
-
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public abstract class DbEntity implements Serializable {
 

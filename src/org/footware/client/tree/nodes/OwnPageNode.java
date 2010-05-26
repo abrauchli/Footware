@@ -35,6 +35,7 @@ public class OwnPageNode extends AbstractTreeNode {
 
 	public OwnPageNode(UserDTO user) {
 		myUser = user;
+		init();
 	}
 
 	@Override

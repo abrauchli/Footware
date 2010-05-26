@@ -38,7 +38,6 @@ public abstract class AbstractTreeNode extends TreeItem {
 
 	public AbstractTreeNode() {
 		super();
-		init();
 	}
 
 	public void init() {
@@ -47,7 +46,7 @@ public abstract class AbstractTreeNode extends TreeItem {
 		setText(getConfiguredName());
 		page = getConfiguredPage();
 	}
-
+	
 	private void reloadChildren() {
 		if (childNodes != null && !childNodes.isEmpty()) {
 			removeItems();

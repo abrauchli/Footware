@@ -34,7 +34,6 @@ public abstract class AbstractPage extends Grid {
 
 	public AbstractPage(AbstractTreeNode treeNode) {
 		super(2, 1);
-		init();
 		this.setTreeNode(treeNode);
 	}
 

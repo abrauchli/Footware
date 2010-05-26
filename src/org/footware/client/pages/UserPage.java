@@ -39,6 +39,7 @@ public class UserPage extends AbstractFormPage {
 	public UserPage(AbstractTreeNode treeNode, UserDTO user) {
 		super(treeNode);
 		myUser = user;
+		init();
 	}
 
 	private UserPageForm content;

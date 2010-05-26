@@ -53,16 +53,14 @@ public class Desktop extends VerticalPanel {
 		// add the tree
 		myTree = new TreeView(new PublicViewTree(), dv, sv);
 
-		// TODO: CHECK if we really need this prior to the user's login!
-		// PrivateViewTree requires a User to be logged in
-
-		priv = new TreeView(new PrivateViewTree(), dv, sv);
+		//priv = new TreeView(new PrivateViewTree(), dv, sv);
 		admin = new TreeView(new AdminViewTree(), dv, sv);
 	
 		myStackPanel = new StackPanel();
 		myStackPanel.add(myTree, "Public view");
-		//TODO remove and only display when authenticated
-		myStackPanel.add(admin, "Administration");
+		
+		//XXX remove and only display when authenticated
+		
 		// sp.add(priv, "Private view");
 		myStackPanel.setWidth("300px");
 		// sp.setHeight("100%");
@@ -84,16 +82,18 @@ public class Desktop extends VerticalPanel {
 		UserDTO u = Session.getUser();
 		if (u != null) {
 			if (u.getIsAdmin()) {
-				admin.setVisible(true);
+				myStackPanel.add(admin, "Administration");
 			}
-			priv = new TreeView(new PrivateViewTree(), dv, sv);
-			myStackPanel.insert(priv,2);
+			PrivateViewTree vt = new PrivateViewTree();
+			priv = new TreeView(vt, dv, sv);
+			myStackPanel.insert(priv,1);
+			myStackPanel.setStackText(1, "Private View");
 		}
 	}
 
 	public void logout() {
-		admin.setVisible(false);
 		myStackPanel.remove(priv);
+		myStackPanel.remove(admin);
 		priv = null;
 	}
 }

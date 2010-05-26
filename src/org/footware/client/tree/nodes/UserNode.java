@@ -40,6 +40,7 @@ public class UserNode extends AbstractTreeNode {
 	public UserNode(UserDTO user) {
 		super();
 		myUser = user;
+		init();
 	}
 
 	@Override
@@ -55,10 +56,13 @@ public class UserNode extends AbstractTreeNode {
 	@Override
 	protected void execCreateChildren() {
 		ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		// TODO andy methode um tracks eines users zu laden
 		for (TrackDTO t : myUser.getTracks()) {
 			TrackNode child = new TrackNode(t);
+			if(admin){
+				child.startAdmin();
+			}
 			children.add(child);
+			
 		}
 		setChildNodes(children);
 	}

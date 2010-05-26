@@ -16,8 +16,6 @@
 
 package org.footware.client.tree.nodes;
 
-import java.util.List;
-
 import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
@@ -30,6 +28,7 @@ public class MyTrackNode extends AbstractTreeNode {
 
 	public MyTrackNode(TrackDTO track) {
 		myTrack = track;
+		init();
 	}
 
 	@Override
