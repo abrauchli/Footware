@@ -19,6 +19,7 @@ package org.footware.shared.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -31,14 +32,17 @@ public class TrackDTO implements Serializable {
 	private long id;
 	private UserDTO user;
 	private String filename;
-	private String path;
+	//private String path;
 	private String notes;
 	private int publicity;
 	private boolean commentsEnabled;
 	private int trackpoints;
-	private int length;
+	private double length;
+	private double midLongitude;
+	private double midLatitude;
 	private Date startTime;
-	private List<CommentDTO> comments;
+	private List<CommentDTO> comments = new LinkedList<CommentDTO>();
+	private List<TrackSegmentDTO> segments = new LinkedList<TrackSegmentDTO>();
 
 	/**
 	 * Gets the id of the corresponding DB row
@@ -80,15 +84,15 @@ public class TrackDTO implements Serializable {
 		this.filename = filename;
 	}
 	
-	@Deprecated
-	public String getPath() {
-		return path;
-	}
-	
-	@Deprecated
-	public void setPath(String path) {
-		this.path = path;
-	}
+//	@Deprecated
+//	public String getPath() {
+//		return path;
+//	}
+//	
+//	@Deprecated
+//	public void setPath(String path) {
+//		this.path = path;
+//	}
 	
 	/**
 	 * Gets the authors track notes
@@ -151,7 +155,6 @@ public class TrackDTO implements Serializable {
 	 * Should probably not be used from the client side
 	 * @param trackpoints number of track points on this track
 	 */
-	@Deprecated
 	public void setTrackpoints(int trackpoints) {
 		this.trackpoints = trackpoints;
 	}
@@ -160,7 +163,7 @@ public class TrackDTO implements Serializable {
 	 * Gets the length in meters (TODO: Check unit) of this track
 	 * @return the length in meters of this track
 	 */
-	public int getLength() {
+	public double getLength() {
 		return length;
 	}
 	
@@ -169,8 +172,7 @@ public class TrackDTO implements Serializable {
 	 * Should probably not be used from the client side
 	 * @param length new length in meters for this track
 	 */
-	@Deprecated
-	public void setLength(int length) {
+	public void setLength(double length) {
 		this.length = length;
 	}
 	
@@ -187,7 +189,6 @@ public class TrackDTO implements Serializable {
 	 * Should probably not be used from the client side
 	 * @param startTime time of the first track point in this track
 	 */
-	@Deprecated
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
@@ -199,7 +200,54 @@ public class TrackDTO implements Serializable {
 	public List<CommentDTO> getComments() {
 		return comments;
 	}
+
+	/**
+	 * Gets the mean longitude of the track
+	 * @return mean longitude of the track
+	 */
+	public double getMidLongitude() {
+		return midLongitude;
+	}
+
+	/**
+	 * Sets the mean longitude of the track
+	 * @param midLongitude mean longitude of the track
+	 */
+	public void setMidLongitude(double midLongitude) {
+		this.midLongitude = midLongitude;
+	}
+
+	/**
+	 * Gets the mean latitude of the track
+	 * @return mean latitude of the track
+	 */
+	public double getMidLatitude() {
+		return midLatitude;
+	}
+
+	/**
+	 * Sets the mean latitude of the track
+	 * @param midLatitude mean latitude of the track
+	 */
+	public void setMidLatitude(double midLatitude) {
+		this.midLatitude = midLatitude;
+	}
 	
+
+	/**
+	 * @return the segments
+	 */
+	public List<TrackSegmentDTO> getSegments() {
+		return segments;
+	}
+	
+	/**
+	 * @param segment the segment to add
+	 */
+	public void addSegment(TrackSegmentDTO segment) {
+		segments.add(segment);
+	}
+
 	/**
 	 * Adds a new comment to this track
 	 * Note: the user writing the comment is registered in the comment object

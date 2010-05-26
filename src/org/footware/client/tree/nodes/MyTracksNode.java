@@ -35,12 +35,9 @@ public class MyTracksNode extends AbstractTreeNode {
 
 	@Override
 	protected void execCreateChildren() {
-		// TODO andy methode um tracks eines users zu laden
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 		for (TrackDTO t : myUser.getTracks()) {
-
 			children.add(new MyTrackNode(t));
-
 		}
 
 		setChildNodes(children);

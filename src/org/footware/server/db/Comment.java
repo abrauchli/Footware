@@ -33,7 +33,7 @@ import org.footware.shared.dto.CommentDTO;
  * Class for ER mapping of comments
  */
 @Entity
-public class Comment implements Serializable {
+public class Comment extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -138,6 +138,16 @@ public class Comment implements Serializable {
 	 */
 	public void setTime(Date time) {
 		this.time = time;
+	}
+
+	/**
+	 * Gets a CommentDTO representing this current object's state
+	 * @return CommentDTO representing this object's state
+	 */
+	public CommentDTO getCommentDTO() {
+		CommentDTO c = new CommentDTO(text, user.getUserDTO());
+		c.setTime(time);
+		return c;
 	}
 
 }

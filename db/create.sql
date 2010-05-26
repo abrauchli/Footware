@@ -1,9 +1,11 @@
-DROP TABLE user     IF EXISTS;
-DROP TABLE track    IF EXISTS;
-DROP TABLE tag      IF EXISTS;
+DROP TABLE user      IF EXISTS;
+DROP TABLE track     IF EXISTS;
+DROP TABLE tag       IF EXISTS;
 DROP TABLE track_tag IF EXISTS;
 DROP TABLE `comment` IF EXISTS;
-DROP VIEW  user_tag IF EXISTS;
+DROP VIEW  user_tag  IF EXISTS;
+DROP TABLE  tracksegment IF EXISTS;
+DROP TABLE  trackpoint   IF EXISTS;
 
 CREATE TABLE user (
     id          INTEGER         NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -25,9 +27,11 @@ CREATE TABLE track (
 
     trackpoints INTEGER         DEFAULT(0),         /* number of points in the track */
     length      INTEGER         DEFAULT(0),         /* track length in meters */
+    mid_latitude    DOUBLE      DEFAULT(0.0),       /* mean latitude of the track */
+    mid_longitude   DOUBLE      DEFAULT(0.0),       /* mean longitude of the track */
     time_start  DATETIME,                           /* timestamp of the first trackpoint; timezones? */
 
-    FOREIGN KEY (user_id)	REFERENCES user (id)
+    FOREIGN KEY (user_id)    REFERENCES user (id)
 );
 COMMENT ON COLUMN track.filename    IS 'original filename as uploaded';
 COMMENT ON COLUMN track.path        IS 'path on server where the file is saved';
@@ -36,6 +40,8 @@ COMMENT ON COLUMN track.publicity   IS '0 track is private, (1 selected users, 2
 COMMENT ON COLUMN track.comments_enabled IS 'can other users post comments';
 COMMENT ON COLUMN track.trackpoints IS 'number of points in the track';
 COMMENT ON COLUMN track.length      IS 'track length in meters';
+COMMENT ON COLUMN track.mid_latitude IS 'mean latitude of the track';
+COMMENT ON COLUMN track.mid_longitude IS 'mean longitude of the track';
 COMMENT ON COLUMN track.time_start  IS 'timestamp of the first trackpoint; timezones?';
 
 CREATE TABLE tag (
@@ -48,8 +54,8 @@ CREATE TABLE track_tag (
     tag_id      INTEGER         NOT NULL,
 
     PRIMARY KEY (track_id, tag_id),
-    FOREIGN KEY (track_id)	REFERENCES track (id),
-    FOREIGN KEY (tag_id)      	REFERENCES tag (id)
+    FOREIGN KEY (track_id)      REFERENCES track (id),
+    FOREIGN KEY (tag_id)        REFERENCES tag (id)
 );
 
 CREATE VIEW user_tag (
@@ -67,25 +73,26 @@ CREATE TABLE `comment` (
     user_id     INTEGER         NOT NULL,
     text        VARCHAR(256)    NOT NULL,
 
-    FOREIGN KEY (track_id)	REFERENCES track (id),
-    FOREIGN KEY (user_id)	REFERENCES user (id)
-);
-
-CREATE TABLE trackpoint (
-	id			BIGINT			NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	tracksegment_id	INTEGER		NOT NULL,
-	latitude	DECIMAL(3,10)	NOT NULL DEFAULT(0),
-	longitude	DECIMAL(3,10)	NOT NULL DEFAULT(0),
-	time		DATETIME,
-	speed		DECIMAL(5,2)
-
-	FOREIGN KEY (tracksegment_id) REFERENCES tracksegment (id)
+    FOREIGN KEY (track_id)      REFERENCES track (id),
+    FOREIGN KEY (user_id)       REFERENCES user (id)
 );
 
 CREATE TABLE tracksegment (
-	id			INTEGER			NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	max_speed	INTEGER			NOT NULL DEFAULT(0),
-	max_elevation	INTEGER		NOT NULL DEFAULT(0),
-	min_elevation	INTEGER		NOT NULL DEFAULT(0),
-	length		INTEGER			NOT NULL DEFAULT(0)
+    id           INTEGER            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    max_speed    INTEGER            NOT NULL DEFAULT(0),
+    max_elevation    INTEGER        NOT NULL DEFAULT(0),
+    min_elevation    INTEGER        NOT NULL DEFAULT(0),
+    length       INTEGER            NOT NULL DEFAULT(0)
 );
+
+CREATE TABLE trackpoint (
+    id            BIGINT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tracksegment_id    INTEGER      NOT NULL,
+    latitude     DOUBLE             NOT NULL DEFAULT(0.0),
+    longitude    DOUBLE             NOT NULL DEFAULT(0.0),
+    time         DATETIME,
+    speed        DOUBLE,
+
+    FOREIGN KEY (tracksegment_id) REFERENCES tracksegment (id)
+);
+

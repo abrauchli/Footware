@@ -16,9 +16,11 @@
 
 package org.footware.client.dialogs;
 
+import org.footware.client.Session;
 import org.footware.client.desktop.TopMenu;
 import org.footware.client.services.LoginService;
 import org.footware.client.services.LoginServiceAsync;
+import org.footware.shared.dto.UserDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -34,7 +36,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class LoginBox extends DialogBox {
 	private TopMenu myTopMenu;
-	private TextBox username;
+	private TextBox email;
 	private PasswordTextBox password;
 
 	public LoginBox(TopMenu container) {
@@ -45,11 +47,11 @@ public class LoginBox extends DialogBox {
 		setText("Login");
 
 		Grid g = new Grid(4, 2);
-		username = new TextBox();
+		email = new TextBox();
 		password = new PasswordTextBox();
 
-		g.setWidget(0, 0, new HTML("Username"));
-		g.setWidget(0, 1, username);
+		g.setWidget(0, 0, new HTML("Email Address"));
+		g.setWidget(0, 1, email);
 
 		g.setWidget(1, 0, new HTML("Password"));
 		g.setWidget(1, 1, password);
@@ -88,20 +90,20 @@ public class LoginBox extends DialogBox {
 
 	private void login() {
 		// input verification
-		if (username.getValue().equals("") || password.getValue().equals("")) {
-			Window.alert("Username and Password must be filled out");
+		if (email.getValue().equals("") || password.getValue().equals("")) {
+			Window.alert("Email and password must be filled out");
 			return;
 		}
 
 		// call server, get authentication
 		LoginServiceAsync svc = GWT.create(LoginService.class);
-		svc.login(username.getValue(), password.getValue(),
-				new AsyncCallback<String>() {
+		svc.login(email.getValue(), password.getValue(),
+				new AsyncCallback<UserDTO>() {
 
 					@Override
-					public void onSuccess(String result) {
-						// save session key
-						Window.alert(result);
+					public void onSuccess(UserDTO user) {
+						Window.alert("Hello "+ user.getFullName());
+						Session.setUser(user);
 						// do gui changes
 						myTopMenu.login();
 						hide();
@@ -109,8 +111,7 @@ public class LoginBox extends DialogBox {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window
-								.alert("There was a Problem contacting the server: "
+						Window.alert("There was a Problem contacting the server: "
 										+ caught.getMessage());
 					}
 				});

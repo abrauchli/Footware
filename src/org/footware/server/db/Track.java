@@ -39,58 +39,64 @@ import org.hibernate.annotations.ManyToAny;
  * Class for ER mapping of Tracks
  */
 @Entity
-public class Track implements Serializable {
+public class Track extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	//@Column(nullable=false)
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	// @Column(nullable=false)
 	private User user;
-	
-	@Column(length=128,nullable=false)
+
+	@Column(length = 128, nullable = false)
 	private String filename;
-	
-	@Column(length=128)
+
+	@Column(length = 128)
 	private String path;
-	
-	@Column(length=256)
+
+	@Column(length = 256)
 	private String notes;
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	private int publicity;
-	
+
 	private boolean commentsEnabled;
 	private int trackpoints;
-	private int length;
+	private double length;
+	private double midLongitude;
+	private double midLatitude;
 	private Date startTime;
-	
-	@ManyToAny(metaColumn=@Column(name="comment_id"), fetch=FetchType.LAZY)
+
+	@ManyToAny(metaColumn = @Column(name = "comment_id"), fetch = FetchType.LAZY)
 	private List<Comment> comments;
-	
-	protected Track() {}
-	
+
+	protected Track() {
+	}
+
 	/**
 	 * Create a track for persistence
-	 * @param u User owning the track
-	 * @param filename filename (as uploaded) of the track
-	 * @param path path where the track is saved on the server TODO: remove?
+	 * 
+	 * @param u
+	 *            User owning the track
+	 * @param filename
+	 *            filename (as uploaded) of the track
+	 * @param path
+	 *            path where the track is saved on the server TODO: remove?
 	 */
 	public Track(User u, String filename, String path) {
 		this.user = u;
 		this.filename = filename;
 		this.path = path;
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	public Track(TrackDTO track) {
 		this.id = track.getId();
 		this.user = new User(track.getUser());
 		this.filename = track.getFilename();
-		this.path = track.getPath();
+		// this.path = track.getPath(); //cannot be modified by the client
 		this.notes = track.getNotes();
 		this.publicity = track.getPublicity();
 		this.commentsEnabled = track.isCommentsEnabled();
@@ -107,167 +113,260 @@ public class Track implements Serializable {
 
 	/**
 	 * Gets the id of the corresponding DB row
+	 * 
 	 * @return the ID of the row in the DB
 	 */
 	public long getId() {
 		return id;
 	}
-	
+
 	/**
 	 * Gets the user belonging to this track
+	 * 
 	 * @return this track's user
 	 */
 	public User getUser() {
 		return user;
 	}
-	
+
 	/**
 	 * Sets the user owning this track
-	 * @param user new user owning this track
+	 * 
+	 * @param user
+	 *            new user owning this track
 	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	/**
 	 * Gets the tracks original filename (as uploaded)
+	 * 
 	 * @return the tracks original filename
 	 */
 	public String getFilename() {
 		return filename;
 	}
-	
+
 	/**
 	 * Sets the tracks filename (as uploaded)
-	 * @param filename new filename
+	 * 
+	 * @param filename
+	 *            new filename
 	 */
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-	
+
 	public String getPath() {
 		return path;
 	}
+
 	public void setPath(String path) {
 		this.path = path;
 	}
-	
+
 	/**
 	 * Gets the authors track notes
+	 * 
 	 * @return authors track notes
 	 */
 	public String getNotes() {
 		return notes;
 	}
-	
+
 	/**
 	 * Sets the authors track notes
+	 * 
 	 * @param notes
 	 */
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-	
+
 	/**
-	 * Gets the publicity (permission) level for this track
+	 * Gets the publicity (permission) level for this track: 0 track is private,
+	 * (not yet implemented: 1 selected users, 2 selected group, 3 friends, 4
+	 * registered users), 5 public
+	 * 
 	 * @return the publicity (permission) level for this track
 	 */
 	public int getPublicity() {
 		return publicity;
 	}
-	
+
 	/**
-	 * Sets the publicity (permission) level for this track
-	 * @param publicity new publicity (permission) level for this track
+	 * Sets the publicity (permission) level for this track: 0 track is private,
+	 * (not yet implemented: 1 selected users, 2 selected group, 3 friends, 4
+	 * registered users), 5 public
+	 * 
+	 * @param publicity
+	 *            new publicity (permission) level for this track
 	 */
 	public void setPublicity(int publicity) {
 		this.publicity = publicity;
 	}
-	
+
 	/**
 	 * Gets whether commenting this track is enabled
+	 * 
 	 * @return true if enabled
 	 */
 	public boolean isCommentsEnabled() {
 		return commentsEnabled;
 	}
-	
+
 	/**
 	 * Sets whether commenting this track is enabled
-	 * @param commentsEnabled true if enabled (existing comments will not be deleted if disabled)
+	 * 
+	 * @param commentsEnabled
+	 *            true if enabled (existing comments will not be deleted if
+	 *            disabled)
 	 */
 	public void setCommentsEnabled(boolean commentsEnabled) {
 		this.commentsEnabled = commentsEnabled;
 	}
-	
+
 	/**
 	 * Gets the number of track points for this track
+	 * 
 	 * @return number of track points for this track
 	 */
 	public int getTrackpoints() {
 		return trackpoints;
 	}
-	
+
 	/**
-	 * Sets the number of track points for this track
-	 * Should probably not be used from the client side
-	 * @param trackpoints number of track points on this track
+	 * Sets the number of track points for this track Should probably not be
+	 * used from the client side
+	 * 
+	 * @param trackpoints
+	 *            number of track points on this track
 	 */
 	public void setTrackpoints(int trackpoints) {
 		this.trackpoints = trackpoints;
 	}
-	
+
 	/**
 	 * Gets the length in meters (TODO: Check unit) of this track
+	 * 
 	 * @return the length in meters of this track
 	 */
-	public int getLength() {
+	public double getLength() {
 		return length;
 	}
-	
+
 	/**
-	 * Sets the length (in meters) of this track
-	 * Should probably not be used from the client side
-	 * @param length new length in meters for this track
+	 * Sets the length (in meters) of this track Should probably not be used
+	 * from the client side
+	 * 
+	 * @param length
+	 *            new length in meters for this track
 	 */
-	public void setLength(int length) {
+	public void setLength(double length) {
 		this.length = length;
 	}
-	
+
 	/**
 	 * Gets the time of the first track point in this track
+	 * 
 	 * @return the time of the first track point in this track
 	 */
 	public Date getStartTime() {
 		return startTime;
 	}
-	
+
 	/**
-	 * Sets the time of the first track point in this track
-	 * Should probably not be used from the client side
-	 * @param startTime time of the first track point in this track
+	 * Sets the time of the first track point in this track Should probably not
+	 * be used from the client side
+	 * 
+	 * @param startTime
+	 *            time of the first track point in this track
 	 */
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
-	
+
+	/**
+	 * Gets the mean latitude of the track
+	 * 
+	 * @return mean latitude of the track
+	 */
+	public double getMidLatitude() {
+		return midLatitude;
+	}
+
+	/**
+	 * Sets the mean latitude of the track
+	 * 
+	 * @param midLatitude
+	 *            mean latitude of the track
+	 */
+	public void setMidLatitude(double midLatitude) {
+		this.midLatitude = midLatitude;
+	}
+
+	/**
+	 * Gets the mean longitude of the track
+	 * 
+	 * @return mean longitude of the track
+	 */
+	public double getMidLongitude() {
+		return midLongitude;
+	}
+
+	/**
+	 * Sets the mean longitude of the track
+	 * 
+	 * @param midLongitude
+	 *            mean longitude of the track
+	 */
+	public void setMidLongitude(double midLongitude) {
+		this.midLongitude = midLongitude;
+	}
+
 	/**
 	 * Gets all comments for this track
+	 * 
 	 * @return List of all comments for this track
 	 */
 	public List<Comment> getComments() {
 		return comments;
 	}
-	
+
 	/**
-	 * Adds a new comment to this track
-	 * Note: the user writing the comment is registered in the comment object
-	 * @param comment comment to be added to this track
+	 * Adds a new comment to this track Note: the user writing the comment is
+	 * registered in the comment object
+	 * 
+	 * @param comment
+	 *            comment to be added to this track
 	 */
 	public void addComment(Comment comment) {
 		if (comments == null)
 			comments = new ArrayList<Comment>();
 		comments.add(comment);
 	}
-	
+
+	/**
+	 * Gets the TrackDTO object from this Track's current state
+	 * 
+	 * @return TrackDTO with this tracks current state
+	 */
+	public TrackDTO getTrackDTO() {
+		TrackDTO t = new TrackDTO();
+		t.setUser(user.getUserDTO());
+		t.setFilename(filename);
+		t.setNotes(notes);
+		t.setPublicity(publicity);
+		t.setCommentsEnabled(commentsEnabled);
+		t.setTrackpoints(trackpoints);
+		t.setLength(length);
+		t.setMidLatitude(midLatitude);
+		t.setMidLongitude(midLongitude);
+		t.setStartTime(startTime);
+		for (Comment c : comments)
+			t.addComment(c.getCommentDTO());
+		return t;
+	}
+
 }

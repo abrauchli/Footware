@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.footware.client.services.OutlineService;
 import org.footware.server.db.Track;
+import org.footware.server.db.User;
+import org.footware.server.db.UserUtil;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
 import org.footware.shared.dto.UserDTO;
@@ -33,10 +35,12 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<UserDTO> getUserList(UserSearchData filter) {
-		// TODO implement
 		ArrayList<UserDTO> children = new ArrayList<UserDTO>();
+		
+		List<User> users = UserUtil.getAll();
+
 		for (int i = 0; i < filter.value; i++) {
-			children.add(new UserDTO());
+			children.add(users.get(i).getUserDTO());
 		}
 		return children;
 	}
@@ -46,7 +50,7 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 		//TODO implement
 		List<TrackDTO> children = new ArrayList<TrackDTO>();
 		for (int i = 0; i < filter.value; i++) {
-			children.add(new TrackDTO());
+			//TODO: children.add(new TrackDTO());
 		}
 		return children;
 	}

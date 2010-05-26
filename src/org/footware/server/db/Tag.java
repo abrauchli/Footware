@@ -30,7 +30,7 @@ import org.footware.shared.dto.TagDTO;
  * Class for ER mapping of Tags
  */
 @Entity
-public class Tag implements Serializable {
+public class Tag extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -82,6 +82,14 @@ public class Tag implements Serializable {
 	 */
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+
+	/**
+	 * Gets the TagDTO for the current Tag state
+	 * @return the TagDTO for the current Tag state
+	 */
+	public TagDTO getTagDTO() {
+		return new TagDTO(tag);
 	}
 
 }

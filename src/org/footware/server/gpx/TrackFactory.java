@@ -22,22 +22,24 @@ package org.footware.server.gpx;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
-import org.footware.shared.dto.TrackDTO2;
-import org.footware.shared.dto.TrackPointDTO;
+import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackpointDTO;
 import org.footware.shared.dto.TrackSegmentDTO;
+import org.footware.shared.dto.UserDTO;
 
 /**
  * @author rene
  */
 public class TrackFactory {
 
-    public static TrackDTO2 create(GPXTrack inputTrack) {
+    public static TrackDTO create(GPXTrack inputTrack, UserDTO user, String notes, boolean commentsEnabled, int privacy,
+			String name) {
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
         double minLongitude = Double.MAX_VALUE;
         double maxLongitude = Double.MIN_VALUE;
 
-        TrackDTO2 track = new TrackDTO2();
+        TrackDTO track = new TrackDTO();
 
         for (GPXTrackSegment gpxSegment : inputTrack.getSegments()) {
             TrackSegmentDTO segment = new TrackSegmentDTO();
@@ -56,13 +58,20 @@ public class TrackFactory {
                 if (maxLatitude < latitude) {
                     maxLatitude = latitude;
                 }
-                segment.addPoint(new TrackPointDTO(longitude, latitude));
+                segment.addPoint(new TrackpointDTO(longitude, latitude));
             }
             track.addSegment(segment);
         }
         
         track.setMidLatitude((minLatitude+maxLatitude)/2);
         track.setMidLongitude((minLongitude+maxLongitude)/2);
+        track.setUser(user);
+        track.setCommentsEnabled(commentsEnabled);
+        track.setLength(inputTrack.getLength());
+        track.setNotes(notes);
+        track.setPublicity(privacy);
+        track.setStartTime(inputTrack.getSegments().get(0).getPoints().get(0).getTime().toDate());
+        track.setTrackpoints(inputTrack.getNumberOfDataPoints());
         return track;
     }
 

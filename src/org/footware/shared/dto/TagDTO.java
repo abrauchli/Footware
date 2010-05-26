@@ -40,7 +40,7 @@ public class TagDTO implements Serializable {
 	public TagDTO(String tag) {
 		this.tag = tag;
 	}
-	
+
 	/**
 	 * Gets the tag
 	 * @return tag the tag name

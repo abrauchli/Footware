@@ -16,11 +16,16 @@
 
 package org.footware.client.dialogs;
 
+import org.footware.client.Session;
+import org.footware.client.services.UserService;
+import org.footware.client.services.UserServiceAsync;
 import org.footware.shared.dto.UserDTO;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -29,7 +34,6 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class SignupBox extends DialogBox {
-	private TextBox username;
 	private TextBox name;
 	private TextBox firstName;
 	private TextBox email;
@@ -38,15 +42,14 @@ public class SignupBox extends DialogBox {
 	public SignupBox() {
 		setAutoHideEnabled(true);
 		setGlassEnabled(true);
-		username = new TextBox();
 		name = new TextBox();
 		firstName = new TextBox();
 		email = new TextBox();
 		password = new PasswordTextBox();
 		Grid g = new Grid(6, 2);
 
-		g.setWidget(0, 0, new HTML("Username"));
-		g.setWidget(0, 1, username);
+		g.setWidget(0, 0, new HTML("Email (used to login)"));
+		g.setWidget(0, 1, email);
 
 		g.setWidget(1, 0, new HTML("Password"));
 		g.setWidget(1, 1, password);
@@ -56,10 +59,7 @@ public class SignupBox extends DialogBox {
 
 		g.setWidget(3, 0, new HTML("Last name"));
 		g.setWidget(3, 1, name);
-
-		g.setWidget(4, 0, new HTML("Email"));
-		g.setWidget(4, 1, email);
-
+		
 		Button submit = new Button("Submit", new ClickHandler() {
 
 			@Override
@@ -87,18 +87,39 @@ public class SignupBox extends DialogBox {
 	private void doSignup() {
 		validate();
 		UserDTO u = new UserDTO();
-		u.setFullName(name.getValue() + " " + firstName.getValue());
+		u.setFullName(firstName.getValue() + " " + name.getValue());
 		u.setEmail(email.getValue());
 		u.setPassword(password.getValue());
-		// TODO andy hier müsste der user persistiert werden... u.persist()?
-		// TODO sign user in directly?
-		
+
+		// call server and register user
+		UserServiceAsync svc = GWT.create(UserService.class);
+		svc.registerUser(u, new AsyncCallback<UserDTO>() {
+
+					@Override
+					public void onSuccess(UserDTO user) {
+						if (user != null) {
+							Window.alert("Welcome "+ user.getFullName());
+							Session.setUser(user);
+							//TODO: show logout instead of login -- user is now logged in
+							hide();
+						} else {
+							Window.alert("Failure: This email address is already registered");
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("There was a Problem contacting the server: "
+										+ caught.getMessage());
+					}
+				});
 	}
 
 	private void validate() {
-		if (username.getValue().isEmpty() || name.getValue().isEmpty()
+		if (name.getValue().isEmpty()
 				|| firstName.getValue().isEmpty()
-				|| password.getValue().isEmpty() || email.getValue().isEmpty()) {
+				|| password.getValue().isEmpty()
+				|| email.getValue().isEmpty()) {
 			Window.alert("Please fill out all fields");
 		}
 	}

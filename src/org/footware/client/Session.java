@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-/**
- * 
- */
 package org.footware.client;
 
-import java.util.List;
-
-import org.footware.shared.dto.ConfigDTO;
-import org.footware.shared.dto.TrackDTO2;
-import org.footware.shared.dto.TrackVisualizationDTO;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import org.footware.shared.dto.UserDTO;
 
 /**
- * @author rene
- *
+ * Helper class to store session specific data
  */
-public interface TrackServiceAsync {
+public class Session {
+	/**
+	 * Stores the currently logged in user. null if none
+	 */
+	private static UserDTO user;
 
 	/**
-	 * 
-	 * @see org.footware.client.services.TrackService#greetServer(org.footware.shared.dto.ConfigDTO)
+	 * Gets the currently logged in user. null if none
 	 */
-	void getTracks(ConfigDTO config, AsyncCallback<List<TrackDTO2>> callback);
-
-    void getTrackVisualization(ConfigDTO config, AsyncCallback<TrackVisualizationDTO> callback);
-
+	public static UserDTO getUser() {
+		return user;
+	}
+	
+	/**
+	 * Sets the currently logged in user. null for none
+	 * @param user user to be marked as logged in. null for none
+	 */
+	public static void setUser(UserDTO user) {
+		Session.user = user;
+	}
 }
