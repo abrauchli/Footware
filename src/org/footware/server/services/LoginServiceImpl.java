@@ -18,7 +18,7 @@ package org.footware.server.services;
 
 import org.footware.client.services.LoginService;
 import org.footware.server.db.User;
-import org.footware.server.db.UserUtil;
+import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.UserDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;

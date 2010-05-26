@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.footware.server.db;
+package org.footware.server.db.util;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

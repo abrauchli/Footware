@@ -1,11 +1,11 @@
 package org.footware.server;
 
 import org.footware.server.db.Comment;
-import org.footware.server.db.HibernateUtil;
 import org.footware.server.db.Tag;
 import org.footware.server.db.Track;
 import org.footware.server.db.User;
-import org.footware.server.db.UserUtil;
+import org.footware.server.db.util.HibernateUtil;
+import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.UserDTO;
 import org.hibernate.HibernateException;

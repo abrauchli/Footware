@@ -34,6 +34,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import org.footware.server.gpx.model.GPXTrack;
@@ -49,6 +51,10 @@ import org.hibernate.annotations.ManyToAny;
  * Class for ER mapping of Tracks
  */
 @Entity
+@NamedQueries(value = {
+		//Get all public tracks
+		@NamedQuery(name = "tracks.getAll", query = "FROM Track t WHERE t.publicity=5"),
+	})
 public class Track extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;

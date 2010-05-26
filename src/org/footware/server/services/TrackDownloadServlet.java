@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.footware.server.db.HibernateUtil;
 import org.footware.server.db.Track;
 import org.footware.server.db.User;
+import org.footware.server.db.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
