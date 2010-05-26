@@ -32,8 +32,7 @@ import org.footware.shared.dto.UserDTO;
  */
 public class TrackFactory {
 
-    public static TrackDTO create(GPXTrack inputTrack, UserDTO user, String notes, boolean commentsEnabled, int privacy,
-			String name) {
+    public static TrackDTO create(GPXTrack inputTrack) {
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
         double minLongitude = Double.MAX_VALUE;
@@ -63,15 +62,15 @@ public class TrackFactory {
             track.addSegment(segment);
         }
         
-        track.setMidLatitude((minLatitude+maxLatitude)/2);
-        track.setMidLongitude((minLongitude+maxLongitude)/2);
-        track.setUser(user);
-        track.setCommentsEnabled(commentsEnabled);
-        track.setLength(inputTrack.getLength());
-        track.setNotes(notes);
-        track.setPublicity(privacy);
-        track.setStartTime(inputTrack.getSegments().get(0).getPoints().get(0).getTime().toDate());
-        track.setTrackpoints(inputTrack.getNumberOfDataPoints());
+//        track.setMidLatitude((minLatitude+maxLatitude)/2);
+//        track.setMidLongitude((minLongitude+maxLongitude)/2);
+//        track.setUser(user);
+//        track.setCommentsEnabled(commentsEnabled);
+//        track.setLength(inputTrack.getLength());
+//        track.setNotes(notes);
+//        track.setPublicity(privacy);
+//        track.setStartTime(inputTrack.getSegments().get(0).getPoints().get(0).getTime().toDate());
+//        track.setTrackpoints(inputTrack.getNumberOfDataPoints());
         return track;
     }
 

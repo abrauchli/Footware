@@ -18,6 +18,7 @@ package org.footware.server.gpx;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.rmi.ServerException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.XPath;
 import org.dom4j.io.SAXReader;
+import org.footware.server.db.Track;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
@@ -45,7 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-public class GPXImport {
+public class GPXImport implements TrackImporter {
 
 	private static String GPX_NAMESPACE_URI_1_1 = "http://www.topografix.com/GPX/1/1";
 	private static String GPX_NAMESPACE_URI_1_0 = "http://www.topografix.com/GPX/1/0";
@@ -56,26 +58,15 @@ public class GPXImport {
 	private static String TIME = "time";
 	private Logger logger;
 
-	private UserDTO user;
-	private String notes;
-	private Boolean comments;
-	private int privacy;
-	private String name;
+	boolean trackImported = false;
 
 	private String GPX_NAMESPACE_URI = GPX_NAMESPACE_URI_1_1;
 
-	private List<TrackVisualizationDTO> speedVisualization = new LinkedList<TrackVisualizationDTO>();
-	private List<TrackVisualizationDTO> elevationVisualization = new LinkedList<TrackVisualizationDTO>();
+	private List<TrackVisualizationDTO> speedVisualizations = new LinkedList<TrackVisualizationDTO>();
+	private List<TrackVisualizationDTO> elevationVisualizations = new LinkedList<TrackVisualizationDTO>();
 	private List<TrackDTO> tracks = new LinkedList<TrackDTO>();
 
-	public GPXImport(UserDTO user, String notes, Boolean comments, int privacy,
-			String name) {
-		this.user = user;
-		this.comments = comments;
-		this.privacy = privacy;
-		this.name = name;
-		this.notes = notes;
-
+	public GPXImport() {
 		logger = LoggerFactory.getLogger(GPXImport.class);
 	}
 
@@ -89,11 +80,11 @@ public class GPXImport {
 				new TrackVisualizationElevationStrategy());
 
 		for (GPXTrack track : gpxTracks) {
-			tracks.add(TrackFactory.create(track, user, notes, comments,
-					privacy, name));
-			speedVisualization.add(speedFactory.create(track));
-			elevationVisualization.add(elevationFactory.create(track));
+			tracks.add(TrackFactory.create(track));
+			speedVisualizations.add(speedFactory.create(track));
+			elevationVisualizations.add(elevationFactory.create(track));
 		}
+		trackImported = true;
 	}
 
 	private List<GPXTrack> parseXML(File file) {
@@ -248,6 +239,42 @@ public class GPXImport {
 			e.printStackTrace();
 		}
 
+		return tracks;
+	}
+
+	@Override
+	public List<TrackVisualizationDTO> getElevationVisualizations() {
+		if(!trackImported) {
+			try {
+				throw new Exception("importTrack must be called first!");
+			} catch (Exception e) {
+				logger.error("importTrack must be called first!", e);
+			}
+		}
+		return elevationVisualizations;
+	}
+
+	@Override
+	public List<TrackVisualizationDTO> getSpeedVisualizations() {
+		if(!trackImported) {
+			try {
+				throw new Exception("importTrack must be called first!");
+			} catch (Exception e) {
+				logger.error("importTrack must be called first!", e);
+			}
+		}
+		return speedVisualizations;
+	}
+
+	@Override
+	public List<TrackDTO> getTracks() {
+		if(!trackImported) {
+			try {
+				throw new Exception("importTrack must be called first!");
+			} catch (Exception e) {
+				logger.error("importTrack must be called first!", e);
+			}
+		}
 		return tracks;
 	}
 }

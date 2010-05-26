@@ -33,6 +33,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
+import org.footware.server.db.Track;
 import org.footware.server.gpx.GPXImport;
 import org.footware.shared.dto.UserDTO;
 import org.slf4j.Logger;
@@ -175,6 +176,12 @@ public class TrackUploadServlet extends HttpServlet {
 			GPXImport importer = new GPXImport(user, notes, comments, privacy,
 					name);
 			importer.importTrack(uploadedFile);
+			
+			//Add meta information to track
+			for( Track track : importer.getTracks()) {
+				
+			}
+			
 		}
 	}
 
