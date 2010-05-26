@@ -6,7 +6,7 @@
 <web-app>
 
 	<listener>
-		<listener-class>org.footware.server.db.HibernateListener</listener-class>
+		<listener-class>org.footware.server.db.util.HibernateListener</listener-class>
 	</listener>
 
 	<!-- Servlets -->
