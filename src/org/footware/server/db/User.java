@@ -26,6 +26,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -68,9 +69,11 @@ public class User extends DbEntity implements Serializable {
 	private boolean isAdmin;
 
 	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private Set<Track> tracks;
 
 	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private Set<Tag> tags;
 
 	/**
@@ -99,9 +102,8 @@ public class User extends DbEntity implements Serializable {
 		this.fullName = user.getFullName();
 		this.password = UserUtil.getPasswordHash(user.getPassword()).toCharArray();
 		//this.isAdmin = user.getIsAdmin();
-
-		Transaction tx = null;
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			session.save(this);
