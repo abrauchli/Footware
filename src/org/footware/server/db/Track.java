@@ -76,7 +76,7 @@ public class Track extends DbEntity implements Serializable {
 	@Column(name = "mid_longitude")
 	private double midLongitude;
 
-	@Column(name = "start_time")
+	@Column(name = "time_start")
 	private Date startTime;
 
 	@ManyToAny(metaColumn = @Column(name = "comment_id"), fetch = FetchType.LAZY)
@@ -93,7 +93,7 @@ public class Track extends DbEntity implements Serializable {
 	 * @param filename
 	 *            filename (as uploaded) of the track
 	 * @param path
-	 *            path where the track is saved on the server TODO: remove?
+	 *            path where the track is saved on the server
 	 */
 	public Track(User u, String filename, String path) {
 		this.user = u;
@@ -257,7 +257,7 @@ public class Track extends DbEntity implements Serializable {
 	}
 
 	/**
-	 * Gets the length in meters (TODO: Check unit) of this track
+	 * Gets the length in meters of this track
 	 * 
 	 * @return the length in meters of this track
 	 */

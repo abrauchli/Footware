@@ -27,12 +27,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import org.footware.shared.dto.UserDTO;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -72,14 +72,15 @@ public class User extends DbEntity implements Serializable {
 	@Column(name = "is_deactivated")
 	private boolean isDeactivated;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private Set<Track> tracks = new HashSet<Track>();
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "user_tag")
-	@JoinColumn(name = "user_id")
-	private Set<Tag> tags = new HashSet<Tag>();
+//TODO:
+//	@OneToMany(fetch = FetchType.EAGER)
+//	@JoinTable(name = "user_tag")
+//	@JoinColumn(name = "user_id")
+//	private Set<String> tags = new HashSet<String>();
 
 	/**
 	 * Protected constructor for hibernate object initialization
@@ -105,7 +106,8 @@ public class User extends DbEntity implements Serializable {
 		this.id = user.getId();
 		this.email = user.getEmail();
 		this.fullName = user.getFullName();
-		this.password = UserUtil.getPasswordHash(user.getPassword()).toCharArray();
+		if (user.getPassword() != null)
+			this.password = UserUtil.getPasswordHash(user.getPassword()).toCharArray();
 		this.isDeactivated = user.isDeactivated();
 		//this.isAdmin = user.getIsAdmin();
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -227,6 +229,7 @@ public class User extends DbEntity implements Serializable {
 	 * @return all user's tracks
 	 */
 	public Set<Track> getTracks() {
+		Hibernate.initialize(tracks);
 		return tracks;
 	}
 
@@ -235,6 +238,7 @@ public class User extends DbEntity implements Serializable {
 	 * @param track track to add
 	 */
 	public void addTrack(Track track) {
+		Hibernate.initialize(tracks);
 		if (tracks == null)
 			tracks = new HashSet<Track>();
 
@@ -246,18 +250,20 @@ public class User extends DbEntity implements Serializable {
 	 * @param track track to remove
 	 */
 	public void removeTrack(Track track) {
+		Hibernate.initialize(tracks);
 		if (tracks != null) {
 			tracks.remove(track);
 		}
 	}
 
-	/**
-	 * Gets the tags associated with this user
-	 * @return all tags of this user
-	 */
-	public Set<Tag> getTags() {
-		return tags;
-	}
+//	/**
+//	 * Gets the tags associated with this user
+//	 * @return all tags of this user
+//	 */
+//	public Set<String> getTags() {
+//		Hibernate.initialize(tags);
+//		return tags;
+//	}
 
 	/**
 	 * Creates a new UserDTO from this User object's current state
@@ -272,11 +278,11 @@ public class User extends DbEntity implements Serializable {
 		else
 			u.activate();
 		
-		for (Track t : tracks)
+		for (Track t : getTracks())
 			u.addTrackDTO(t.getTrackDTO());
 		//do not set password (it's only the hash anyway)
-		for (Tag t : tags)
-			u.addTag(t.getTagDTO());
+//		for (String t : getTags())
+//			u.addTag(t);
 		return u;
 	}
 }
