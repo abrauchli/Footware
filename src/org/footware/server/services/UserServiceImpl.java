@@ -31,6 +31,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public Boolean saveChanges(UserDTO user) {
 		User u = new User(user);
+		u.store();
 		return true;
 	}
 

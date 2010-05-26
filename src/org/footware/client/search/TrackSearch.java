@@ -35,6 +35,7 @@ public class TrackSearch extends AbstractSearchForm {
 
 	public TrackSearch(AbstractTreeNode node) {
 		super(node);
+		init();
 	}
 
 	@Override
@@ -65,10 +66,10 @@ public class TrackSearch extends AbstractSearchForm {
 			start = new TextBox();
 			Grid g = new Grid(2, 6);
 			g.setCellPadding(5);
-			g.setWidget(0, 2, new HTML("Comments enabled"));
-			g.setWidget(0, 3, commentsEnabled);
-			g.setWidget(0, 4, new HTML("# of Trackpoints"));
-			g.setWidget(0, 5, trackpoints);
+			g.setWidget(0, 0, new HTML("Comments enabled"));
+			g.setWidget(0, 1, commentsEnabled);
+			g.setWidget(0, 2, new HTML("# of Trackpoints"));
+			g.setWidget(0, 3, trackpoints);
 			g.setWidget(1, 0, new HTML("length"));
 			g.setWidget(1, 1, length);
 			g.setWidget(1, 2, new HTML("Start"));

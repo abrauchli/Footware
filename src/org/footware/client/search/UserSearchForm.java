@@ -37,6 +37,7 @@ public class UserSearchForm extends AbstractSearchForm {
 
 	public UserSearchForm(AbstractTreeNode node) {
 		super(node);
+		init();
 	}
 
 	@Override
@@ -59,28 +60,28 @@ public class UserSearchForm extends AbstractSearchForm {
 
 	public class SearchForm extends VerticalPanel {
 
-		TextBox username;
+	//	TextBox username;
 		TextBox fullname;
 		TextBox tracknumberFrom;
 		TextBox tracknumberTo;
 
 		public SearchForm() {
 			Grid g = new Grid(3, 2);
-			username = new TextBox();
+			//username = new TextBox();
 			fullname = new TextBox();
 			tracknumberFrom = new TextBox();
 			tracknumberFrom.setWidth("50px");
 			tracknumberTo = new TextBox();
 			tracknumberTo.setWidth("50px");
-			g.setWidget(0, 0, new HTML("Username"));
-			g.setWidget(0, 1, username);
-			g.setWidget(1, 0, new HTML("Full name"));
-			g.setWidget(1, 1, fullname);
-			g.setWidget(2, 0, new HTML("Number of tracks from / to"));
+			//g.setWidget(0, 0, new HTML("Username"));
+			//g.setWidget(0, 1, username);
+			g.setWidget(0, 0, new HTML("Full name"));
+			g.setWidget(0, 1, fullname);
+			g.setWidget(1, 0, new HTML("Number of tracks from / to"));
 			HorizontalPanel hp = new HorizontalPanel();
 			hp.add(tracknumberFrom);
 			hp.add(tracknumberTo);
-			g.setWidget(2, 1, hp);
+			g.setWidget(1, 1, hp);
 			Button b = new Button("Search");
 			b.addClickHandler(new ClickHandler() {
 
