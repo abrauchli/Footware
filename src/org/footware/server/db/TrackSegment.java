@@ -34,8 +34,8 @@ import org.footware.shared.dto.TrackSegmentDTO;
 import org.hibernate.Hibernate;
 
 /**
- * Class for ER Mapping of persisted TrackSegments,
- * the ("sub-")tracks in a single track file
+ * Class for ER Mapping of persisted TrackSegments, the ("sub-")tracks in a
+ * single track file
  */
 @Entity
 public class TrackSegment extends DbEntity implements Serializable {
@@ -43,27 +43,27 @@ public class TrackSegment extends DbEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	// Statistics
-	@Column(name="max_speed")
+	@Column(name = "max_speed")
 	private double maxSpeed = 0.0;
 
-	@Column(name="min_elevation")
+	@Column(name = "min_elevation")
 	private int minElevation = Integer.MAX_VALUE;
 
-	@Column(name="max_elevation")
+	@Column(name = "max_elevation")
 	private int maxElevation = Integer.MIN_VALUE;
 
 	private double length = 0.0;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Track track;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private List<Trackpoint> trackpoints = new LinkedList<Trackpoint>();
-	
+
 	/**
 	 * Constructor for hibernate retrieval
 	 */
@@ -71,9 +71,11 @@ public class TrackSegment extends DbEntity implements Serializable {
 	}
 
 	/**
-	 * Create a track segment from a GPXTrackSegment for persistence
-	 * This also creates Trackpoints from the linked GPXTrackPoints
-	 * @param gpx GPXTrackSegment to create from
+	 * Create a track segment from a GPXTrackSegment for persistence This also
+	 * creates Trackpoints from the linked GPXTrackPoints
+	 * 
+	 * @param gpx
+	 *            GPXTrackSegment to create from
 	 */
 	public TrackSegment(GPXTrackSegment gpx) {
 		this.maxSpeed = gpx.getMaxSpeed();
@@ -81,16 +83,17 @@ public class TrackSegment extends DbEntity implements Serializable {
 		this.maxElevation = gpx.getMaxElevation().intValue();
 		this.length = (long) gpx.getLength();
 
-		//Deep replication
+		// Deep replication
 		for (GPXTrackPoint gpt : gpx.getPoints()) {
 			Trackpoint tp = new Trackpoint(this, gpt);
 			this.trackpoints.add(tp);
-			//TODO: Check if we should persist here
+			// TODO: Check if we should persist here
 		}
 	}
 
 	/**
 	 * Gets the id of the corresponding DB row
+	 * 
 	 * @return the ID of the row in the DB
 	 */
 	public long getId() {
@@ -99,6 +102,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the track belonging to this segment
+	 * 
 	 * @return this segment's corresponding track
 	 */
 	public Track getTrack() {
@@ -107,6 +111,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the maximum speed encountered in this segment
+	 * 
 	 * @return maximum speed encountered in this segment
 	 */
 	public double getMaxSpeed() {
@@ -115,6 +120,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the maximum speed encountered in this segment
+	 * 
 	 * @return maximum speed encountered in this segment
 	 */
 	public void setMaxSpeed(double maxSpeed) {
@@ -123,6 +129,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the maximum speed encountered in this segment
+	 * 
 	 * @return maximum speed encountered in this segment
 	 */
 	public long getMinElevation() {
@@ -131,6 +138,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the maximum speed encountered in this segment
+	 * 
 	 * @return maximum speed encountered in this segment
 	 */
 	public void setMinElevation(int minElevation) {
@@ -139,6 +147,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the maximal elevation encountered in this segment
+	 * 
 	 * @return the maximal elevation encountered in this segment
 	 */
 	public long getMaxElevation() {
@@ -147,7 +156,9 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Sets the maximal elevation encountered in this segment
-	 * @param maxElevation the maximal elevation encountered in this segment
+	 * 
+	 * @param maxElevation
+	 *            the maximal elevation encountered in this segment
 	 */
 	public void setMaxElevation(int maxElevation) {
 		this.maxElevation = maxElevation;
@@ -155,6 +166,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the segments length in meters
+	 * 
 	 * @return gets the segments length
 	 */
 	public double getLength() {
@@ -163,7 +175,9 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Sets the segments length
-	 * @param length sets the segment length
+	 * 
+	 * @param length
+	 *            sets the segment length
 	 */
 	public void setLength(double length) {
 		this.length = length;
@@ -171,6 +185,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the trackpoints of this segment
+	 * 
 	 * @return all segment's trackpoints
 	 */
 	public List<Trackpoint> getTrackpoints() {
@@ -180,7 +195,9 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Appends a trackpoint to this segment
-	 * @param p trackpoint to add
+	 * 
+	 * @param p
+	 *            trackpoint to add
 	 */
 	public void addTrackpoint(Trackpoint p) {
 		this.trackpoints.add(p);
@@ -188,7 +205,9 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Sets the track this segment belongs to
-	 * @param track new owner of this segment
+	 * 
+	 * @param track
+	 *            new owner of this segment
 	 */
 	public void setTrack(Track track) {
 		this.track = track;
@@ -196,6 +215,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the DTO for this TrackSegment's current state
+	 * 
 	 * @return DTO for this TrackSegment's current state
 	 */
 	public TrackSegmentDTO getTrackSegmentDTO() {

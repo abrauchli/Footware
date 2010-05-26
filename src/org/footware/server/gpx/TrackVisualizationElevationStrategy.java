@@ -21,9 +21,7 @@ package org.footware.server.gpx;
 
 import org.footware.server.db.Track;
 import org.footware.server.db.TrackSegment;
-import org.footware.server.gpx.model.GPXTrack;
-import org.footware.server.gpx.model.GPXTrackPoint;
-import org.footware.server.gpx.model.GPXTrackSegment;
+import org.footware.server.db.Trackpoint;
 import org.footware.shared.dto.TrackVisualizationDTO;
 
 /**
@@ -40,12 +38,11 @@ public class TrackVisualizationElevationStrategy implements TrackVisualizationSt
      */
     @Override
     public void execute(TrackVisualizationFactoryStrategyView factory) {
-//TODO
-    	//        for(TrackSegment gpxSegment : track.getTrackDTO().getSegments()) {
-//            for(TrackPoint gpxPoint : gpxSegment.getPoints()) {
-//                factory.addPoint(gpxPoint.getTime().getMillis(), gpxPoint.getElevation().doubleValue());
-//            }
-//        }
+		for (TrackSegment segment : track.getSegments()) {
+            for(Trackpoint point : segment.getTrackpoints()) {
+                factory.addPoint(point.getTime().getTime(), point.getElevation());
+            }
+        }
     }
 
     /* (non-Javadoc)
