@@ -34,7 +34,7 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<UserDTO> getUserList(UserSearchData filter) {
-		//TODO implement filter
+		//TODO implement filtering
 		ArrayList<UserDTO> children = new ArrayList<UserDTO>();
 
 		List<User> users = UserUtil.getAll();
@@ -56,6 +56,7 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	public String[][] getTracksTable(TrackSearchData filter){
+		//TODO implement. Also filtering for user
 		return new String[1][1];
 	}
 

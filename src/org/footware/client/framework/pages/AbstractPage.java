@@ -121,7 +121,7 @@ public abstract class AbstractPage extends Grid {
 		return treeNode;
 	}
 	/**
-	 * override this finction in order to lazily load stuff on a page
+	 * override this function in order to lazily load stuff on a page
 	 */
 	public void execLazyload() {
 	}
