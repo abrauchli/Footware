@@ -37,14 +37,12 @@ import org.footware.server.db.Track;
 import org.footware.server.db.TrackSegment;
 import org.footware.server.db.Trackpoint;
 import org.footware.server.db.User;
+import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
 import org.footware.shared.dto.TrackDTO;
-<<<<<<< HEAD
-=======
 import org.footware.shared.dto.UserDTO;
 import org.hibernate.Session;
->>>>>>> 548def0a50e6792ec477473eb8967fcf351d0365
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -232,11 +230,6 @@ public class TrackUploadServlet extends HttpServlet {
 						track.setNotes(notes);
 						track.setPublicity(privacy);
 						track.setFilename(uploadedFile.getAbsolutePath());
-<<<<<<< HEAD
-						track.setUser(user.getUserDTO());
-						Track dbTrack = new Track(track);
-						dbTrack.setPath(fileName);
-=======
 						track.setUser(user);
 						Track dbTrack = new Track(track);
 						dbTrack.setPath(fileName);
@@ -247,7 +240,7 @@ public class TrackUploadServlet extends HttpServlet {
 							}
 							ts.store();
 						}
->>>>>>> 548def0a50e6792ec477473eb8967fcf351d0365
+
 						dbTrack.store();
 					}
 
