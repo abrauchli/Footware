@@ -12,7 +12,8 @@ CREATE TABLE user (
     email       VARCHAR(128)    NOT NULL UNIQUE,
     password    CHAR(32)        NOT NULL,           /* MD5 hash */
     full_name   VARCHAR(64),
-    is_admin    BOOLEAN         DEFAULT(0)
+    is_admin    BOOLEAN         DEFAULT(0),
+    is_deactivated BOOLEAN      DEFAULT(0)
 );
 COMMENT ON COLUMN user.password IS 'MD5 hash';
 

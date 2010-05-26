@@ -27,6 +27,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -67,14 +68,18 @@ public class User extends DbEntity implements Serializable {
 
 	@Column(name = "is_admin")
 	private boolean isAdmin;
+	
+	@Column(name = "is_deactivated")
+	private boolean isDeactivated;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private Set<Track> tracks;
+	private Set<Track> tracks = new HashSet<Track>();
 
 	@OneToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_tag")
 	@JoinColumn(name = "user_id")
-	private Set<Tag> tags;
+	private Set<Tag> tags = new HashSet<Tag>();
 
 	/**
 	 * Protected constructor for hibernate object initialization
@@ -101,6 +106,7 @@ public class User extends DbEntity implements Serializable {
 		this.email = user.getEmail();
 		this.fullName = user.getFullName();
 		this.password = UserUtil.getPasswordHash(user.getPassword()).toCharArray();
+		this.isDeactivated = user.isDeactivated();
 		//this.isAdmin = user.getIsAdmin();
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		Transaction tx = null;
@@ -192,6 +198,28 @@ public class User extends DbEntity implements Serializable {
 	 */
 	public void setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+	
+	/**
+	 * Gets whether this user is active
+	 * @return true if the user is deactivated
+	 */
+	public boolean isDeactivated() {
+		return isDeactivated;
+	}
+	
+	/**
+	 * Disables this user
+	 */
+	public void deactivate() {
+		isDeactivated = true;
+	}
+	
+	/**
+	 * Reactivated this user
+	 */
+	public void activate() {
+		isDeactivated = false;
 	}
 
 	/**
