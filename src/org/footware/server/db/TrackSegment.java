@@ -65,9 +65,9 @@ public class TrackSegment extends DbEntity implements Serializable {
 	private List<Trackpoint> trackpoints = new LinkedList<Trackpoint>();
 
 	/**
-	 * Protected constructor for hibernate retrieval
+	 * Constructor for hibernate retrieval
 	 */
-	protected TrackSegment() {
+	public TrackSegment() {
 	}
 
 	/**
