@@ -19,6 +19,7 @@ package org.footware.server.db;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -33,6 +34,7 @@ import javax.persistence.ManyToOne;
 
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TrackDTO;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.ManyToAny;
 
 /**
@@ -80,7 +82,10 @@ public class Track extends DbEntity implements Serializable {
 	private Date startTime;
 
 	@ManyToAny(metaColumn = @Column(name = "comment_id"), fetch = FetchType.LAZY)
-	private List<Comment> comments;
+	private List<Comment> comments = new LinkedList<Comment>();
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	private List<TrackSegment> segments = new LinkedList<TrackSegment>();
 
 	protected Track() {
 	}
@@ -242,6 +247,7 @@ public class Track extends DbEntity implements Serializable {
 	 * @return number of track points for this track
 	 */
 	public int getTrackpoints() {
+		Hibernate.initialize(trackpoints);
 		return trackpoints;
 	}
 
@@ -340,6 +346,7 @@ public class Track extends DbEntity implements Serializable {
 	 * @return List of all comments for this track
 	 */
 	public List<Comment> getComments() {
+		Hibernate.initialize(comments);
 		return comments;
 	}
 
@@ -351,11 +358,15 @@ public class Track extends DbEntity implements Serializable {
 	 *            comment to be added to this track
 	 */
 	public void addComment(Comment comment) {
-		if (comments == null)
-			comments = new ArrayList<Comment>();
 		comments.add(comment);
 	}
 
+	
+	public List<TrackSegment> getSegments() {
+		Hibernate.initialize(segments);
+		return segments;
+	}
+	
 	/**
 	 * Gets the TrackDTO object from this Track's current state
 	 * 
@@ -373,9 +384,10 @@ public class Track extends DbEntity implements Serializable {
 		t.setMidLatitude(midLatitude);
 		t.setMidLongitude(midLongitude);
 		t.setStartTime(startTime);
-		
-		for (Comment c : comments)
+		for (Comment c : getComments())
 			t.addComment(c.getCommentDTO());
+		for (TrackSegment s : getSegments())
+			t.addSegment(s.getTrackSegmentDTO());
 		return t;
 	}
 
