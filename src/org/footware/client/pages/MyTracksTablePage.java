@@ -21,6 +21,7 @@ import java.util.Set;
 import org.footware.client.Session;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
+import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
 import org.footware.shared.dto.UserDTO;
@@ -63,10 +64,12 @@ public class MyTracksTablePage extends AllTracksPage {
 			result[i][1] = Integer.toString(t[i].getTrackpoints());
 			result[i][2] = Double.toString(t[i].getLength());
 			result[i][3] = t[i].getStartTime().toString();
-			result[i][4] = Integer.toString(t[4].getComments().size());
-			//TODO add tags
-			result[i][5] = "";
-			// result[i][0] = t[5].get
+			result[i][4] = Integer.toString(t[i].getComments().size());
+			StringBuilder tags = new StringBuilder();
+			for(TagDTO tag : t[i].getTags()){
+				tags.append(tag.getTag() + ", ");
+			}
+			result[i][5] = tags.toString();
 		}
 		return result;
 	}

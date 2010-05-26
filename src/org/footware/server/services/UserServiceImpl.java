@@ -30,7 +30,9 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Boolean saveChanges(UserDTO user) {
-		User u = new User(user);
+		User u = UserUtil.getByEmail(user.getEmail());
+		u.setFullName(user.getFullName());
+		u.setPassword(UserUtil.getPasswordHash(user.getPassword()).toCharArray());
 		u.store();
 		return true;
 	}

@@ -19,10 +19,15 @@ package org.footware.client.pages;
 import org.footware.client.Session;
 import org.footware.client.framework.pages.AbstractFormPage;
 import org.footware.client.framework.tree.AbstractTreeNode;
+import org.footware.client.services.UserService;
+import org.footware.client.services.UserServiceAsync;
 import org.footware.shared.dto.UserDTO;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -49,7 +54,7 @@ public class OwnPage extends AbstractFormPage {
 	}
 
 	public class MyOwnPage extends DockPanel {
-		//private TextBox username;
+		// private TextBox username;
 		private TextBox name;
 		private TextBox email;
 		private PasswordTextBox password;
@@ -57,8 +62,8 @@ public class OwnPage extends AbstractFormPage {
 		private Button ok;
 
 		public MyOwnPage() {
-		//	username = new TextBox();
-		//	username.setEnabled(false);
+			// username = new TextBox();
+			// username.setEnabled(false);
 			name = new TextBox();
 			name.setEnabled(false);
 			email = new TextBox();
@@ -66,8 +71,8 @@ public class OwnPage extends AbstractFormPage {
 			password = new PasswordTextBox();
 			password.setEnabled(false);
 			Grid g = new Grid(4, 2);
-		//	g.setWidget(0, 0, new HTML("Username"));
-		//	g.setWidget(0, 1, username);
+			// g.setWidget(0, 0, new HTML("Username"));
+			// g.setWidget(0, 1, username);
 			g.setWidget(1, 0, new HTML("Name"));
 			g.setWidget(1, 1, name);
 			g.setWidget(2, 0, new HTML("Email"));
@@ -94,6 +99,7 @@ public class OwnPage extends AbstractFormPage {
 				@Override
 				public void onClick(ClickEvent event) {
 					switchMode(false);
+					saveData();
 				}
 			});
 			hp.add(edit);
@@ -109,7 +115,7 @@ public class OwnPage extends AbstractFormPage {
 		 */
 		public void switchMode(boolean to) {
 			name.setEnabled(to);
-			email.setEnabled(to);
+			// email.setEnabled(to);
 			password.setEnabled(to);
 			ok.setVisible(to);
 			ok.setEnabled(to);
@@ -117,15 +123,30 @@ public class OwnPage extends AbstractFormPage {
 
 		}
 
+
 		public void loadData(UserDTO u) {
 			email.setValue(u.getEmail());
 			name.setValue(u.getFullName());
 		}
-		
-		public void saveData(){
-			
-		}
 
+		public void saveData() {
+			UserDTO u = Session.getUser();
+			u.setPassword(password.getValue());
+			u.setFullName(name.getValue());
+			UserServiceAsync svc = GWT.create(UserService.class);
+			svc.saveChanges(u, new AsyncCallback<Boolean>() {
+
+				@Override
+				public void onSuccess(Boolean result) {
+					Window.alert("Success");
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Window.alert("failure");
+				}
+			});
+		}
 	}
 
 	@Override

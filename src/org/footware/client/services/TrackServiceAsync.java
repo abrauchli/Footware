@@ -21,6 +21,7 @@ package org.footware.client.services;
 
 import java.util.List;
 
+import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.ConfigDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackVisualizationDTO;
@@ -43,6 +44,8 @@ public interface TrackServiceAsync {
 			AsyncCallback<TrackVisualizationDTO> callback);
 
 	void saveChanges(TrackDTO track, AsyncCallback<Boolean> callback);
-	
+
 	void deactivateTrack(TrackDTO track, AsyncCallback<Boolean> callback);
+
+	void addComment(CommentDTO comment, AsyncCallback<Boolean> callback);
 }
