@@ -63,11 +63,20 @@ public class Track extends DbEntity implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private int publicity;
 
+	@Column(name = "comments_enabled")
 	private boolean commentsEnabled;
+
 	private int trackpoints;
+
 	private double length;
-	private double midLongitude;
+
+	@Column(name = "mid_latitude")
 	private double midLatitude;
+
+	@Column(name = "mid_longitude")
+	private double midLongitude;
+
+	@Column(name = "start_time")
 	private Date startTime;
 
 	@ManyToAny(metaColumn = @Column(name = "comment_id"), fetch = FetchType.LAZY)
