@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,12 +32,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import javax.persistence.OneToMany;
 
+import org.footware.server.gpx.model.GPXTrack;
+import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackSegmentDTO;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ManyToAny;
 
@@ -75,24 +80,24 @@ public class Track extends DbEntity implements Serializable {
 
 	private double length;
 
-	@Column(name = "mid_latitude")
+	@Column(name="mid_latitude")
 	private double midLatitude;
 
-	@Column(name = "mid_longitude")
+	@Column(name="mid_longitude")
 	private double midLongitude;
 
-	@Column(name = "time_start")
+	@Column(name="time_start")
 	private Date startTime;
 
-	@ManyToAny(metaColumn = @Column(name = "comment_id"), fetch = FetchType.EAGER)
+	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.EAGER)
 	private List<Comment> comments = new LinkedList<Comment>();
 	
-	//@ManyToOne(fetch=FetchType.EAGER)
-	@Transient
-	private List<TrackSegment> segments = new LinkedList<TrackSegment>();
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@JoinColumn(name="track_id")
+	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
 	
-//	@ManyToOne(fetch=FetchType.EAGER)
-	@Transient
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@JoinColumn(name="track_id")
 	private Set<Tag> tags = new HashSet<Tag>();
 
 	protected Track() {
@@ -125,10 +130,20 @@ public class Track extends DbEntity implements Serializable {
 		this.trackpoints = track.getTrackpoints();
 		this.length = track.getLength();
 		this.startTime = track.getStartTime();
+		for (TrackSegmentDTO segment : track.getSegments()) 
+			this.segments.add(new TrackSegment(segment));
 		for (CommentDTO c : track.getComments())
 			this.comments.add(new Comment(c));
 		for (TagDTO t : track.getTags())
 			this.tags.add(new Tag(t));
+	}
+	
+	public Track(GPXTrack track) {
+		this.trackpoints = track.getNumberOfDataPoints();
+		this.length = track.getLength();
+		for(GPXTrackSegment segment : track.getSegments()) {
+			segments.add(new TrackSegment(segment));
+		}
 	}
 
 	/**
@@ -371,7 +386,7 @@ public class Track extends DbEntity implements Serializable {
 	 * Gets the segments belonging to this track
 	 * @return segments of this track
 	 */
-	public List<TrackSegment> getSegments() {
+	public Set<TrackSegment> getSegments() {
 		Hibernate.initialize(segments);
 		return segments;
 	}

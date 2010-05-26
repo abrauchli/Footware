@@ -21,8 +21,6 @@ package org.footware.server.gpx;
 
 import java.util.Date;
 
-import org.footware.server.db.Track;
-import org.footware.server.db.Trackpoint;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
@@ -35,7 +33,7 @@ import org.footware.shared.dto.TrackpointDTO;
  */
 public class TrackFactory {
 
-    public static Track create(GPXTrack inputTrack) {
+    public static TrackDTO create(GPXTrack inputTrack) {
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
         double minLongitude = Double.MAX_VALUE;
@@ -46,7 +44,6 @@ public class TrackFactory {
         for (GPXTrackSegment gpxSegment : inputTrack.getSegments()) {
             TrackSegmentDTO segment = new TrackSegmentDTO();
             for (GPXTrackPoint gpxPoint : gpxSegment.getPoints()) {
-            	Trackpoint point = new Trackpoint(null, gpxPoint);
                 double longitude = gpxPoint.getLongitude().doubleValue();
                 double latitude = gpxPoint.getLatitude().doubleValue();
                 double elevation = gpxPoint.getElevation().doubleValue();
@@ -74,7 +71,7 @@ public class TrackFactory {
         track.setLength(inputTrack.getLength());
         track.setStartTime(inputTrack.getSegments().get(0).getPoints().get(0).getTime().toDate());
         track.setTrackpoints(inputTrack.getNumberOfDataPoints());
-        return new Track(track);
+        return track;
     }
 
 }
