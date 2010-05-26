@@ -35,11 +35,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.footware.server.db.Track;
 import org.footware.server.db.User;
-import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
 import org.footware.shared.dto.TrackDTO;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -216,15 +214,15 @@ public class TrackUploadServlet extends HttpServlet {
 
 					// Add meta information to track
 					for (TrackDTO track : importer.getTracks()) {
+
 						track.setCommentsEnabled(comments);
 						track.setNotes(notes);
 						track.setPublicity(privacy);
 						track.setFilename(uploadedFile.getAbsolutePath());
+						track.setUser(user.getUserDTO());
 						Track dbTrack = new Track(track);
 						dbTrack.setPath(fileName);
-						dbTrack.setUser(user);
-						Track finalTrack = new Track(track);
-						finalTrack.store();
+						dbTrack.store();
 					}
 
 				} else {
