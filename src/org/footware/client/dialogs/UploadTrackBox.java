@@ -82,9 +82,9 @@ public class UploadTrackBox extends DialogBox {
 		g.setWidget(3, 1, notes);
 
 		email = new TextBox();
+		email.setVisible(false);
 		if (Session.getUser() != null) {
 			email.setValue(Session.getUser().getEmail());
-			email.setVisible(false);
 			email.setName(EMAIL);
 
 		}

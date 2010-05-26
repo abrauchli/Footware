@@ -78,6 +78,7 @@ public class TopMenu extends MenuBar {
 				ub.center();
 			}
 		});
+		uploadTrack.setVisible(false);
 		addItem(uploadTrack);
 
 	}

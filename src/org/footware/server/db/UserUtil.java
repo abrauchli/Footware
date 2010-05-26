@@ -16,18 +16,31 @@
 
 package org.footware.server.db;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import org.apache.catalina.util.MD5Encoder;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+/**
+ * Utility class for user specific operations
+ */
 public class UserUtil {
 
+	/**
+	 * Digest a password to compute its (MD5) hash for storage
+	 * @param password the password string to hash
+	 * @return the password's hashed string, null if the MD5 algorithm isn't available
+	 */
 	public static String getPasswordHash(String password) {
-		return new MD5Encoder().encode(password.getBytes());
+		try {
+			return new String(MessageDigest.getInstance("MD5").digest(password.getBytes()));
+		} catch (NoSuchAlgorithmException e) {
+			return null;
+		}
 	}
 	
 	/**

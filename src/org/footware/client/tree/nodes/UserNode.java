@@ -110,4 +110,10 @@ public class UserNode extends AbstractTreeNode {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	private boolean admin = false;
+
+	public void startAdmin() {
+		admin = true;
+	}
 }

@@ -37,7 +37,7 @@ public class AllUsersPage extends AbstractTablePage {
 
 	@Override
 	public void execLoadTableData() {
-		//dont do anything here...
+		// dont do anything here...
 	}
 
 	@Override
@@ -50,22 +50,23 @@ public class AllUsersPage extends AbstractTablePage {
 
 	@Override
 	public void execLoadTableData(AbstractSearchData search) {
-		//TODO service call
+		// TODO service call
 		OutlineServiceAsync svc = GWT.create(OutlineService.class);
-		svc.getUsersTable((UserSearchData) search, new AsyncCallback<String[][]>() {
-			
-			@Override
-			public void onSuccess(String[][] result) {
-				setTableData(result);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				displayError("Unable to contact server");
-			}
-		});
+		svc.getUsersTable((UserSearchData) search,
+				new AsyncCallback<String[][]>() {
 
-		}
+					@Override
+					public void onSuccess(String[][] result) {
+						setTableData(result);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						displayError("Unable to contact server");
+					}
+				});
+
+	}
 
 	@Override
 	public String getConfiguredTitle() {
@@ -85,5 +86,11 @@ public class AllUsersPage extends AbstractTablePage {
 	@Override
 	public void rowClicked(int rowNum) {
 		getTreeNode().openChildPage(rowNum);
+	}
+
+	private boolean admin = false;
+
+	public void startAdmin() {
+		admin = true;
 	}
 }

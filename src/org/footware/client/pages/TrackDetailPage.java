@@ -61,7 +61,6 @@ public class TrackDetailPage extends AbstractFormPage {
 	public TrackDTO getMyTrack() {
 		return myTrack;
 	}
-	
 
 	public class TrackDetailForm extends DockPanel {
 		private TextBox user;
@@ -103,7 +102,6 @@ public class TrackDetailPage extends AbstractFormPage {
 			sp.setHeight("300px");
 			sp.add(loadComments());
 			mapPlaceholder = new HorizontalPanel();
-			// TODO get data from server
 			add(sp, SOUTH);
 			// TODO use tracktitle here
 			add(new HTML("<b>" + "TRACKTITLE" + "</b>"), NORTH);
@@ -112,15 +110,7 @@ public class TrackDetailPage extends AbstractFormPage {
 		}
 
 		private Widget loadComments() {
-			// TODO remove stuff here so it works
-			List<CommentDTO> c;// = myTrack.getComments();
-			c = new ArrayList<CommentDTO>();
-			for (int i = 0; i < 20; i++) {
-				c
-						.add(new CommentDTO(
-								"balblablabla stussA DisclosurePanel has a header area and underneath, a content area. By clicking on the header, you can open or close (show or hide) the content. Before 1.4, I had written my own which had been quite popular - it's not indispensable, but in the right conditions it's really handy. \n Useful where space is short. For example, you might have a long list (telephone directory?) which displays basic identifying information (name and number) but by clicking the header, you can display more details.",
-								new UserDTO()));
-			}
+			List<CommentDTO> c = myTrack.getComments();
 			VerticalPanel vp = new VerticalPanel();
 			for (CommentDTO comment : c) {
 				DisclosurePanel dc = new DisclosurePanel();
@@ -135,6 +125,11 @@ public class TrackDetailPage extends AbstractFormPage {
 		}
 
 		private void loadData(TrackDTO t) {
+			length.setValue(Double.toString(t.getLength()));
+			notes.setValue(t.getNotes());
+			startdate.setValue(t.getStartTime());
+			trackpoints.setValue(Integer.toString(t.getTrackpoints()));
+			user.setValue(t.getUser().getFullName());
 		}
 
 	}

@@ -66,12 +66,13 @@ public class AllTracksPage extends AbstractTablePage {
 	@Override
 	protected List<String> getConfiguredHeaders() {
 		ArrayList<String> headers = new ArrayList<String>();
-		headers.add("Name");
+		//headers.add("Name");
 		headers.add("User");
 		headers.add("Trackpoints");
 		headers.add("Length");
 		headers.add("Date");
 		headers.add("Number of comments");
+		headers.add("Tags");
 		return headers;
 	}
 
