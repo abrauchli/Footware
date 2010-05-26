@@ -53,7 +53,7 @@ import org.hibernate.annotations.ManyToAny;
 @Entity
 @NamedQueries(value = {
 		//Get all public tracks
-		@NamedQuery(name = "tracks.getAll", query = "FROM Track t WHERE t.disabled=0 AND t.publicity=5"),
+		@NamedQuery(name = "tracks.getAllPublic", query = "FROM Track t WHERE t.disabled=0 AND t.publicity=5"),
 	})
 public class Track extends DbEntity implements Serializable {
 

@@ -30,14 +30,14 @@ import org.hibernate.Transaction;
 public class TrackUtil {
 	
 	/**
-	 * Gets a list of all enabled tracks
-	 * @return a list of all enabled tracks
+	 * Gets a list of all enabled public tracks
+	 * @return a list of all enabled public tracks
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Track> getAll() {
+	public List<Track> getAllPublicTracks() {
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		Transaction t = s.beginTransaction();
-		Query q = s.getNamedQuery("users.getAll");
+		Query q = s.getNamedQuery("tracks.getAllPublic");
 		List<Track> res = null;
 		try {
 			res = (List<Track>)q.list();
