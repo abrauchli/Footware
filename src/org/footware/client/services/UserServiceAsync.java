@@ -9,4 +9,6 @@ public interface UserServiceAsync {
 			throws IllegalArgumentException;
 	
 	public void registerUser(UserDTO user, AsyncCallback<UserDTO> callback);
+	
+	public void saveChanges(UserDTO user, AsyncCallback<Boolean> callback);
 }
