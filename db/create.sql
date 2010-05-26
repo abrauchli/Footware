@@ -6,6 +6,8 @@ DROP TABLE `comment` IF EXISTS;
 DROP VIEW  user_tag  IF EXISTS;
 DROP TABLE  tracksegment IF EXISTS;
 DROP TABLE  trackpoint   IF EXISTS;
+DROP TABLE  visualization IF EXISTS;
+DROP TABLE  visualization_point IF EXISTS;
 
 CREATE TABLE user (
     id          INTEGER         NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -13,7 +15,7 @@ CREATE TABLE user (
     password    CHAR(32)        NOT NULL,           /* MD5 hash */
     full_name   VARCHAR(64),
     is_admin    BOOLEAN         DEFAULT(0),
-    is_deactivated BOOLEAN      DEFAULT(0)
+    is_disabled BOOLEAN         DEFAULT(0)
 );
 COMMENT ON COLUMN user.password IS 'MD5 hash';
 
@@ -31,7 +33,7 @@ CREATE TABLE track (
     mid_latitude    DOUBLE      DEFAULT(0.0),       /* mean latitude of the track */
     mid_longitude   DOUBLE      DEFAULT(0.0),       /* mean longitude of the track */
     time_start  DATETIME,                           /* timestamp of the first trackpoint; timezones? */
-    disabled    BOOLEAN         DEFAULT(0)          /* is this track disabled ("deleted") or not */
+    disabled    BOOLEAN         DEFAULT(0),         /* is this track disabled ("deleted") or not */
 
     FOREIGN KEY (user_id)    REFERENCES user (id)
 );
@@ -98,5 +100,19 @@ CREATE TABLE trackpoint (
     speed        DOUBLE,
 
     FOREIGN KEY (tracksegment_id) REFERENCES tracksegment (id)
+);
+
+CREATE TABLE visualization (
+    id           INTEGER            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    type         VARCHAR(64)        NOT NULL,
+    x_unit       VARCHAR(32),
+    y_unit       VARCHAR(32)
+);
+
+CREATE TABLE visualization_point (
+    id           BIGINT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    visualization_id INTEGER        NOT NULL,
+    x_value      DOUBLE,
+    y_value      DOUBLE
 );
 
