@@ -102,7 +102,7 @@ public class Track extends DbEntity implements Serializable {
 	private List<Comment> comments = new LinkedList<Comment>();
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
-	@JoinColumn(name="track_id")
+	@JoinColumn(name="id")
 	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
