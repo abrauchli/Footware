@@ -100,6 +100,9 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 */
 	
 	
+	public TrackSegment(TrackSegmentDTO segment) {
+	}
+
 	/**
 	 * Gets the id of the corresponding DB row
 	 * 
