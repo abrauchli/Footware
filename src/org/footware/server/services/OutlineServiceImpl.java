@@ -17,9 +17,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class OutlineServiceImpl extends RemoteServiceServlet implements
 		OutlineService {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override

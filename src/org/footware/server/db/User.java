@@ -86,8 +86,7 @@ public class User extends DbEntity implements Serializable {
 	 */
 	public User(String email, String password) {
 		this.email = email;
-		this.password = (new org.apache.catalina.util.MD5Encoder()).encode(
-				password.getBytes()).toCharArray();
+		this.password = UserUtil.getPasswordHash(password).toCharArray();
 	}
 
 	/**
