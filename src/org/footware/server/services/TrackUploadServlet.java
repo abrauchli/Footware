@@ -33,6 +33,9 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
+import org.footware.server.db.Track;
+import org.footware.server.db.User;
+import org.footware.server.db.UserUtil;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
 import org.footware.shared.dto.TrackDTO;
@@ -49,6 +52,7 @@ public class TrackUploadServlet extends HttpServlet {
 
 	static {
 		importerMap.put("gpx", new GPXImport());
+		// Importer for different formats can be added here
 	}
 	
 	@Override
@@ -64,14 +68,6 @@ public class TrackUploadServlet extends HttpServlet {
 
 		logger = LoggerFactory.getLogger(TrackUploadServlet.class);
 
-		UserDTO user = new UserDTO();
-		user.setEmail("test@user.ch");
-
-		logger.info("User: " + user);
-		String userDirectoryString = user.getEmail().replace("@", "_at_");
-
-		File baseDirectory = initFileStructure(userDirectoryString);
-
 		// Check that we have a file upload request
 		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
 
@@ -82,6 +78,9 @@ public class TrackUploadServlet extends HttpServlet {
 		String name = "";
 		int privacy = 0;
 		Boolean comments = false;
+		String fileName = null;
+		String email = null;;
+		FileItem file = null;
 
 		if (isMultipart) {
 
@@ -122,8 +121,8 @@ public class TrackUploadServlet extends HttpServlet {
 					if (!item.isFormField()
 							&& item.getFieldName().equals("file")) {
 
-						// Save file to disk
-						String fileName = item.getName();
+						// Get file name
+						 fileName = item.getName();
 
 						// If file is not set, we cancel import
 						if (fileName == null) {
@@ -136,17 +135,8 @@ public class TrackUploadServlet extends HttpServlet {
 						if (fileName != null) {
 							fileName = FilenameUtils.getName(fileName);
 						}
-
-						// If already a file exist with the same name, we have
-						// to search for a new name
-						extension = fileName.substring(fileName.length() - 3, fileName
-								.length());
-						uploadedFile = getSavePath(baseDirectory
-								.getAbsolutePath(), fileName);
-						logger.debug(uploadedFile.getAbsolutePath());
-
-						// Finally write the file to disk
-						item.write(uploadedFile);
+						
+						file = item;
 
 						// Read notes field
 					} else if (item.isFormField()
@@ -199,18 +189,43 @@ public class TrackUploadServlet extends HttpServlet {
 		}
 
 		// If we read all fields, we can start the import
-		if (uploadedFile != null) {
+		if (uploadedFile != null && file != null) {
+			
+			//Get User
+			User user = UserUtil.getByEmail(email);
+			logger.info("User: " + user.getFullName() + " " + user.getEmail());
+			String userDirectoryString = user.getEmail().replace("@", "_at_");
+			
+			File baseDirectory = initFileStructure(userDirectoryString);
+			
+			// If already a file exist with the same name, we have
+			// to search for a new name
+			extension = fileName.substring(fileName.length() - 3, fileName
+					.length());
+			uploadedFile = getSavePath(baseDirectory
+					.getAbsolutePath(), fileName);
+			logger.debug(uploadedFile.getAbsolutePath());
+
+			// Finally write the file to disk
+			try {
+				file.write(uploadedFile);
+			} catch (Exception e) {
+				logger.error("File upload unsucessful", e);
+				e.printStackTrace();
+			}
 			
 			TrackImporter importer = importerMap.get(extension);
 			importer.importTrack(uploadedFile);
 
 			// Add meta information to track
 			for (TrackDTO track : importer.getTracks()) {
-				track.setUser(user);
 				track.setCommentsEnabled(comments);
 				track.setNotes(notes);
 				track.setPublicity(privacy);
 				track.setFilename(uploadedFile.getAbsolutePath());
+				Track dbTrack = new Track(track);
+				dbTrack.setPath(fileName);
+				dbTrack.setUser(user);
 			}
 
 		}
