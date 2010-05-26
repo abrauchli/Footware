@@ -92,6 +92,18 @@ public class TrackSegment extends DbEntity implements Serializable {
 			// TODO: Check if we should persist here
 		}
 	}
+	
+	/**
+	 * Create a track segment from a TrackSegmentDTO for persistence This also
+	 * creates Trackpoints from the linked TrackSegmentDTO
+	 * 
+	 * @param gpx
+	 *            GPXTrackSegment to create from
+	 */
+	
+	
+	public TrackSegment(TrackSegmentDTO segment) {
+	}
 
 	/**
 	 * Gets the id of the corresponding DB row

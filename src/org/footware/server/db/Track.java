@@ -36,9 +36,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.footware.server.gpx.model.GPXTrack;
+import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackSegmentDTO;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ManyToAny;
 
@@ -127,10 +130,20 @@ public class Track extends DbEntity implements Serializable {
 		this.trackpoints = track.getTrackpoints();
 		this.length = track.getLength();
 		this.startTime = track.getStartTime();
+		for (TrackSegmentDTO segment : track.getSegments()) 
+			this.segments.add(new TrackSegment(segment));
 		for (CommentDTO c : track.getComments())
 			this.comments.add(new Comment(c));
 		for (TagDTO t : track.getTags())
 			this.tags.add(new Tag(t));
+	}
+	
+	public Track(GPXTrack track) {
+		this.trackpoints = track.getNumberOfDataPoints();
+		this.length = track.getLength();
+		for(GPXTrackSegment segment : track.getSegments()) {
+			segments.add(new TrackSegment(segment));
+		}
 	}
 
 	/**

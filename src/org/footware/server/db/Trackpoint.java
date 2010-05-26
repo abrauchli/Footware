@@ -53,6 +53,19 @@ public class Trackpoint extends DbEntity implements Serializable {
 	}
 	
 	/**
+	 * Creates a trackpoint from scratch
+	 */
+	public Trackpoint(TrackSegment segment, double latitude, double longitude, double elevation, Date time, double speed) {
+		this.segment = segment;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.elevation = elevation;
+		this.time = time;
+		this.speed = speed;
+	}
+	
+	
+	/**
 	 * Create a trackpoint from a GPXTrackPoint for persistence
 	 * @param seg the segment this point belongs to
 	 * @param gpx the GPXTrackPoint to create this object from
