@@ -120,6 +120,10 @@ public class OwnPage extends AbstractFormPage {
 			email.setValue(u.getEmail());
 			name.setValue(u.getFullName());
 		}
+		
+		public void saveData(){
+			
+		}
 
 	}
 

@@ -16,6 +16,8 @@
 
 package org.footware.client.dialogs;
 
+import org.footware.client.Session;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -41,6 +43,7 @@ public class UploadTrackBox extends DialogBox {
 
 	private TextBox trackName;
 	private CheckBox enableComments;
+	private TextBox email;
 	private ListBox privacy;
 	private TextArea notes;
 	private FileUpload file;
@@ -77,6 +80,11 @@ public class UploadTrackBox extends DialogBox {
 		g.setWidget(3, 0, new HTML("Notes"));
 		g.setWidget(3, 1, notes);
 
+		email = new TextBox();
+		email.setValue(Session.getUser().getEmail());
+		email.setVisible(false);
+		email.setName("email");
+
 		file = new FileUpload();
 		file.setName(FILE);
 		g.setWidget(4, 0, new HTML("Select File"));
@@ -111,6 +119,7 @@ public class UploadTrackBox extends DialogBox {
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
 		form.add(g);
+		form.add(email);
 		add(form);
 	}
 
