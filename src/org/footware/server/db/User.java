@@ -35,6 +35,7 @@ import javax.persistence.OneToMany;
 
 import org.footware.server.db.util.HibernateUtil;
 import org.footware.server.db.util.UserUtil;
+import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.UserDTO;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -328,11 +329,16 @@ public class User extends DbEntity implements Serializable {
 		else
 			u.activate();
 
-		for (Track t : getTracks())
-			u.addTrackDTO(t.getTrackDTO());
+		for (Track t : getTracks()) {
+			TrackDTO dto = t.getTrackDTO();
+			u.addTrackDTO(dto);
+			if (t.getPublicity() == 5)
+				u.addPublicTrack(dto);
+		}
 		// do not set password (it's only the hash anyway)
 		// for (String t : getTags())
-		// u.addTag(t);
+		// 		u.addTag(t);
+
 		return u;
 	}
 }

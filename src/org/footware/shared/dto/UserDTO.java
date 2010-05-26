@@ -32,6 +32,7 @@ public class UserDTO implements Serializable {
 	private boolean isAdmin;
 	private boolean isDeactivated;
 	private Set<TrackDTO> tracks = new HashSet<TrackDTO>();
+	private Set<TrackDTO> publicTracks = new HashSet<TrackDTO>();
 //	private Set<String> tags = new HashSet<String>();
 
 	/**
@@ -135,6 +136,14 @@ public class UserDTO implements Serializable {
 	public Set<TrackDTO> getTracks() {
 		return tracks;
 	}
+
+	/**
+	 * Gets all public tracks associated with this user
+	 * @return all user's public tracks
+	 */
+	public Set<TrackDTO> getPublicTracks() {
+		return publicTracks;
+	}
 	
 	/**
 	 * Adds a new track to this user's track collection
@@ -155,6 +164,16 @@ public class UserDTO implements Serializable {
 		if (tracks != null) {
 			tracks.remove(track);
 		}
+	}
+
+	/**
+	 * Adds a new public track to this user
+	 * Only use this for setup - it won't be updated in the db if modified!
+	 * @param t track which is public
+	 */
+	public void addPublicTrack(TrackDTO t) {
+		assert (t.getPublicity() == 5);
+		publicTracks.add(t);
 	}
 
 //	/**
