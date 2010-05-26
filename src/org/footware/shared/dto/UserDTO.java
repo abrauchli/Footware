@@ -32,7 +32,7 @@ public class UserDTO implements Serializable {
 	private boolean isAdmin;
 	private boolean isDeactivated;
 	private Set<TrackDTO> tracks = new HashSet<TrackDTO>();
-	private Set<TagDTO> tags = new HashSet<TagDTO>();
+//	private Set<String> tags = new HashSet<String>();
 
 	/**
 	 * Gets the id of the corresponding DB row
@@ -157,19 +157,19 @@ public class UserDTO implements Serializable {
 		}
 	}
 
-	/**
-	 * Gets the tags associated with this user
-	 * @return all tags of this user
-	 */
-	public Set<TagDTO> getTags() {
-		return tags;
-	}
-
-	/**
-	 * Adds a new tag to this user's tag list
-	 * @param tagDTO tag to add
-	 */
-	public void addTag(TagDTO tagDTO) {
-		tags.add(tagDTO);
-	}
+//	/**
+//	 * Gets the tags associated with this user
+//	 * @return all tags of this user
+//	 */
+//	public Set<String> getTags() {
+//		return tags;
+//	}
+//
+//	/**
+//	 * Adds a new tag to this user's tag list
+//	 * @param tag to add
+//	 */
+//	public void addTag(String tag) {
+//		tags.add(tag);
+//	}
 }

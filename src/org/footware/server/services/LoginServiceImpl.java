@@ -29,8 +29,11 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	@Override
 	public UserDTO login(String email, String password)
 			throws IllegalArgumentException {
-		User u = UserUtil.getIfValid(email, UserUtil.getPasswordHash(password));
-		if (u != null) {
+		if (!email.matches(".+@.+\\..+"))
+			throw new IllegalArgumentException("Invalid email format");
+		User u = UserUtil.getByEmail(email);
+		//User u = UserUtil.getIfValid(email, UserUtil.getPasswordHash(password));
+		if (u != null && ! u.isDeactivated()) {
 			getThreadLocalRequest().getSession().setAttribute("user", u);
 			return u.getUserDTO();
 		}
