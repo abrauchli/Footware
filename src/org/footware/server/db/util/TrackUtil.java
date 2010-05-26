@@ -34,7 +34,7 @@ public class TrackUtil {
 	 * @return a list of all enabled public tracks
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Track> getAllPublicTracks() {
+	public static List<Track> getAllPublicTracks() {
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		Transaction t = s.beginTransaction();
 		Query q = s.getNamedQuery("tracks.getAllPublic");

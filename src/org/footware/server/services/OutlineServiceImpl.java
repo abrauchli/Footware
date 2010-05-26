@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.footware.client.services.OutlineService;
+import org.footware.server.db.Tag;
+import org.footware.server.db.Track;
 import org.footware.server.db.User;
+import org.footware.server.db.util.TrackUtil;
 import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
@@ -21,13 +24,17 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String[][] getUsersTable(UserSearchData filter) {
 		List<User> l = UserUtil.getAll();
-		String[][] result = new String[l.size()][2];
+		if (l != null) {
+			String[][] result = new String[l.size()][2];
 
-		for (int i = 0; i < l.size(); i++) {
-			result[i][0] = l.get(i).getFullName();
-			result[i][1] = Integer.toString(l.get(i).getTracks().size());
+			for (int i = 0; i < l.size(); i++) {
+				result[i][0] = l.get(i).getFullName();
+				result[i][1] = Integer.toString(l.get(i).getTracks().size());
+			}
+			return result;
+		} else {
+			return new String[1][1];
 		}
-		return result;
 	}
 
 	@Override
@@ -36,24 +43,41 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 		ArrayList<UserDTO> children = new ArrayList<UserDTO>();
 
 		List<User> users = UserUtil.getAll();
-
-		for (User u : users) {
-			children.add(u.getUserDTO());
+		if (users != null) {
+			for (User u : users) {
+				children.add(u.getUserDTO());
+			}
 		}
 		return children;
 	}
 
 	@Override
 	public List<TrackDTO> getTrackList(TrackSearchData filter) {
-		// TODO implement: get all public tracks
 		List<TrackDTO> children = new ArrayList<TrackDTO>();
-		for (int i = 0; i < filter.value; i++) {
+		List<Track> tracks = TrackUtil.getAllPublicTracks();
+		for (Track t : tracks) {
+			children.add(t.getTrackDTO());
 		}
 		return children;
 	}
 
 	public String[][] getTracksTable(TrackSearchData filter) {
-		// TODO implement. Also filtering for user
+		List<Track> tracks = TrackUtil.getAllPublicTracks();
+		String[][] result = new String[tracks.size()][6];
+		for (int i = 0; i < tracks.size(); i++) {
+			result[i][0] = tracks.get(i).getUser().getFullName();
+			result[i][1] = Integer.toString(tracks.get(i).getTrackpoints());
+			result[i][2] = Double.toString(tracks.get(i).getLength());
+			result[i][3] = tracks.get(i).getStartTime().toString();
+			result[i][4] = Integer.toString(tracks.get(i).getComments().size());
+			StringBuffer b = new StringBuffer();
+			for (Tag tag : tracks.get(i).getTags()) {
+				b.append(tag.getTag() + ", ");
+			}
+			result[i][5] = b.toString();
+
+		}
+		System.out.println("This is the 5000th line of code :)");
 		return new String[1][1];
 	}
 
