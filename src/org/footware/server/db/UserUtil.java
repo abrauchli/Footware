@@ -16,10 +16,9 @@
 
 package org.footware.server.db;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -36,11 +35,7 @@ public class UserUtil {
 	 * @return the password's hashed string, null if the MD5 algorithm isn't available
 	 */
 	public static String getPasswordHash(String password) {
-		try {
-			return new String(MessageDigest.getInstance("MD5").digest(password.getBytes()));
-		} catch (NoSuchAlgorithmException e) {
-			return null;
-		}
+		return DigestUtils.md5Hex(password);
 	}
 	
 	/**
