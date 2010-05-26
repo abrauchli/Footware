@@ -1,12 +1,10 @@
 package org.footware.server.services;
 
 import org.footware.client.services.UserService;
-import org.footware.client.services.UserServiceAsync;
 import org.footware.server.db.User;
 import org.footware.server.db.UserUtil;
 import org.footware.shared.dto.UserDTO;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
@@ -35,10 +33,10 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 		User u = UserUtil.getByEmail(user.getEmail());
 		u.setEmail(user.getEmail());
 		u.setFullName(user.getFullName());
-		//TODO use hash here?
-		//u.setPassword(user.getPassword());
+		// TODO use hash here?
+		// u.setPassword(user.getPassword());
 		u.store();
-		//TODO handle erros and return false instead?
+		// TODO handle erros and return false instead?
 		return true;
 	}
 

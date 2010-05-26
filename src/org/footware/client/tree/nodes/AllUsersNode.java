@@ -36,28 +36,29 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AllUsersNode extends AbstractTreeNode {
 
+	private boolean admin = false;
+
 	@Override
 	protected void execCreateChildren() {
-		//leaving this empty forces search
+		// leaving this empty forces search
 	}
 
 	@Override
-	protected void execCreateChildren(
-			AbstractSearchData search) {
-		//TODO andy methode um user gemäss suche als list<userDTO> zu erhalten
+	protected void execCreateChildren(AbstractSearchData search) {
+		// TODO andy methode um user gemäss suche als list<userDTO> zu erhalten
 		UserSearchData sd = (UserSearchData) search;
 		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		svc.getUserList(sd, new AsyncCallback<List<UserDTO>>() {
-			
+
 			@Override
 			public void onSuccess(List<UserDTO> result) {
 				List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-				for(UserDTO u : result){
+				for (UserDTO u : result) {
 					children.add(new UserNode(u));
 				}
 				setChildNodes(children);
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught) {
 				noConnection();
@@ -70,14 +71,25 @@ public class AllUsersNode extends AbstractTreeNode {
 		return "All user profiles";
 	}
 
+	private AllUsersPage content;
+
 	@Override
 	public AbstractPage getConfiguredPage() {
-		return new AllUsersPage(this);
+		if (content == null) {
+			content = new AllUsersPage(this);
+		}
+		return content;
 	}
 
 	@Override
 	public AbstractSearchForm getConfiguredSearchForm() {
 		return new UserSearchForm(this);
 	}
-	
+
+	public void startAdmin() {
+		admin = true;
+		getConfiguredPage();
+		content.startAdmin();
+	}
+
 }

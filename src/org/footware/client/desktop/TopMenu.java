@@ -33,6 +33,7 @@ public class TopMenu extends MenuBar {
 	private MenuItem logout;
 	private MenuItem login;
 	private MenuItem signUp;
+	private MenuItem uploadTrack;
 
 	private Desktop myDesktop;
 
@@ -71,12 +72,13 @@ public class TopMenu extends MenuBar {
 
 		addSeparator();
 
-		MenuItem uploadTrack = new MenuItem("Upload Track", new Command() {
+		uploadTrack = new MenuItem("Upload Track", new Command() {
 			@Override
 			public void execute() {
 				ub.center();
 			}
 		});
+		uploadTrack.setVisible(false);
 		addItem(uploadTrack);
 
 	}
@@ -85,6 +87,7 @@ public class TopMenu extends MenuBar {
 		login.setVisible(false);
 		logout.setVisible(true);
 		signUp.setVisible(false);
+		uploadTrack.setVisible(true);
 		myDesktop.login();
 	}
 
@@ -92,6 +95,7 @@ public class TopMenu extends MenuBar {
 		logout.setVisible(false);
 		login.setVisible(true);
 		signUp.setVisible(true);
+		uploadTrack.setVisible(false);
 		myDesktop.logout();
 	}
 

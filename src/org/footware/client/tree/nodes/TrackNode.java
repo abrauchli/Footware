@@ -50,7 +50,7 @@ public class TrackNode extends AbstractTreeNode {
 
 	@Override
 	public AbstractPage getConfiguredPage() {
-		TrackDetailPage p = new TrackDetailPage(this);
+		TrackDetailPage p = new TrackDetailPage(this, myTrack);
 		p.setMyTrack(myTrack);
 		return p;
 

@@ -42,8 +42,6 @@ public class AllTracksNode extends AbstractTreeNode {
 
 	@Override
 	protected void execCreateChildren(AbstractSearchData search) {
-		// TODO andy hier brauche ich eine methode um tracks entsprechend der
-		// suche zu holen (von mir aus list<trackDTO>
 		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		TrackSearchData sd = (TrackSearchData) search;
 		svc.getTrackList(sd, new AsyncCallback<List<TrackDTO>>() {

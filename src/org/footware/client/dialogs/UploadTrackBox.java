@@ -40,8 +40,9 @@ public class UploadTrackBox extends DialogBox {
 	public static String COMMENTS = "comments";
 	public static String NOTES = "notes";
 	public static String FILE = "file";
+	public static String EMAIL = "email";
 
-	private TextBox trackName;
+//	private TextBox trackName;
 	private CheckBox enableComments;
 	private TextBox email;
 	private ListBox privacy;
@@ -52,15 +53,15 @@ public class UploadTrackBox extends DialogBox {
 	public UploadTrackBox() {
 		setText("Upload a Track");
 
-		Grid g = new Grid(6, 2);
+		Grid g = new Grid(7, 2);
 
 		setAutoHideEnabled(true);
 		setGlassEnabled(true);
 
-		trackName = new TextBox();
-		trackName.setName(NAME);
-		g.setWidget(0, 0, new HTML("Name"));
-		g.setWidget(0, 1, trackName);
+//		trackName = new TextBox();
+//		trackName.setName(NAME);
+//		g.setWidget(0, 0, new HTML("Name"));
+//		g.setWidget(0, 1, trackName);
 
 		privacy = new ListBox();
 		privacy.setName(PRIVACY);
@@ -81,9 +82,13 @@ public class UploadTrackBox extends DialogBox {
 		g.setWidget(3, 1, notes);
 
 		email = new TextBox();
-		email.setValue(Session.getUser().getEmail());
 		email.setVisible(false);
-		email.setName("email");
+		if (Session.getUser() != null) {
+			email.setValue(Session.getUser().getEmail());
+			email.setName(EMAIL);
+
+		}
+		g.setWidget(6, 0, email);
 
 		file = new FileUpload();
 		file.setName(FILE);
@@ -119,7 +124,7 @@ public class UploadTrackBox extends DialogBox {
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
 		form.add(g);
-		form.add(email);
+
 		add(form);
 	}
 
