@@ -16,8 +16,19 @@
 
 package org.footware.client.pages;
 
+import java.util.Set;
+
+import org.footware.client.Session;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
+import org.footware.client.services.OutlineService;
+import org.footware.client.services.OutlineServiceAsync;
+import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackSearchData;
+import org.footware.shared.dto.UserDTO;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class MyTracksTablePage extends AllTracksPage {
 
@@ -30,15 +41,28 @@ public class MyTracksTablePage extends AllTracksPage {
 		// TODO get user and find suitable stuff to do here
 		// TODO andy methode um tracks eines users als tabelle zu laden
 		// (abhängig von suche)
-		setTableData(new String[][] { { "bogus track", "dumbo user", "666",
-				"500 miles", "8.11.1984", "0" } });
+		UserDTO u = Session.getUser();
+		TrackSearchData sd = (TrackSearchData) search;
+		sd.user = u;
+		OutlineServiceAsync svc = GWT.create(OutlineService.class);
+		svc.getTracksTable(sd, new AsyncCallback<String[][]>() {
+
+			@Override
+			public void onSuccess(String[][] result) {
+				setTableData(result);
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				displayError("No connection to server");
+			}
+		});
 	}
 
 	@Override
 	public void execLoadTableData() {
 		// TODO do table load
 		// TODO andy wie oben aber mit leerer suche
-		setTableData(new String[][] { { "bogus track", "dumbo user", "666",
-				"500 miles", "8.11.1984", "0" } });
+		execLoadTableData(new TrackSearchData());
 	}
 }

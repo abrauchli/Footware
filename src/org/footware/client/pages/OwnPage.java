@@ -16,8 +16,10 @@
 
 package org.footware.client.pages;
 
+import org.footware.client.Session;
 import org.footware.client.framework.pages.AbstractFormPage;
 import org.footware.client.framework.tree.AbstractTreeNode;
+import org.footware.shared.dto.UserDTO;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -33,26 +35,29 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class OwnPage extends AbstractFormPage {
 
+	private MyOwnPage content;
+
 	public OwnPage(AbstractTreeNode treeNode) {
 		super(treeNode);
 	}
 
 	@Override
 	protected Widget getConfiguredContent() {
-		return new MyOwnPage();
+		content = new MyOwnPage();
+		return content;
 	}
 
 	public class MyOwnPage extends DockPanel {
-		TextBox username;
-		TextBox name;
-		TextBox email;
-		PasswordTextBox password;
-		Button edit;
-		Button ok;
+		//private TextBox username;
+		private TextBox name;
+		private TextBox email;
+		private PasswordTextBox password;
+		private Button edit;
+		private Button ok;
 
 		public MyOwnPage() {
-			username = new TextBox();
-			username.setEnabled(false);
+		//	username = new TextBox();
+		//	username.setEnabled(false);
 			name = new TextBox();
 			name.setEnabled(false);
 			email = new TextBox();
@@ -60,8 +65,8 @@ public class OwnPage extends AbstractFormPage {
 			password = new PasswordTextBox();
 			password.setEnabled(false);
 			Grid g = new Grid(4, 2);
-			g.setWidget(0, 0, new HTML("Username"));
-			g.setWidget(0, 1, username);
+		//	g.setWidget(0, 0, new HTML("Username"));
+		//	g.setWidget(0, 1, username);
 			g.setWidget(1, 0, new HTML("Name"));
 			g.setWidget(1, 1, name);
 			g.setWidget(2, 0, new HTML("Email"));
@@ -110,5 +115,16 @@ public class OwnPage extends AbstractFormPage {
 			edit.setEnabled(!to);
 
 		}
+
+		public void loadData(UserDTO u) {
+			email.setValue(u.getEmail());
+			name.setValue(u.getFullName());
+		}
+
+	}
+
+	@Override
+	public void execLazyload() {
+		content.loadData(Session.getUser());
 	}
 }

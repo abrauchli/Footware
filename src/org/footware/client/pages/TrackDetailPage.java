@@ -50,12 +50,7 @@ public class TrackDetailPage extends AbstractFormPage {
 	@Override
 	protected Widget getConfiguredContent() {
 		content = new TrackDetailForm();
-		loadData();
 		return content;
-	}
-
-	private void loadData() {
-		// TODO load data from myTrack here
 	}
 
 	public void setMyTrack(TrackDTO myTrack) {
@@ -65,15 +60,16 @@ public class TrackDetailPage extends AbstractFormPage {
 	public TrackDTO getMyTrack() {
 		return myTrack;
 	}
+	
 
 	public class TrackDetailForm extends DockPanel {
-		TextBox user;
-		TextArea notes;
-		TextBox trackpoints;
-		TextBox length;
-		DateBox startdate;
-		HorizontalPanel mapPlaceholder;
-		FootwareMapWidget map;
+		private TextBox user;
+		private TextArea notes;
+		private TextBox trackpoints;
+		private TextBox length;
+		private DateBox startdate;
+		private HorizontalPanel mapPlaceholder;
+		private FootwareMapWidget map;
 
 		public TrackDetailForm() {
 			super();
@@ -137,6 +133,9 @@ public class TrackDetailPage extends AbstractFormPage {
 			return vp;
 		}
 
+		private void loadData(TrackDTO t) {
+		}
+
 	}
 
 	public void editableMode() {
@@ -155,6 +154,7 @@ public class TrackDetailPage extends AbstractFormPage {
 
 	@Override
 	public void execLazyload() {
+		content.loadData(getMyTrack());
 		content.map = new FootwareMapWidget();
 		content.mapPlaceholder.add(content.map);
 	}

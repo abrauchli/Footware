@@ -148,6 +148,6 @@ public abstract class AbstractTreeNode extends TreeItem {
 		getPage().execLazyload();
 	}
 	public void noConnection(){
-		Window.alert("Mo connection to server");
+		Window.alert("No connection to server");
 	}
 }
