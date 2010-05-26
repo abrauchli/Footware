@@ -18,6 +18,7 @@ package org.footware.server.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,9 +33,9 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
-
-import org.footware.server.db.Track;
 import org.footware.server.gpx.GPXImport;
+import org.footware.server.gpx.TrackImporter;
+import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,13 @@ import org.slf4j.LoggerFactory;
 public class TrackUploadServlet extends HttpServlet {
 
 	private Logger logger;
+	
+	private static HashMap <String,TrackImporter> importerMap = new HashMap<String, TrackImporter>();
 
+	static {
+		importerMap.put("gpx", new GPXImport());
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -69,9 +76,10 @@ public class TrackUploadServlet extends HttpServlet {
 		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
 
 		// Init fields of form
+		String extension = "";
 		File uploadedFile = null;
-		String notes = null;
-		String name = null;
+		String notes = "";
+		String name = "";
 		int privacy = 0;
 		Boolean comments = false;
 
@@ -111,33 +119,46 @@ public class TrackUploadServlet extends HttpServlet {
 					FileItem item = iter.next();
 
 					// Process a file upload
-
 					if (!item.isFormField()
 							&& item.getFieldName().equals("file")) {
 
 						// Save file to disk
 						String fileName = item.getName();
+
+						// If file is not set, we cancel import
 						if (fileName == null) {
 							logger.info("empty file name");
 							break;
 						}
 						logger.info("received file:" + fileName);
 
+						// We have to parse the filename because of IE again
 						if (fileName != null) {
 							fileName = FilenameUtils.getName(fileName);
 						}
 
+						// If already a file exist with the same name, we have
+						// to search for a new name
+						extension = fileName.substring(fileName.length() - 3, fileName
+								.length());
 						uploadedFile = getSavePath(baseDirectory
 								.getAbsolutePath(), fileName);
 						logger.debug(uploadedFile.getAbsolutePath());
+
+						// Finally write the file to disk
 						item.write(uploadedFile);
 
+						// Read notes field
 					} else if (item.isFormField()
 							&& item.getFieldName().equals("notes")) {
 						notes = item.getString();
 						logger.debug("notes" + ": " + item.getString());
+
+						// Read comments field
 					} else if (item.isFormField()
 							&& item.getFieldName().equals("comments")) {
+
+						// Value can either be on or off
 						if (item.getString().equals("on")) {
 							comments = true;
 						} else {
@@ -145,9 +166,13 @@ public class TrackUploadServlet extends HttpServlet {
 						}
 						logger.debug("comments" + ": " + item.getString());
 
+						// Read privacy field
 					} else if (item.isFormField()
 							&& item.getFieldName().equals("privacy")) {
 						String priv = item.getString();
+
+						// Currently values can be either public or private.
+						// Default is private
 						if (priv.equals("public")) {
 							privacy = 5;
 						} else if (priv.equals("private")) {
@@ -156,6 +181,8 @@ public class TrackUploadServlet extends HttpServlet {
 							privacy = 0;
 						}
 						logger.debug("privacy" + ": " + item.getString());
+
+						// Read name file
 					} else if (item.isFormField()
 							&& item.getFieldName().equals("name")) {
 						name = item.getString();
@@ -171,17 +198,21 @@ public class TrackUploadServlet extends HttpServlet {
 			}
 		}
 
-		// Start GPX Import
+		// If we read all fields, we can start the import
 		if (uploadedFile != null) {
-			GPXImport importer = new GPXImport(user, notes, comments, privacy,
-					name);
+			
+			TrackImporter importer = importerMap.get(extension);
 			importer.importTrack(uploadedFile);
-			
-			//Add meta information to track
-			for( Track track : importer.getTracks()) {
-				
+
+			// Add meta information to track
+			for (TrackDTO track : importer.getTracks()) {
+				track.setUser(user);
+				track.setCommentsEnabled(comments);
+				track.setNotes(notes);
+				track.setPublicity(privacy);
+				track.setFilename(uploadedFile.getAbsolutePath());
 			}
-			
+
 		}
 	}
 
@@ -195,7 +226,7 @@ public class TrackUploadServlet extends HttpServlet {
 			logger.debug("suffix: " + suffix);
 
 			// If the file is already here, the file name is a_name.gpx
-			if (suffix.equals("gpx")) {
+			if (importerMap.keySet().contains(suffix)) {
 				suffix += "_001";
 				logger.debug("suffix: " + suffix);
 

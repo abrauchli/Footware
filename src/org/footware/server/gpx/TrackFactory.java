@@ -23,9 +23,8 @@ import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.TrackDTO;
-import org.footware.shared.dto.TrackpointDTO;
 import org.footware.shared.dto.TrackSegmentDTO;
-import org.footware.shared.dto.UserDTO;
+import org.footware.shared.dto.TrackpointDTO;
 
 /**
  * @author rene
@@ -62,15 +61,11 @@ public class TrackFactory {
             track.addSegment(segment);
         }
         
-//        track.setMidLatitude((minLatitude+maxLatitude)/2);
-//        track.setMidLongitude((minLongitude+maxLongitude)/2);
-//        track.setUser(user);
-//        track.setCommentsEnabled(commentsEnabled);
-//        track.setLength(inputTrack.getLength());
-//        track.setNotes(notes);
-//        track.setPublicity(privacy);
-//        track.setStartTime(inputTrack.getSegments().get(0).getPoints().get(0).getTime().toDate());
-//        track.setTrackpoints(inputTrack.getNumberOfDataPoints());
+        track.setMidLatitude((minLatitude+maxLatitude)/2);
+        track.setMidLongitude((minLongitude+maxLongitude)/2);
+        track.setLength(inputTrack.getLength());
+        track.setStartTime(inputTrack.getSegments().get(0).getPoints().get(0).getTime().toDate());
+        track.setTrackpoints(inputTrack.getNumberOfDataPoints());
         return track;
     }
 
