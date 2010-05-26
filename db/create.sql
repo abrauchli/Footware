@@ -31,6 +31,7 @@ CREATE TABLE track (
     mid_latitude    DOUBLE      DEFAULT(0.0),       /* mean latitude of the track */
     mid_longitude   DOUBLE      DEFAULT(0.0),       /* mean longitude of the track */
     time_start  DATETIME,                           /* timestamp of the first trackpoint; timezones? */
+    disabled    BOOLEAN         DEFAULT(0)          /* is this track disabled ("deleted") or not */
 
     FOREIGN KEY (user_id)    REFERENCES user (id)
 );
@@ -44,6 +45,7 @@ COMMENT ON COLUMN track.length      IS 'track length in meters';
 COMMENT ON COLUMN track.mid_latitude IS 'mean latitude of the track';
 COMMENT ON COLUMN track.mid_longitude IS 'mean longitude of the track';
 COMMENT ON COLUMN track.time_start  IS 'timestamp of the first trackpoint; timezones?';
+COMMENT ON COLUMN track.disabled    IS 'is this track disabled ("deleted") or not';
 
 CREATE TABLE tag (
     id          INTEGER         NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -16,9 +16,35 @@
 
 package org.footware.server.db.util;
 
+import java.util.List;
+
+import org.footware.server.db.Track;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 /**
  * Utility class for track specific operations
  */
 public class TrackUtil {
 	
+	/**
+	 * Gets a list of all enabled tracks
+	 * @return a list of all enabled tracks
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Track> getAll() {
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction t = s.beginTransaction();
+		Query q = s.getNamedQuery("users.getAll");
+		List<Track> res = null;
+		try {
+			res = (List<Track>)q.list();
+			t.commit();
+		} catch (HibernateException e) {
+			t.rollback();
+		}
+		return res;
+	}
 }

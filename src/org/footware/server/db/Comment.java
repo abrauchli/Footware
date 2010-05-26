@@ -28,7 +28,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.footware.shared.dto.CommentDTO;
-import org.footware.shared.dto.TrackDTO;
 
 /**
  * Class for ER mapping of comments

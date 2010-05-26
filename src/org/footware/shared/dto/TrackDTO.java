@@ -43,6 +43,7 @@ public class TrackDTO implements Serializable {
 	private double midLongitude;
 	private double midLatitude;
 	private Date startTime;
+	private boolean disabled;
 	private List<CommentDTO> comments = new LinkedList<CommentDTO>();
 	private List<TrackSegmentDTO> segments = new LinkedList<TrackSegmentDTO>();
 	private Set<TagDTO> tags = new HashSet<TagDTO>();
@@ -276,5 +277,21 @@ public class TrackDTO implements Serializable {
 	 */
 	public Set<TagDTO> getTags() {
 		return tags;
+	}
+	
+	/**
+	 * Gets whether this track is disabled or enabled
+	 * @return true if disabled, enabled otherwise
+	 */
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	/**
+	 * Sets this track as disabled or enabled
+	 * @param disabled true if disabled, false if enabled
+	 */
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 }

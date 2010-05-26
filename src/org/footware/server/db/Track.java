@@ -53,7 +53,7 @@ import org.hibernate.annotations.ManyToAny;
 @Entity
 @NamedQueries(value = {
 		//Get all public tracks
-		@NamedQuery(name = "tracks.getAll", query = "FROM Track t WHERE t.publicity=5"),
+		@NamedQuery(name = "tracks.getAll", query = "FROM Track t WHERE t.disabled=0 AND t.publicity=5"),
 	})
 public class Track extends DbEntity implements Serializable {
 
@@ -94,6 +94,8 @@ public class Track extends DbEntity implements Serializable {
 
 	@Column(name="time_start")
 	private Date startTime;
+	
+	private boolean disabled;
 
 	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.EAGER)
 	private List<Comment> comments = new LinkedList<Comment>();
@@ -368,6 +370,22 @@ public class Track extends DbEntity implements Serializable {
 	}
 
 	/**
+	 * Sets this track as disabled or enabled
+	 * @param disabled whether to enable or disable this track
+	 */
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+
+	/**
+	 * Gets whether this track is disabled or not
+	 * @return true if disabled, false if enabled
+	 */
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	/**
 	 * Gets all comments for this track
 	 * 
 	 * @return List of all comments for this track
@@ -439,6 +457,7 @@ public class Track extends DbEntity implements Serializable {
 		t.setMidLatitude(midLatitude);
 		t.setMidLongitude(midLongitude);
 		t.setStartTime(startTime);
+		t.setDisabled(disabled);
 		for (Comment c : getComments())
 			t.addComment(c.getCommentDTO());
 		for (TrackSegment s : getSegments())
