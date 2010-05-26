@@ -17,4 +17,5 @@ public interface OutlineService extends RemoteService {
 	public List<UserDTO> getUserList(UserSearchData filter);
 
 	public List<TrackDTO> getTrackList(TrackSearchData filter);
+	
 }
