@@ -19,8 +19,10 @@ package org.footware.shared.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * DTO Class for Tracks 
@@ -43,6 +45,7 @@ public class TrackDTO implements Serializable {
 	private Date startTime;
 	private List<CommentDTO> comments = new LinkedList<CommentDTO>();
 	private List<TrackSegmentDTO> segments = new LinkedList<TrackSegmentDTO>();
+	private Set<TagDTO> tags = new HashSet<TagDTO>();
 
 	/**
 	 * Gets the id of the corresponding DB row
@@ -160,7 +163,7 @@ public class TrackDTO implements Serializable {
 	}
 	
 	/**
-	 * Gets the length in meters (TODO: Check unit) of this track
+	 * Gets the length in meters of this track
 	 * @return the length in meters of this track
 	 */
 	public double getLength() {
@@ -257,5 +260,21 @@ public class TrackDTO implements Serializable {
 		if (comments == null)
 			comments = new ArrayList<CommentDTO>();
 		comments.add(comment);
+	}
+
+	/**
+	 * Adds a tag to this track
+	 * @param tagDTO tag to add
+	 */
+	public void addTag(TagDTO t) {
+		tags.add(t);
+	}
+
+	/**
+	 * Gets the tags set on this track
+	 * @return tags for this track
+	 */
+	public Set<TagDTO> getTags() {
+		return tags;
 	}
 }
