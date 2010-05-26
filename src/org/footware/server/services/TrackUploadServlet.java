@@ -39,7 +39,6 @@ import org.footware.server.db.UserUtil;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
 import org.footware.shared.dto.TrackDTO;
-import org.footware.shared.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +66,7 @@ public class TrackUploadServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		logger = LoggerFactory.getLogger(TrackUploadServlet.class);
+		
 
 		// Check that we have a file upload request
 		boolean isMultipart = ServletFileUpload.isMultipartContent(req);

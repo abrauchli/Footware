@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.footware.client.services.OutlineService;
-import org.footware.server.db.Track;
 import org.footware.server.db.User;
 import org.footware.server.db.UserUtil;
 import org.footware.shared.dto.TrackDTO;
