@@ -25,7 +25,6 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String[][] getUsersTable(UserSearchData filter) {
 		// TODO implement
-		// suche. analog AllTracksPage
 		String[][] result = new String[filter.value][];
 		for (int i = 0; i < filter.value; i++) {
 			result[i] = new String[] { "ttt", "23" };
@@ -35,24 +34,29 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<UserDTO> getUserList(UserSearchData filter) {
+		//TODO implement filter
 		ArrayList<UserDTO> children = new ArrayList<UserDTO>();
-		
+
 		List<User> users = UserUtil.getAll();
 
-		for (int i = 0; i < filter.value; i++) {
-			children.add(users.get(i).getUserDTO());
+		for (User u : users) {
+			children.add(u.getUserDTO());
 		}
 		return children;
 	}
 
 	@Override
 	public List<TrackDTO> getTrackList(TrackSearchData filter) {
-		//TODO implement
+		// TODO implement
 		List<TrackDTO> children = new ArrayList<TrackDTO>();
 		for (int i = 0; i < filter.value; i++) {
-			//TODO: children.add(new TrackDTO());
+			// TODO: children.add(new TrackDTO());
 		}
 		return children;
+	}
+	
+	public String[][] getTracksTable(TrackSearchData filter){
+		return new String[1][1];
 	}
 
 }

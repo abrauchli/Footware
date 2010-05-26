@@ -18,4 +18,7 @@ public interface OutlineServiceAsync {
 
 	public void getTrackList(TrackSearchData filter,
 			AsyncCallback<List<TrackDTO>> callback);
+
+	public void getTracksTable(TrackSearchData filter,
+			AsyncCallback<String[][]> callback);
 }

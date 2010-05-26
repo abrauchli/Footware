@@ -34,7 +34,11 @@ public class TopMenu extends MenuBar {
 	private MenuItem login;
 	private MenuItem signUp;
 
-	public TopMenu() {
+	private Desktop myDesktop;
+
+	public TopMenu(Desktop desktop) {
+
+		myDesktop = desktop;
 		setWidth("1300px");
 
 		login = new MenuItem("Login", new Command() {
@@ -64,7 +68,7 @@ public class TopMenu extends MenuBar {
 			}
 		});
 		addItem(signUp);
-		
+
 		addSeparator();
 
 		MenuItem uploadTrack = new MenuItem("Upload Track", new Command() {
@@ -81,15 +85,17 @@ public class TopMenu extends MenuBar {
 		login.setVisible(false);
 		logout.setVisible(true);
 		signUp.setVisible(false);
+		myDesktop.login();
 	}
 
 	public void logout() {
 		logout.setVisible(false);
 		login.setVisible(true);
 		signUp.setVisible(true);
+		myDesktop.logout();
 	}
-	
-	public void startSignup(){
+
+	public void startSignup() {
 		sb.center();
 	}
 
