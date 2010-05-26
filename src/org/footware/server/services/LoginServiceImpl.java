@@ -31,9 +31,9 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			throws IllegalArgumentException {
 		if (!email.matches(".+@.+\\..+"))
 			throw new IllegalArgumentException("Invalid email format");
-		User u = UserUtil.getByEmail(email);
-		//User u = UserUtil.getIfValid(email, UserUtil.getPasswordHash(password));
-		if (u != null && ! u.isDeactivated()) {
+		//User u = UserUtil.getByEmail(email);
+		User u = UserUtil.getIfValid(email, UserUtil.getPasswordHash(password));
+		if (u != null && ! u.isDisabled()) {
 			getThreadLocalRequest().getSession().setAttribute("user", u);
 			return u.getUserDTO();
 		}

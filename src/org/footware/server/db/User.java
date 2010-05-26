@@ -77,8 +77,8 @@ public class User extends DbEntity implements Serializable {
 	@Column(name = "is_admin")
 	private boolean isAdmin;
 
-	@Column(name = "is_deactivated")
-	private boolean isDeactivated;
+	@Column(name = "is_disabled")
+	private boolean isDisabled;
 
 	@OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.PERSIST)
 	@JoinColumn(name = "user_id")
@@ -121,7 +121,7 @@ public class User extends DbEntity implements Serializable {
 		if (user.getPassword() != null)
 			this.password = UserUtil.getPasswordHash(user.getPassword())
 					.toCharArray();
-		this.isDeactivated = user.isDeactivated();
+		this.isDisabled = user.isDisabled();
 		// this.isAdmin = user.getIsAdmin();
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		Transaction tx = null;
@@ -232,24 +232,18 @@ public class User extends DbEntity implements Serializable {
 	/**
 	 * Gets whether this user is active
 	 * 
-	 * @return true if the user is deactivated
+	 * @return true if the user is disabled
 	 */
-	public boolean isDeactivated() {
-		return isDeactivated;
+	public boolean isDisabled() {
+		return isDisabled;
 	}
-
+	
 	/**
-	 * Disables this user
+	 * Set whether this user is disabled or not
+	 * @param disabled true to disable, false to (re-)enable
 	 */
-	public void deactivate() {
-		isDeactivated = true;
-	}
-
-	/**
-	 * Reactivated this user
-	 */
-	public void activate() {
-		isDeactivated = false;
+	public void setDisabled(boolean disabled) {
+		isDisabled = disabled;
 	}
 
 	/**
@@ -324,10 +318,7 @@ public class User extends DbEntity implements Serializable {
 		u.setEmail(email);
 		u.setFullName(fullName);
 		u.setIsAdmin(isAdmin);
-		if (isDeactivated)
-			u.deactivate();
-		else
-			u.activate();
+		u.setDisabled(isDisabled);
 
 		for (Track t : getTracks()) {
 			TrackDTO dto = t.getTrackDTO();
