@@ -29,7 +29,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * @author rene
- *
+ * 
  */
 public interface TrackServiceAsync {
 
@@ -39,6 +39,10 @@ public interface TrackServiceAsync {
 	 */
 	void getTracks(ConfigDTO config, AsyncCallback<List<TrackDTO>> callback);
 
-    void getTrackVisualization(ConfigDTO config, AsyncCallback<TrackVisualizationDTO> callback);
+	void getTrackVisualization(ConfigDTO config,
+			AsyncCallback<TrackVisualizationDTO> callback);
 
+	void saveChanges(TrackDTO track, AsyncCallback<Boolean> callback);
+	
+	void deactivateTrack(TrackDTO track, AsyncCallback<Boolean> callback);
 }

@@ -27,6 +27,7 @@ import org.footware.client.pages.AllTracksPage;
 import org.footware.client.search.TrackSearch;
 import org.footware.client.services.OutlineService;
 import org.footware.client.services.OutlineServiceAsync;
+import org.footware.client.tree.AdminViewTree;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
 
@@ -50,7 +51,11 @@ public class AllTracksNode extends AbstractTreeNode {
 			public void onSuccess(List<TrackDTO> result) {
 				ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 				for (TrackDTO t : result) {
-					children.add(new TrackNode(t));
+					TrackNode tn = new TrackNode(t);
+					if (admin) {
+						tn.startAdmin();
+					}
+					children.add(tn);
 				}
 				setChildNodes(children);
 			}
@@ -78,4 +83,9 @@ public class AllTracksNode extends AbstractTreeNode {
 		return new TrackSearch(this);
 	}
 
+	private boolean admin = false;
+
+	public void startAdmin() {
+		admin = true;
+	}
 }

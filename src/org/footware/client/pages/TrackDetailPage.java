@@ -22,10 +22,19 @@ import java.util.List;
 import org.footware.client.framework.pages.AbstractFormPage;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.fields.FootwareMapWidget;
+import org.footware.client.services.TrackService;
+import org.footware.client.services.TrackServiceAsync;
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.UserDTO;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.GwtCreateResource;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -70,6 +79,8 @@ public class TrackDetailPage extends AbstractFormPage {
 		private DateBox startdate;
 		private HorizontalPanel mapPlaceholder;
 		private FootwareMapWidget map;
+		private Button delete;
+		private Button save;
 
 		public TrackDetailForm() {
 			super();
@@ -86,7 +97,25 @@ public class TrackDetailPage extends AbstractFormPage {
 			length.setReadOnly(true);
 			startdate = new DateBox();
 			startdate.setEnabled(false);
-			Grid g = new Grid(4, 2);
+			save = new Button("save", new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					doSave();
+				}
+
+			});
+			delete = new Button("delete", new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					doDelete();
+				}
+
+			});
+			save.setVisible(false);
+			delete.setVisible(false);
+			Grid g = new Grid(5, 2);
 			g.setWidget(0, 0, new HTML("Track by"));
 			g.setWidget(0, 1, user);
 			g.setWidget(1, 0, new HTML("Number of trackpoints"));
@@ -95,6 +124,8 @@ public class TrackDetailPage extends AbstractFormPage {
 			g.setWidget(2, 1, length);
 			g.setWidget(3, 0, new HTML("Date"));
 			g.setWidget(3, 1, startdate);
+			g.setWidget(4, 0, save);
+			g.setWidget(4, 1, delete);
 			VerticalPanel vp = new VerticalPanel();
 			vp.add(g);
 			vp.add(notes);
@@ -132,10 +163,55 @@ public class TrackDetailPage extends AbstractFormPage {
 			user.setValue(t.getUser().getFullName());
 		}
 
+		private void doSave() {
+			myTrack.setNotes(notes.getValue());
+			TrackServiceAsync svc = GWT.create(TrackService.class);
+			svc.saveChanges(myTrack, new AsyncCallback<Boolean>() {
+
+				@Override
+				public void onSuccess(Boolean result) {
+					if (result) {
+						Window.alert("Success");
+					} else {
+						Window.alert("Server side failure");
+					}
+
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Window.alert("Failure");
+				}
+			});
+		}
+
+		private void doDelete() {
+			TrackServiceAsync svc = GWT.create(TrackService.class);
+			svc.deactivateTrack(myTrack, new AsyncCallback<Boolean>() {
+
+				@Override
+				public void onSuccess(Boolean result) {
+					if (result) {
+						Window.alert("Success");
+					} else {
+						Window.alert("Server side failure");
+					}
+
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Window.alert("Failure");
+				}
+			});
+		}
+
 	}
 
 	public void editableMode() {
 		content.notes.setReadOnly(false);
+		content.save.setVisible(true);
+		content.delete.setVisible(true);
 	}
 
 	@Override
@@ -153,5 +229,12 @@ public class TrackDetailPage extends AbstractFormPage {
 		content.loadData(getMyTrack());
 		content.map = new FootwareMapWidget();
 		content.mapPlaceholder.add(content.map);
+	}
+
+	private boolean admin = false;
+
+	public void startAdmin() {
+		admin = true;
+		editableMode();
 	}
 }

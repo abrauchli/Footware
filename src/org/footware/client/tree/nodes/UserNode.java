@@ -27,7 +27,6 @@ import org.footware.client.pages.UserPage;
 import org.footware.client.services.OutlineService;
 import org.footware.client.services.OutlineServiceAsync;
 import org.footware.shared.dto.TrackDTO;
-import org.footware.shared.dto.TrackSearchData;
 import org.footware.shared.dto.UserDTO;
 import org.footware.shared.dto.UserSearchData;
 
@@ -50,7 +49,7 @@ public class UserNode extends AbstractTreeNode {
 
 	@Override
 	public String getConfiguredName() {
-		return "Person";
+		return myUser.getFullName();
 	}
 
 	@Override
@@ -64,9 +63,14 @@ public class UserNode extends AbstractTreeNode {
 		setChildNodes(children);
 	}
 
+	private UserPage content;
+
 	@Override
 	public AbstractPage getConfiguredPage() {
-		return new UserPage(this);
+		if (content == null) {
+			content = new UserPage(this, myUser);
+		}
+		return content;
 	}
 
 	@Override
@@ -107,7 +111,6 @@ public class UserNode extends AbstractTreeNode {
 
 	@Override
 	public AbstractSearchForm getConfiguredSearchForm() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -115,5 +118,9 @@ public class UserNode extends AbstractTreeNode {
 
 	public void startAdmin() {
 		admin = true;
+		if (content == null) {
+			getConfiguredPage();
+		}
+		content.startAdmin();
 	}
 }
