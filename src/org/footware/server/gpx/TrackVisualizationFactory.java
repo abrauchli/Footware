@@ -1,6 +1,6 @@
 package org.footware.server.gpx;
 
-import org.footware.server.gpx.model.GPXTrack;
+import org.footware.server.db.Track;
 import org.footware.shared.dto.TrackVisualizationDTO;
 
 public interface TrackVisualizationFactory {
@@ -10,6 +10,6 @@ public interface TrackVisualizationFactory {
      * @param track the track the visualization has to be calculated from
      * @return visualizaton
      */
-    public  TrackVisualizationDTO create(GPXTrack track);
+    public  TrackVisualizationDTO create(Track track);
 
 }
