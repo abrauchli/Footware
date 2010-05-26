@@ -102,11 +102,16 @@ public class LoginBox extends DialogBox {
 
 					@Override
 					public void onSuccess(UserDTO user) {
-						Window.alert("Hello "+ user.getFullName());
-						Session.setUser(user);
-						// do gui changes
-						myTopMenu.login();
-						hide();
+						if (user != null) {
+							Window.alert("Hello "+ user.getFullName());
+							Session.setUser(user);
+							// do gui changes
+							myTopMenu.login();
+							hide();
+						} else {
+							password.setText("");
+							Window.alert("Login failed, please try again");
+						}
 					}
 
 					@Override
