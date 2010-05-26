@@ -53,7 +53,7 @@ public class UploadTrackBox extends DialogBox {
 	public UploadTrackBox() {
 		setText("Upload a Track");
 
-		Grid g = new Grid(6, 2);
+		Grid g = new Grid(7, 2);
 
 		setAutoHideEnabled(true);
 		setGlassEnabled(true);
@@ -82,9 +82,13 @@ public class UploadTrackBox extends DialogBox {
 		g.setWidget(3, 1, notes);
 
 		email = new TextBox();
-		email.setValue(Session.getUser().getEmail());
-		email.setVisible(false);
-		email.setName(EMAIL);
+		if (Session.getUser() != null) {
+			email.setValue(Session.getUser().getEmail());
+			email.setVisible(false);
+			email.setName(EMAIL);
+
+		}
+		g.setWidget(6, 0, email);
 
 		file = new FileUpload();
 		file.setName(FILE);
@@ -120,7 +124,7 @@ public class UploadTrackBox extends DialogBox {
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
 		form.add(g);
-		form.add(email);
+
 		add(form);
 	}
 
