@@ -59,7 +59,6 @@ public class Desktop extends VerticalPanel {
 		myStackPanel = new StackPanel();
 		myStackPanel.add(myTree, "Public view");
 		
-		//XXX remove and only display when authenticated
 		
 		// sp.add(priv, "Private view");
 		myStackPanel.setWidth("300px");

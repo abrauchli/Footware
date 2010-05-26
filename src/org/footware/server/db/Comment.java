@@ -28,6 +28,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.footware.shared.dto.CommentDTO;
+import org.footware.shared.dto.TrackDTO;
 
 /**
  * Class for ER mapping of comments
@@ -145,7 +146,7 @@ public class Comment extends DbEntity implements Serializable {
 	 * @return CommentDTO representing this object's state
 	 */
 	public CommentDTO getCommentDTO() {
-		CommentDTO c = new CommentDTO(text, user.getUserDTO());
+		CommentDTO c = new CommentDTO(text, user.getUserDTO(), track.getTrackDTO());
 		c.setTime(time);
 		return c;
 	}

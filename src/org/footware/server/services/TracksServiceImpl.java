@@ -19,7 +19,9 @@ package org.footware.server.services;
 import java.util.List;
 
 import org.footware.client.services.TrackService;
+import org.footware.server.db.Comment;
 import org.footware.server.db.Track;
+import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.ConfigDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackVisualizationDTO;
@@ -69,5 +71,9 @@ public class TracksServiceImpl extends RemoteServiceServlet implements
 		// TODO andy: methode in trackutil um track zu deaktivieren
 		return true;
 	}
-
+	public Boolean addComment(CommentDTO comment){
+		Comment c = new Comment(comment);
+		c.store();
+		return true;
+	}
 }

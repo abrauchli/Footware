@@ -13,7 +13,6 @@ public class AdminViewTree extends AbstractTree {
 
 	@Override
 	public List<AbstractTreeNode> execCreateChildren(AbstractSearchData search) {
-		// TODO implement
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 		AllUsersNode users = new AllUsersNode();
 		users.startAdmin();

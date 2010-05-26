@@ -18,6 +18,7 @@ package org.footware.client.pages;
 
 import java.util.List;
 
+import org.footware.client.dialogs.CommentBox;
 import org.footware.client.framework.pages.AbstractFormPage;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.fields.FootwareMapWidget;
@@ -150,9 +151,23 @@ public class TrackDetailPage extends AbstractFormPage {
 			add(vp, CENTER);
 		}
 
+		CommentBox cb;
+
 		private Widget loadComments() {
 			List<CommentDTO> c = myTrack.getComments();
 			VerticalPanel vp = new VerticalPanel();
+			vp.add(new Button("add comment", new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					if (cb == null) {
+						cb = new CommentBox(myTrack);
+					}
+					cb.doClear();
+					cb.center();
+				}
+			}));
+
 			for (CommentDTO comment : c) {
 				DisclosurePanel dc = new DisclosurePanel();
 				dc.setHeader(new HTML(comment.getUser().getFullName() + "-"
@@ -180,8 +195,8 @@ public class TrackDetailPage extends AbstractFormPage {
 
 		private void doSave() {
 			myTrack.setNotes(notes.getValue());
-			//XXX here be dragons
-			myTrack.setPublicity(publicity.getSelectedIndex() *5);
+			// XXX here be dragons
+			myTrack.setPublicity(publicity.getSelectedIndex() * 5);
 			TrackServiceAsync svc = GWT.create(TrackService.class);
 			svc.saveChanges(myTrack, new AsyncCallback<Boolean>() {
 
