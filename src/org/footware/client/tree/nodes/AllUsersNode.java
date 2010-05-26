@@ -31,11 +31,12 @@ import org.footware.shared.dto.UserDTO;
 import org.footware.shared.dto.UserSearchData;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AllUsersNode extends AbstractTreeNode {
-
+	public AllUsersNode() {
+		init();
+	}
 	private boolean admin = false;
 
 	@Override

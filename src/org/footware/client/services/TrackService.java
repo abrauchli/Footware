@@ -22,7 +22,6 @@ import org.footware.shared.dto.ConfigDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackVisualizationDTO;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 

@@ -33,6 +33,7 @@ public class AllUsersPage extends AbstractTablePage {
 
 	public AllUsersPage(AbstractTreeNode treeNode) {
 		super(treeNode);
+		init();
 	}
 
 	@Override

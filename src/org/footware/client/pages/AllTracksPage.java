@@ -24,7 +24,6 @@ import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.services.OutlineService;
 import org.footware.client.services.OutlineServiceAsync;
-import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
 
 import com.google.gwt.core.client.GWT;
@@ -34,6 +33,7 @@ public class AllTracksPage extends AbstractTablePage {
 
 	public AllTracksPage(AbstractTreeNode treeNode) {
 		super(treeNode);
+		init();
 	}
 
 	@Override

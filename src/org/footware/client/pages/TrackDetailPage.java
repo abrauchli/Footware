@@ -16,7 +16,6 @@
 
 package org.footware.client.pages;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.footware.client.framework.pages.AbstractFormPage;
@@ -26,12 +25,10 @@ import org.footware.client.services.TrackService;
 import org.footware.client.services.TrackServiceAsync;
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TrackDTO;
-import org.footware.shared.dto.UserDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.resources.client.GwtCreateResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -40,6 +37,7 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -52,6 +50,7 @@ public class TrackDetailPage extends AbstractFormPage {
 	public TrackDetailPage(AbstractTreeNode treeNode, TrackDTO track) {
 		super(treeNode);
 		myTrack = track;
+		init();
 	}
 
 	private TrackDTO myTrack;
@@ -77,11 +76,13 @@ public class TrackDetailPage extends AbstractFormPage {
 		private TextBox trackpoints;
 		private TextBox length;
 		private DateBox startdate;
+		private ListBox publicity;
 		private HorizontalPanel mapPlaceholder;
 		private FootwareMapWidget map;
 		private Button delete;
 		private Button save;
-		//TODO change publicity of a track
+
+		// TODO change publicity of a track
 		public TrackDetailForm() {
 			super();
 			user = new TextBox();
@@ -95,6 +96,10 @@ public class TrackDetailPage extends AbstractFormPage {
 			trackpoints.setReadOnly(true);
 			length = new TextBox();
 			length.setReadOnly(true);
+			publicity = new ListBox();
+			publicity.addItem("private", "0");
+			publicity.addItem("public", "5");
+			publicity.setEnabled(false);
 			startdate = new DateBox();
 			startdate.setEnabled(false);
 			save = new Button("save", new ClickHandler() {
@@ -124,11 +129,17 @@ public class TrackDetailPage extends AbstractFormPage {
 			g.setWidget(2, 1, length);
 			g.setWidget(3, 0, new HTML("Date"));
 			g.setWidget(3, 1, startdate);
-			g.setWidget(4, 0, save);
-			g.setWidget(4, 1, delete);
+			g.setWidget(4, 0, new HTML("publicity"));
+			g.setWidget(4, 1, publicity);
+
 			VerticalPanel vp = new VerticalPanel();
 			vp.add(g);
 			vp.add(notes);
+
+			HorizontalPanel hp = new HorizontalPanel();
+			hp.add(save);
+			hp.add(delete);
+			vp.add(hp);
 			ScrollPanel sp = new ScrollPanel();
 			sp.setHeight("300px");
 			sp.add(loadComments());
@@ -160,10 +171,17 @@ public class TrackDetailPage extends AbstractFormPage {
 			startdate.setValue(t.getStartTime());
 			trackpoints.setValue(Integer.toString(t.getTrackpoints()));
 			user.setValue(t.getUser().getFullName());
+			if (t.getPublicity() == 0) {
+				publicity.setSelectedIndex(0);
+			} else {
+				publicity.setSelectedIndex(1);
+			}
 		}
 
 		private void doSave() {
 			myTrack.setNotes(notes.getValue());
+			//XXX here be dragons
+			myTrack.setPublicity(publicity.getSelectedIndex() *5);
 			TrackServiceAsync svc = GWT.create(TrackService.class);
 			svc.saveChanges(myTrack, new AsyncCallback<Boolean>() {
 
@@ -211,6 +229,7 @@ public class TrackDetailPage extends AbstractFormPage {
 		content.notes.setReadOnly(false);
 		content.save.setVisible(true);
 		content.delete.setVisible(true);
+		content.publicity.setVisible(true);
 	}
 
 	@Override

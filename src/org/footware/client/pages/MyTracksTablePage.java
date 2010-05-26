@@ -21,19 +21,16 @@ import java.util.Set;
 import org.footware.client.Session;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
-import org.footware.client.services.OutlineService;
-import org.footware.client.services.OutlineServiceAsync;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
 import org.footware.shared.dto.UserDTO;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class MyTracksTablePage extends AllTracksPage {
 
 	public MyTracksTablePage(AbstractTreeNode treeNode) {
 		super(treeNode);
+		init();
+		
 	}
 
 	@Override

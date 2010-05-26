@@ -40,6 +40,7 @@ public class UserNode extends AbstractTreeNode {
 	public UserNode(UserDTO user) {
 		super();
 		myUser = user;
+		init();
 	}
 
 	@Override

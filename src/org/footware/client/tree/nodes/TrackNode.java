@@ -28,6 +28,8 @@ public class TrackNode extends AbstractTreeNode {
 
 	public TrackNode(TrackDTO track) {
 		myTrack = track;
+		init();
+		
 	}
 
 	@Override

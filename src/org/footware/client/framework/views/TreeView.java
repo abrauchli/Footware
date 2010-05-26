@@ -51,8 +51,8 @@ public class TreeView extends ScrollPanel {
 				if (treeWidget.getSelectedItem() instanceof AbstractTreeNode) {
 					AbstractSearchForm sf = ((AbstractTreeNode) treeWidget
 							.getSelectedItem()).getConfiguredSearchForm();
-//					((AbstractTreeNode) treeWidget.getSelectedItem())
-//							.loadChildren();
+					// ((AbstractTreeNode) treeWidget.getSelectedItem())
+					// .loadChildren();
 					((AbstractTreeNode) treeWidget.getSelectedItem())
 							.lazyLoad();
 					AbstractPage p = ((AbstractTreeNode) treeWidget
@@ -67,14 +67,16 @@ public class TreeView extends ScrollPanel {
 				}
 			}
 		});
-		treeWidget.addOpenHandler(new OpenHandler<TreeItem>() {
-
-			@Override
-			public void onOpen(OpenEvent<TreeItem> event) {
-//				if (event.getTarget() instanceof AbstractTreeNode)
-//					((AbstractTreeNode) event.getTarget()).loadChildren();
-			}
-		});
+//		treeWidget.addOpenHandler(new OpenHandler<TreeItem>() {
+//
+//			@Override
+//			public void onOpen(OpenEvent<TreeItem> event) {
+//				if (event.getTarget() instanceof AbstractTreeNode) {
+//					AbstractTreeNode t = (AbstractTreeNode) event.getTarget();
+//				//	t.loadChildren();
+//				}
+//			}
+//		});
 		setHeight("600px");
 		add(treeWidget);
 	}

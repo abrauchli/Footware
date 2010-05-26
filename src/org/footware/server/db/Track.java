@@ -32,6 +32,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TagDTO;
@@ -86,10 +87,12 @@ public class Track extends DbEntity implements Serializable {
 	@ManyToAny(metaColumn = @Column(name = "comment_id"), fetch = FetchType.EAGER)
 	private List<Comment> comments = new LinkedList<Comment>();
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	//@ManyToOne(fetch=FetchType.EAGER)
+	@Transient
 	private List<TrackSegment> segments = new LinkedList<TrackSegment>();
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+//	@ManyToOne(fetch=FetchType.EAGER)
+	@Transient
 	private Set<Tag> tags = new HashSet<Tag>();
 
 	protected Track() {
