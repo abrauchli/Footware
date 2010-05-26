@@ -42,7 +42,7 @@ public class UploadTrackBox extends DialogBox {
 	public static String FILE = "file";
 	public static String EMAIL = "email";
 
-	private TextBox trackName;
+//	private TextBox trackName;
 	private CheckBox enableComments;
 	private TextBox email;
 	private ListBox privacy;
@@ -58,10 +58,10 @@ public class UploadTrackBox extends DialogBox {
 		setAutoHideEnabled(true);
 		setGlassEnabled(true);
 
-		trackName = new TextBox();
-		trackName.setName(NAME);
-		g.setWidget(0, 0, new HTML("Name"));
-		g.setWidget(0, 1, trackName);
+//		trackName = new TextBox();
+//		trackName.setName(NAME);
+//		g.setWidget(0, 0, new HTML("Name"));
+//		g.setWidget(0, 1, trackName);
 
 		privacy = new ListBox();
 		privacy.setName(PRIVACY);
