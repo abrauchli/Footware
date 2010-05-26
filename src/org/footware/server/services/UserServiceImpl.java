@@ -38,7 +38,10 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public Boolean deactivateUser(UserDTO user) {
-		//TODO deactivate user in userutil
-		return false;
+		User u = UserUtil.getByEmail(user.getEmail());
+		u.setDisabled(true);
+		u.store();
+		
+		return true;
 	}
 }

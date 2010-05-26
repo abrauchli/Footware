@@ -32,6 +32,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class TracksServiceImpl extends RemoteServiceServlet implements
 		TrackService {
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public List<TrackDTO> getTracks(ConfigDTO config)
 			throws IllegalArgumentException {
@@ -64,15 +66,21 @@ public class TracksServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Boolean saveChanges(TrackDTO track) {
-		new Track(track).store();
+		Track t = TrackUtil.getTrackById(track.getId());
+		t.setNotes(track.getNotes());
+		t.setPublicity(track.getPublicity());
+		t.store();
 		return true;
 	}
 
 	public Boolean deactivateTrack(TrackDTO track) {
-		//TODO
+		Track t = TrackUtil.getTrackById(track.getId());
+		t.setDisabled(true);
+		t.store();
 		return true;
 	}
-	public Boolean addComment(CommentDTO comment){
+
+	public Boolean addComment(CommentDTO comment) {
 		Comment c = new Comment(comment);
 		c.store();
 		return true;

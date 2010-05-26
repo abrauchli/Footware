@@ -46,11 +46,21 @@ public class AllUsersPage extends AbstractTablePage {
 		List<String> headers = new ArrayList<String>();
 		headers.add("Name");
 		headers.add("Tracks");
+		if(admin){
+			headers.add("disabled");
+			headers.add("is admin");
+		}
 		return headers;
 	}
 
 	@Override
 	public void execLoadTableData(AbstractSearchData search) {
+		if(search == null){
+			search = new UserSearchData();
+		}
+		if(admin){
+			((UserSearchData) search).admin = admin;
+		}
 		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		svc.getUsersTable((UserSearchData) search,
 				new AsyncCallback<String[][]>() {
@@ -92,5 +102,6 @@ public class AllUsersPage extends AbstractTablePage {
 
 	public void startAdmin() {
 		admin = true;
+		init();
 	}
 }

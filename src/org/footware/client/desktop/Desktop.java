@@ -88,11 +88,25 @@ public class Desktop extends VerticalPanel {
 			myStackPanel.insert(priv,1);
 			myStackPanel.setStackText(1, "Private View");
 		}
+		refresh();
 	}
 
 	public void logout() {
 		myStackPanel.remove(priv);
 		myStackPanel.remove(admin);
 		priv = null;
+		refresh();
+	}
+	
+	public void refresh(){
+		if(myTree != null){
+			myTree.refresh();
+		}
+		if(priv != null){
+			priv.refresh();
+		}
+		if(admin != null){
+			admin.refresh();
+		}
 	}
 }

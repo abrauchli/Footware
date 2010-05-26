@@ -19,6 +19,7 @@ package org.footware.server.db.util;
 import java.util.List;
 
 import org.footware.server.db.Track;
+import org.footware.server.db.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -28,9 +29,10 @@ import org.hibernate.Transaction;
  * Utility class for track specific operations
  */
 public class TrackUtil {
-	
+
 	/**
 	 * Gets a list of all enabled public tracks
+	 * 
 	 * @return a list of all enabled public tracks
 	 */
 	@SuppressWarnings("unchecked")
@@ -40,7 +42,22 @@ public class TrackUtil {
 		Query q = s.getNamedQuery("tracks.getAllPublic");
 		List<Track> res = null;
 		try {
-			res = (List<Track>)q.list();
+			res = (List<Track>) q.list();
+			t.commit();
+		} catch (HibernateException e) {
+			t.rollback();
+		}
+		return res;
+	}
+
+	public static Track getTrackById(Long id) {
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction t = s.beginTransaction();
+		Query q = s.getNamedQuery("tracks.getTrackById");
+		q.setParameter("id", id);
+		Track res = null;
+		try {
+			res = (Track) q.uniqueResult();
 			t.commit();
 		} catch (HibernateException e) {
 			t.rollback();
