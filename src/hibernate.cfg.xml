@@ -58,6 +58,8 @@
 		<mapping class="org.footware.server.db.Track"/>
 		<mapping class="org.footware.server.db.Trackpoint"/>
 		<mapping class="org.footware.server.db.TrackSegment"/>
+		<mapping class="org.footware.server.db.TrackVisualization"/>
+		<mapping class="org.footware.server.db.TrackVisualizationPoint"/>
 		<mapping class="org.footware.server.db.User"/>
 
 	</session-factory>

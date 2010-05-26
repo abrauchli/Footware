@@ -35,6 +35,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -82,6 +83,8 @@ public class TrackDetailPage extends AbstractFormPage {
 		private FootwareMapWidget map;
 		private Button delete;
 		private Button save;
+		private Button download;
+		private FormPanel form;
 
 		// TODO change publicity of a track
 		public TrackDetailForm() {
@@ -140,6 +143,31 @@ public class TrackDetailPage extends AbstractFormPage {
 			HorizontalPanel hp = new HorizontalPanel();
 			hp.add(save);
 			hp.add(delete);
+			form = new FormPanel();
+			HorizontalPanel fp = new HorizontalPanel();
+			download = new Button("Download this track", new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					form.submit();
+				}
+			});
+			TextBox trackid = new TextBox();
+			trackid.setName("trackid");
+			trackid.setValue(Long.toString(myTrack.getId()));
+			trackid.setVisible(false);
+			TextBox userid = new TextBox();
+			userid.setName("userid");
+			userid.setVisible(false);
+			userid.setValue(myTrack.getUser().getEmail());
+			fp.add(download);
+			fp.add(userid);
+			fp.add(trackid);
+			form.setMethod(FormPanel.METHOD_POST);
+//			form.setEncoding(FormPanel.)
+			form.setAction("/footware/trackDownload");
+			form.add(fp);
+			hp.add(form);
 			vp.add(hp);
 			ScrollPanel sp = new ScrollPanel();
 			sp.setHeight("300px");

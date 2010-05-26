@@ -34,10 +34,17 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.footware.server.db.Track;
+import org.footware.server.db.TrackSegment;
+import org.footware.server.db.Trackpoint;
 import org.footware.server.db.User;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
 import org.footware.shared.dto.TrackDTO;
+<<<<<<< HEAD
+=======
+import org.footware.shared.dto.UserDTO;
+import org.hibernate.Session;
+>>>>>>> 548def0a50e6792ec477473eb8967fcf351d0365
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -176,16 +183,22 @@ public class TrackUploadServlet extends HttpServlet {
 							&& item.getFieldName().equals("name")) {
 						name = item.getString();
 						logger.debug("name" + ": " + item.getString());
+					} else if (item.isFormField()
+							&& item.getFieldName().equals("email")) {
+						email = item.getString();
+						logger.debug("email" + ": " + item.getString());
 					}
 				}
+				User uu = UserUtil.getByEmail(email);
+				UserDTO user = uu.getUserDTO();
 
 				// If we read all fields, we can start the import
 				if (file != null) {
 
 					// Get UserDTO
-					User user = (User) req.getSession().getAttribute("user");
-						
-//						UserUtil.getByEmail(email);
+					// User user = (User) req.getSession().getAttribute("user");
+
+					// UserUtil.getByEmail(email);
 					logger.info("User: " + user.getFullName() + " "
 							+ user.getEmail());
 					String userDirectoryString = user.getEmail().replace("@",
@@ -219,9 +232,22 @@ public class TrackUploadServlet extends HttpServlet {
 						track.setNotes(notes);
 						track.setPublicity(privacy);
 						track.setFilename(uploadedFile.getAbsolutePath());
+<<<<<<< HEAD
 						track.setUser(user.getUserDTO());
 						Track dbTrack = new Track(track);
 						dbTrack.setPath(fileName);
+=======
+						track.setUser(user);
+						Track dbTrack = new Track(track);
+						dbTrack.setPath(fileName);
+						// dbTrack.setUser(user);
+						for (TrackSegment ts : dbTrack.getSegments()) {
+							for (Trackpoint tp : ts.getTrackpoints()) {
+								tp.store();
+							}
+							ts.store();
+						}
+>>>>>>> 548def0a50e6792ec477473eb8967fcf351d0365
 						dbTrack.store();
 					}
 

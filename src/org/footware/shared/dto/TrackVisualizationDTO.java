@@ -97,7 +97,5 @@ public class TrackVisualizationDTO implements IsSerializable {
     public void setData(List<TrackVisualizationPointDTO> data) {
         this.data = data;
     }
-    
-    
 
 }
