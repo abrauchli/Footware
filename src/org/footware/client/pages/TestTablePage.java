@@ -26,6 +26,7 @@ public class TestTablePage extends AbstractTablePage {
 
 	public TestTablePage(AbstractTreeNode treeNode) {
 		super(treeNode);
+		init();
 	}
 
 	@Override
@@ -55,7 +56,6 @@ public class TestTablePage extends AbstractTablePage {
 
 	@Override
 	public void reload() {
-		// TODO Auto-generated method stub
 
 	}
 }

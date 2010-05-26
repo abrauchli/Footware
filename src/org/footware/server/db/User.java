@@ -43,13 +43,12 @@ import org.hibernate.Transaction;
  */
 @Entity()
 @NamedQueries(value = {
-		//Get user by email
+// Get user by email
 		@NamedQuery(name = "users.getByEmail", query = "FROM User u WHERE u.email = :email"),
-		//Get all users
+		// Get all users
 		@NamedQuery(name = "users.getAll", query = "FROM User"),
-		//Get user from email/password pair
-		@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password")
-	})
+		// Get user from email/password pair
+		@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password") })
 public class User extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -69,7 +68,7 @@ public class User extends DbEntity implements Serializable {
 
 	@Column(name = "is_admin")
 	private boolean isAdmin;
-	
+
 	@Column(name = "is_deactivated")
 	private boolean isDeactivated;
 
@@ -77,11 +76,11 @@ public class User extends DbEntity implements Serializable {
 	@JoinColumn(name = "user_id")
 	private Set<Track> tracks = new HashSet<Track>();
 
-//TODO:
-//	@OneToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "user_tag")
-//	@JoinColumn(name = "user_id")
-//	private Set<String> tags = new HashSet<String>();
+	// TODO:
+	// @OneToMany(fetch = FetchType.EAGER)
+	// @JoinTable(name = "user_tag")
+	// @JoinColumn(name = "user_id")
+	// private Set<String> tags = new HashSet<String>();
 
 	/**
 	 * Protected constructor for hibernate object initialization
@@ -91,8 +90,11 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Creates a new user object for persistence
-	 * @param email user's email address
-	 * @param password user's password in clear text
+	 * 
+	 * @param email
+	 *            user's email address
+	 * @param password
+	 *            user's password in clear text
 	 */
 	public User(String email, String password) {
 		this.email = email;
@@ -101,6 +103,7 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the id of the corresponding DB row
+	 * 
 	 * @return the ID of the row in the DB
 	 */
 	public User(UserDTO user) {
@@ -108,9 +111,10 @@ public class User extends DbEntity implements Serializable {
 		this.email = user.getEmail();
 		this.fullName = user.getFullName();
 		if (user.getPassword() != null)
-			this.password = UserUtil.getPasswordHash(user.getPassword()).toCharArray();
+			this.password = UserUtil.getPasswordHash(user.getPassword())
+					.toCharArray();
 		this.isDeactivated = user.isDeactivated();
-		//this.isAdmin = user.getIsAdmin();
+		// this.isAdmin = user.getIsAdmin();
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		Transaction tx = null;
 		try {
@@ -133,6 +137,7 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the id of the corresponding DB row
+	 * 
 	 * @return the ID of the row in the DB
 	 */
 	protected long getId() {
@@ -141,6 +146,7 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the email address of the associated user
+	 * 
 	 * @return user's email address
 	 */
 	public String getEmail() {
@@ -149,7 +155,9 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Sets the email address of the associated user
-	 * @param email new email address
+	 * 
+	 * @param email
+	 *            new email address
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -157,6 +165,7 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the full name of the user
+	 * 
 	 * @return user's full name
 	 */
 	public String getFullName() {
@@ -165,7 +174,9 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Sets the full name of the user
-	 * @param fullName new user's name
+	 * 
+	 * @param fullName
+	 *            new user's name
 	 */
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
@@ -173,6 +184,7 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Gets the user's password hash
+	 * 
 	 * @return user's password hash
 	 */
 	public char[] getPassword() {
@@ -181,7 +193,9 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Sets the user's password hash
-	 * @param password new password hash
+	 * 
+	 * @param password
+	 *            new password hash
 	 */
 	public void setPassword(char[] password) {
 		this.password = password;
@@ -189,6 +203,7 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Gets whether the user has administrative privileges
+	 * 
 	 * @return boolean true if user is admin, false otherwise
 	 */
 	public boolean getIsAdmin() {
@@ -197,27 +212,31 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Changes the user's administrative privileges
-	 * @param isAdmin true means the user becomes an admin, false degrades him to an ordinary user
+	 * 
+	 * @param isAdmin
+	 *            true means the user becomes an admin, false degrades him to an
+	 *            ordinary user
 	 */
 	public void setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
-	
+
 	/**
 	 * Gets whether this user is active
+	 * 
 	 * @return true if the user is deactivated
 	 */
 	public boolean isDeactivated() {
 		return isDeactivated;
 	}
-	
+
 	/**
 	 * Disables this user
 	 */
 	public void deactivate() {
 		isDeactivated = true;
 	}
-	
+
 	/**
 	 * Reactivated this user
 	 */
@@ -227,6 +246,7 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Gets all tracks associated with this user
+	 * 
 	 * @return all user's tracks
 	 */
 	public Set<Track> getTracks() {
@@ -236,7 +256,9 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Adds a new track to this user's track collection
-	 * @param track track to add
+	 * 
+	 * @param track
+	 *            track to add
 	 */
 	public void addTrack(Track track) {
 		Hibernate.initialize(tracks);
@@ -248,7 +270,9 @@ public class User extends DbEntity implements Serializable {
 
 	/**
 	 * Removes a track from this user's track collection
-	 * @param track track to remove
+	 * 
+	 * @param track
+	 *            track to remove
 	 */
 	public void removeTrack(Track track) {
 		Hibernate.initialize(tracks);
@@ -257,33 +281,35 @@ public class User extends DbEntity implements Serializable {
 		}
 	}
 
-//	/**
-//	 * Gets the tags associated with this user
-//	 * @return all tags of this user
-//	 */
-//	public Set<String> getTags() {
-//		Hibernate.initialize(tags);
-//		return tags;
-//	}
+	// /**
+	// * Gets the tags associated with this user
+	// * @return all tags of this user
+	// */
+	// public Set<String> getTags() {
+	// Hibernate.initialize(tags);
+	// return tags;
+	// }
 
 	/**
 	 * Creates a new UserDTO from this User object's current state
+	 * 
 	 * @return UserDTO with this user's current state
 	 */
 	public UserDTO getUserDTO() {
 		UserDTO u = new UserDTO();
 		u.setEmail(email);
 		u.setFullName(fullName);
+		u.setIsAdmin(isAdmin);
 		if (isDeactivated)
 			u.deactivate();
 		else
 			u.activate();
-		
+
 		for (Track t : getTracks())
 			u.addTrackDTO(t.getTrackDTO());
-		//do not set password (it's only the hash anyway)
-//		for (String t : getTags())
-//			u.addTag(t);
+		// do not set password (it's only the hash anyway)
+		// for (String t : getTags())
+		// u.addTag(t);
 		return u;
 	}
 }

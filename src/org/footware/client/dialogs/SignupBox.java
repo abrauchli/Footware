@@ -17,6 +17,7 @@
 package org.footware.client.dialogs;
 
 import org.footware.client.Session;
+import org.footware.client.desktop.TopMenu;
 import org.footware.client.services.UserService;
 import org.footware.client.services.UserServiceAsync;
 import org.footware.shared.dto.UserDTO;
@@ -38,8 +39,10 @@ public class SignupBox extends DialogBox {
 	private TextBox firstName;
 	private TextBox email;
 	private PasswordTextBox password;
+	private TopMenu container;
 
-	public SignupBox() {
+	public SignupBox(TopMenu container) {
+		this.container = container;
 		setAutoHideEnabled(true);
 		setGlassEnabled(true);
 		name = new TextBox();
@@ -100,7 +103,7 @@ public class SignupBox extends DialogBox {
 						if (user != null) {
 							Window.alert("Welcome "+ user.getFullName());
 							Session.setUser(user);
-							//TODO: show logout instead of login -- user is now logged in
+							container.login();
 							hide();
 						} else {
 							Window.alert("Failure: This email address is already registered");

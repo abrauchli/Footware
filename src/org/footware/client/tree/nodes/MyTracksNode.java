@@ -30,11 +30,16 @@ public class MyTracksNode extends AbstractTreeNode {
 	private UserDTO myUser;
 
 	public MyTracksNode(UserDTO user) {
+		super();
 		myUser = user;
+		init();
 	}
-
+	@Override
+	protected void execInit() {
+	}
 	@Override
 	protected void execCreateChildren() {
+		//FIXME
 		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 		for (TrackDTO t : myUser.getTracks()) {
 			children.add(new MyTrackNode(t));

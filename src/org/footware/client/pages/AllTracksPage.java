@@ -24,7 +24,6 @@ import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.services.OutlineService;
 import org.footware.client.services.OutlineServiceAsync;
-import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
 
 import com.google.gwt.core.client.GWT;
@@ -34,6 +33,7 @@ public class AllTracksPage extends AbstractTablePage {
 
 	public AllTracksPage(AbstractTreeNode treeNode) {
 		super(treeNode);
+		init();
 	}
 
 	@Override
@@ -43,9 +43,6 @@ public class AllTracksPage extends AbstractTablePage {
 	}
 	@Override
 	public void execLoadTableData(AbstractSearchData search) {
-		// TODO andy methode um tracks abhängig von suche als tabelle zu laden.
-		// kann eventuell als separater service implementiert werden: service
-		// holt DTOs und erstellt String[][] auf server
 		TrackSearchData sd = (TrackSearchData) search;// getSearchFilter();
 		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		svc.getTracksTable(sd, new AsyncCallback<String[][]>() {

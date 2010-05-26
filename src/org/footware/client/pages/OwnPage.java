@@ -39,6 +39,7 @@ public class OwnPage extends AbstractFormPage {
 
 	public OwnPage(AbstractTreeNode treeNode) {
 		super(treeNode);
+		init();
 	}
 
 	@Override

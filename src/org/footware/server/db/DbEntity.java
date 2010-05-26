@@ -19,9 +19,8 @@ package org.footware.server.db;
 import java.io.Serializable;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Transaction;
-
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public abstract class DbEntity implements Serializable {
 

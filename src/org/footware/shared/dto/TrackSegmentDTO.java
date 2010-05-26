@@ -16,10 +16,9 @@
 
 package org.footware.shared.dto;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-
-import java.io.Serializable;
 
 public class TrackSegmentDTO  implements Serializable {
 
