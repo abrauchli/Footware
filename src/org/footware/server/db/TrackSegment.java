@@ -17,6 +17,7 @@
 package org.footware.server.db;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -29,6 +30,8 @@ import javax.persistence.ManyToOne;
 
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
+import org.footware.shared.dto.TrackSegmentDTO;
+import org.hibernate.Hibernate;
 
 /**
  * Class for ER Mapping of persisted TrackSegments,
@@ -55,11 +58,11 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	private double length = 0.0;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Track track;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	private List<Trackpoint> trackpoints;
+	@ManyToOne(fetch=FetchType.EAGER)
+	private List<Trackpoint> trackpoints = new LinkedList<Trackpoint>();
 	
 	/**
 	 * Protected constructor for hibernate retrieval
@@ -164,5 +167,41 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 */
 	public void setLength(double length) {
 		this.length = length;
+	}
+
+	/**
+	 * Gets the trackpoints of this segment
+	 * @return all segment's trackpoints
+	 */
+	public List<Trackpoint> getTrackpoints() {
+		Hibernate.initialize(trackpoints);
+		return trackpoints;
+	}
+
+	/**
+	 * Appends a trackpoint to this segment
+	 * @param p trackpoint to add
+	 */
+	public void addTrackpoint(Trackpoint p) {
+		this.trackpoints.add(p);
+	}
+
+	/**
+	 * Sets the track this segment belongs to
+	 * @param track new owner of this segment
+	 */
+	public void setTrack(Track track) {
+		this.track = track;
+	}
+
+	/**
+	 * Gets the DTO for this TrackSegment's current state
+	 * @return DTO for this TrackSegment's current state
+	 */
+	public TrackSegmentDTO getTrackSegmentDTO() {
+		TrackSegmentDTO s = new TrackSegmentDTO();
+		for (Trackpoint p : getTrackpoints())
+			s.addPoint(p.getTrackpointDTO());
+		return s;
 	}
 }

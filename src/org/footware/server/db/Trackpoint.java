@@ -161,8 +161,6 @@ public class Trackpoint extends DbEntity implements Serializable {
 	}
 	
 	public TrackpointDTO getTrackpointDTO() {
-		TrackpointDTO t = new TrackpointDTO(longitude, latitude,elevation,time);
-		//set time, speed
-		return t;
+		return new TrackpointDTO(longitude, latitude, elevation, time);
 	}
 }
