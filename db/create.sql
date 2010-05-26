@@ -62,7 +62,7 @@ CREATE VIEW user_tag (
     tag,
     user_id
 ) AS
-    SELECT DISTINCT (T.tag, K.user_id)
+    SELECT DISTINCT T.tag, K.user_id
     FROM track K
     JOIN track_tag KT ON K.id=KT.track_id
     JOIN tag T ON T.id=KT.tag_id;
