@@ -26,7 +26,7 @@ CREATE TABLE track (
     comments_enabled BOOLEAN    DEFAULT(1),         /* can other users post comments */
 
     trackpoints INTEGER         DEFAULT(0),         /* number of points in the track */
-    length      INTEGER         DEFAULT(0),         /* track length in meters */
+    length      DOUBLE          DEFAULT(0),         /* track length in meters */
     mid_latitude    DOUBLE      DEFAULT(0.0),       /* mean latitude of the track */
     mid_longitude   DOUBLE      DEFAULT(0.0),       /* mean longitude of the track */
     time_start  DATETIME,                           /* timestamp of the first trackpoint; timezones? */
@@ -80,9 +80,9 @@ CREATE TABLE `comment` (
 CREATE TABLE tracksegment (
     id           INTEGER            NOT NULL AUTO_INCREMENT PRIMARY KEY,
     max_speed    INTEGER            NOT NULL DEFAULT(0),
-    max_elevation    INTEGER        NOT NULL DEFAULT(0),
-    min_elevation    INTEGER        NOT NULL DEFAULT(0),
-    length       INTEGER            NOT NULL DEFAULT(0)
+    max_elevation    DOUBLE         NOT NULL DEFAULT(0),
+    min_elevation    DOUBLE         NOT NULL DEFAULT(0),
+    length       DOUBLE             NOT NULL DEFAULT(0)
 );
 
 CREATE TABLE trackpoint (
@@ -90,6 +90,7 @@ CREATE TABLE trackpoint (
     tracksegment_id    INTEGER      NOT NULL,
     latitude     DOUBLE             NOT NULL DEFAULT(0.0),
     longitude    DOUBLE             NOT NULL DEFAULT(0.0),
+    elevation    DOUBLE             NOT NULL DEFAULT(0.0),
     time         DATETIME,
     speed        DOUBLE,
 

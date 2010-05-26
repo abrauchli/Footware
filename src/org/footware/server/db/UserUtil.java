@@ -18,23 +18,12 @@ package org.footware.server.db;
 
 import java.util.List;
 
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-
 import org.apache.catalina.util.MD5Encoder;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-@NamedQueries(value = {
-	//Get user by email
-	@NamedQuery(name = "users.getByEmail", query = "FROM User u WHERE u.email = :email"),
-	//Get all users
-	@NamedQuery(name = "users.getAll", query = "FROM User"),
-	//Get user from email/password pair
-	@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password")
-})
 public class UserUtil {
 
 	public static String getPasswordHash(String password) {
@@ -67,8 +56,17 @@ public class UserUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<User> getAll() {
-		Query q = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("users.getAll");
-		return (List<User>)q.list();
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction t = s.beginTransaction();
+		Query q = s.getNamedQuery("users.getAll");
+		List<User> res = null;
+		try {
+			res = (List<User>)q.list();
+			t.commit();
+		} catch (HibernateException e) {
+			t.rollback();
+		}
+		return res;
 	}
 	
 	/**
@@ -78,13 +76,18 @@ public class UserUtil {
 	 * @return user object if email/pw-hash pair is valid, null otherwise
 	 */
 	public static User getIfValid(String email, String pw_hash) {
-		Query q = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("users.getIfValid");
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction t = s.beginTransaction();
+		Query q = s.getNamedQuery("users.getIfValid");
 		q.setParameter("email", email);
 		q.setParameter("password", pw_hash);
 		User res = null;
 		try {
 			res = (User)q.uniqueResult();
-		} catch (HibernateException e) {}
+			t.commit();
+		} catch (HibernateException e) {
+			t.rollback();
+		}
 		return res;
 	}
 }

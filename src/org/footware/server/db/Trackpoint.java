@@ -42,7 +42,7 @@ public class Trackpoint extends DbEntity implements Serializable {
 	TrackSegment segment;
 	double latitude;
 	double longitude;
-	int elevation;
+	double elevation;
 	Date time;
 	double speed;
 	
@@ -61,7 +61,7 @@ public class Trackpoint extends DbEntity implements Serializable {
 		this.segment = seg;
 		this.latitude = gpx.getLatitude().doubleValue();
 		this.longitude = gpx.getLongitude().doubleValue();
-		this.elevation = gpx.getElevation().intValue();
+		this.elevation = gpx.getElevation().doubleValue();
 		this.time = gpx.getTime().toDate();
 		this.speed = gpx.getSpeed();
 	}
@@ -121,14 +121,14 @@ public class Trackpoint extends DbEntity implements Serializable {
 	/**
 	 * @return the elevation on this trackpoint
 	 */
-	public int getElevation() {
+	public double getElevation() {
 		return elevation;
 	}
 
 	/**
 	 * @param elevation set the elevation on this trackpoint
 	 */
-	public void setElevation(int elevation) {
+	public void setElevation(double elevation) {
 		this.elevation = elevation;
 	}
 

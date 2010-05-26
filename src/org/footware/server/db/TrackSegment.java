@@ -46,13 +46,18 @@ public class TrackSegment extends DbEntity implements Serializable {
 	// Statistics
 	@Column(name="max_speed")
 	private double maxSpeed = 0.0;
+
 	@Column(name="min_elevation")
 	private int minElevation = Integer.MAX_VALUE;
+
 	@Column(name="max_elevation")
 	private int maxElevation = Integer.MIN_VALUE;
-	private long length = 0;
+
+	private double length = 0.0;
+
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Track track;
+
 	@ManyToOne(fetch=FetchType.LAZY)
 	private List<Trackpoint> trackpoints;
 	
@@ -146,10 +151,10 @@ public class TrackSegment extends DbEntity implements Serializable {
 	}
 
 	/**
-	 * Gets the segments length (TODO: in meters?)
+	 * Gets the segments length in meters
 	 * @return gets the segments length
 	 */
-	public long getLength() {
+	public double getLength() {
 		return length;
 	}
 
@@ -157,7 +162,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * Sets the segments length
 	 * @param length sets the segment length
 	 */
-	public void setLength(long length) {
+	public void setLength(double length) {
 		this.length = length;
 	}
 }

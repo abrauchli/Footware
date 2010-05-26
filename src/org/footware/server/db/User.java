@@ -26,6 +26,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import org.footware.shared.dto.UserDTO;
@@ -37,6 +39,14 @@ import org.hibernate.Transaction;
  * Class for ER mapping of Users
  */
 @Entity()
+@NamedQueries(value = {
+		//Get user by email
+		@NamedQuery(name = "users.getByEmail", query = "FROM User u WHERE u.email = :email"),
+		//Get all users
+		@NamedQuery(name = "users.getAll", query = "FROM User"),
+		//Get user from email/password pair
+		@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password")
+	})
 public class User extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -44,15 +54,22 @@ public class User extends DbEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+
 	@Column(length = 128, unique = true, nullable = false)
 	private String email;
-	@Column(length = 64)
+
+	@Column(name = "full_name", length = 64)
 	private String fullName;
+
 	@Column(length = 32)
 	private char[] password;
+
+	@Column(name = "is_admin")
 	private boolean isAdmin;
+
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<Track> tracks;
+
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<Tag> tags;
 
