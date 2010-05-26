@@ -80,11 +80,11 @@ public class GPXImport implements TrackImporter {
 				new TrackVisualizationElevationStrategy());
 
 		//TODO
-//		for (GPXTrack track : gpxTracks) {
-//			tracks.add(TrackFactory.create(track));
+		for (GPXTrack track : gpxTracks) {
+			tracks.add(TrackFactory.create(track));
 //			speedVisualizations.add(speedFactory.create(track));
 //			elevationVisualizations.add(elevationFactory.create(track));
-//		}
+		}
 		trackImported = true;
 	}
 
