@@ -44,21 +44,31 @@ public class TrackNode extends AbstractTreeNode {
 
 	@Override
 	public String getConfiguredName() {
-		// TODO use trackname from DTO or something like that.
-		return "GETTRACKNAME";
+		return myTrack.getFilename();
 	}
+
+	private TrackDetailPage content;
 
 	@Override
 	public AbstractPage getConfiguredPage() {
-		TrackDetailPage p = new TrackDetailPage(this, myTrack);
-		p.setMyTrack(myTrack);
-		return p;
+		if (content == null) {
+			content = new TrackDetailPage(this, myTrack);
+		}
+		return content;
 
 	}
 
 	@Override
 	public AbstractSearchForm getConfiguredSearchForm() {
 		return null;
+	}
+
+	private boolean admin = false;
+
+	public void startAdmin() {
+		admin = true;
+		getConfiguredPage();
+		content.startAdmin();
 	}
 
 }

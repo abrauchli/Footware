@@ -33,11 +33,15 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 		User u = UserUtil.getByEmail(user.getEmail());
 		u.setEmail(user.getEmail());
 		u.setFullName(user.getFullName());
-		// TODO use hash here?
-		// u.setPassword(user.getPassword());
+		u.setPassword(UserUtil.getPasswordHash(user.getPassword())
+				.toCharArray());
 		u.store();
-		// TODO handle erros and return false instead?
+		// TODO handle errors and return false instead?
 		return true;
 	}
 
+	public Boolean deactivateUser(UserDTO user) {
+		//TODO deactivate user in userutil
+		return false;
+	}
 }

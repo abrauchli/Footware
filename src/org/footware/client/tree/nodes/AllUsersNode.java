@@ -54,7 +54,11 @@ public class AllUsersNode extends AbstractTreeNode {
 			public void onSuccess(List<UserDTO> result) {
 				List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
 				for (UserDTO u : result) {
-					children.add(new UserNode(u));
+					UserNode un = new UserNode(u);
+					if(admin){
+						un.startAdmin();
+					}
+					children.add(un);
 				}
 				setChildNodes(children);
 			}

@@ -22,6 +22,7 @@ import org.footware.shared.dto.ConfigDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackVisualizationDTO;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -33,4 +34,8 @@ public interface TrackService extends RemoteService {
     List<TrackDTO> getTracks(ConfigDTO config) throws IllegalArgumentException;
 
     TrackVisualizationDTO getTrackVisualization(ConfigDTO config) throws IllegalArgumentException;
+    
+    Boolean saveChanges(TrackDTO track);
+    
+    Boolean deactivateTrack(TrackDTO track);
 }

@@ -31,4 +31,6 @@ public interface UserService extends RemoteService {
 	 * @param user
 	 */
 	public Boolean saveChanges(UserDTO user);
+	
+	public Boolean deactivateUser(UserDTO user);
 }
