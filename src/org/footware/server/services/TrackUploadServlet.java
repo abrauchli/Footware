@@ -39,6 +39,7 @@ import org.footware.server.db.UserUtil;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
 import org.footware.shared.dto.TrackDTO;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +65,6 @@ public class TrackUploadServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
 		logger = LoggerFactory.getLogger(TrackUploadServlet.class);
 
 		// Check that we have a file upload request
@@ -184,8 +184,10 @@ public class TrackUploadServlet extends HttpServlet {
 				// If we read all fields, we can start the import
 				if (file != null) {
 
-					// Get User
-					User user = UserUtil.getByEmail(email);
+					// Get UserDTO
+					User user = (User) req.getSession().getAttribute("user");
+						
+//						UserUtil.getByEmail(email);
 					logger.info("User: " + user.getFullName() + " "
 							+ user.getEmail());
 					String userDirectoryString = user.getEmail().replace("@",
