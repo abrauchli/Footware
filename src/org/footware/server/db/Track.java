@@ -373,6 +373,7 @@ public class Track extends DbEntity implements Serializable {
 		t.setMidLatitude(midLatitude);
 		t.setMidLongitude(midLongitude);
 		t.setStartTime(startTime);
+		
 		for (Comment c : comments)
 			t.addComment(c.getCommentDTO());
 		return t;
