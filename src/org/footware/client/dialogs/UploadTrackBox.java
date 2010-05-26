@@ -129,7 +129,6 @@ public class UploadTrackBox extends DialogBox {
 	}
 
 	private void doUpload() {
-		// TODO Auto-generated method stub
 		form.submit();
 	}
 }

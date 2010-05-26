@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.footware.client.services.TrackService;
+import org.footware.server.db.Track;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackFactory;
 import org.footware.server.gpx.TrackVisualizationElevationStrategy;
@@ -67,12 +68,12 @@ public class TracksServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Boolean saveChanges(TrackDTO track) {
-		// TODO Auto-generated method stub
+		new Track(track).store();
 		return true;
 	}
 
 	public Boolean deactivateTrack(TrackDTO track) {
-		// TODO
+		// TODO andy: methode in trackutil um track zu deaktivieren
 		return true;
 	}
 

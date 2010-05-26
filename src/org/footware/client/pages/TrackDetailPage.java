@@ -81,7 +81,7 @@ public class TrackDetailPage extends AbstractFormPage {
 		private FootwareMapWidget map;
 		private Button delete;
 		private Button save;
-
+		//TODO change publicity of a track
 		public TrackDetailForm() {
 			super();
 			user = new TextBox();
@@ -134,8 +134,7 @@ public class TrackDetailPage extends AbstractFormPage {
 			sp.add(loadComments());
 			mapPlaceholder = new HorizontalPanel();
 			add(sp, SOUTH);
-			// TODO use tracktitle here
-			add(new HTML("<b>" + "TRACKTITLE" + "</b>"), NORTH);
+			add(new HTML("<b>" + myTrack.getFilename() + "</b>"), NORTH);
 			add(mapPlaceholder, EAST);
 			add(vp, CENTER);
 		}

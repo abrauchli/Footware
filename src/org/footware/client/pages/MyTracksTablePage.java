@@ -38,31 +38,44 @@ public class MyTracksTablePage extends AllTracksPage {
 
 	@Override
 	public void execLoadTableData(AbstractSearchData search) {
-		// TODO get user and find suitable stuff to do here
-		// TODO andy methode um tracks eines users als tabelle zu laden
-		// (abhängig von suche)
 		UserDTO u = Session.getUser();
 		TrackSearchData sd = (TrackSearchData) search;
 		sd.user = u;
-		OutlineServiceAsync svc = GWT.create(OutlineService.class);
-		svc.getTracksTable(sd, new AsyncCallback<String[][]>() {
+		//FIXME currently, we ignore the search
+		createTableData(u.getTracks());
+		// OutlineServiceAsync svc = GWT.create(OutlineService.class);
+		// svc.getTracksTable(sd, new AsyncCallback<String[][]>() {
+		//
+		// @Override
+		// public void onSuccess(String[][] result) {
+		// setTableData(result);
+		// }
+		//
+		// @Override
+		// public void onFailure(Throwable caught) {
+		// displayError("No connection to server");
+		// }
+		// });
+	}
 
-			@Override
-			public void onSuccess(String[][] result) {
-				setTableData(result);
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				displayError("No connection to server");
-			}
-		});
+	private String[][] createTableData(Set<TrackDTO> tracks) {
+		String[][] result = new String[tracks.size()][6];
+		TrackDTO[] t = tracks.toArray(new TrackDTO[tracks.size()]);
+		for (int i = 0; i < tracks.size(); i++) {
+			result[i][0] = t[i].getUser().getFullName();
+			result[i][1] = Integer.toString(t[i].getTrackpoints());
+			result[i][2] = Double.toString(t[i].getLength());
+			result[i][3] = t[i].getStartTime().toString();
+			result[i][4] = Integer.toString(t[4].getComments().size());
+			//TODO add tags
+			result[i][5] = "";
+			// result[i][0] = t[5].get
+		}
+		return result;
 	}
 
 	@Override
 	public void execLoadTableData() {
-		// TODO do table load
-		// TODO andy wie oben aber mit leerer suche
 		execLoadTableData(new TrackSearchData());
 	}
 }

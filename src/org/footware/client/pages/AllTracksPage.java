@@ -43,9 +43,6 @@ public class AllTracksPage extends AbstractTablePage {
 	}
 	@Override
 	public void execLoadTableData(AbstractSearchData search) {
-		// TODO andy methode um tracks abhängig von suche als tabelle zu laden.
-		// kann eventuell als separater service implementiert werden: service
-		// holt DTOs und erstellt String[][] auf server
 		TrackSearchData sd = (TrackSearchData) search;// getSearchFilter();
 		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		svc.getTracksTable(sd, new AsyncCallback<String[][]>() {

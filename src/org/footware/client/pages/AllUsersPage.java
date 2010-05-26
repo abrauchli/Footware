@@ -50,7 +50,6 @@ public class AllUsersPage extends AbstractTablePage {
 
 	@Override
 	public void execLoadTableData(AbstractSearchData search) {
-		// TODO service call
 		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		svc.getUsersTable((UserSearchData) search,
 				new AsyncCallback<String[][]>() {

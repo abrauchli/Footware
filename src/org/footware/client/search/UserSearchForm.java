@@ -48,7 +48,7 @@ public class UserSearchForm extends AbstractSearchForm {
 	@Override
 	public AbstractSearchData getSearch() {
 		UserSearchData p = new UserSearchData();
-		p.value = Integer.parseInt(searchForm.tracknumberFrom.getValue());
+//		p.value = Integer.parseInt(searchForm.tracknumberFrom.getValue());
 		return p;
 	}
 

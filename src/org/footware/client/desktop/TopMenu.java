@@ -28,7 +28,7 @@ public class TopMenu extends MenuBar {
 
 	private LoginBox lb = new LoginBox(this);
 	private UploadTrackBox ub = new UploadTrackBox();
-	private SignupBox sb = new SignupBox();
+	private SignupBox sb = new SignupBox(this);
 
 	private MenuItem logout;
 	private MenuItem login;

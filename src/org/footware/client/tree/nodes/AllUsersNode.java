@@ -45,7 +45,6 @@ public class AllUsersNode extends AbstractTreeNode {
 
 	@Override
 	protected void execCreateChildren(AbstractSearchData search) {
-		// TODO andy methode um user gemäss suche als list<userDTO> zu erhalten
 		UserSearchData sd = (UserSearchData) search;
 		OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		svc.getUserList(sd, new AsyncCallback<List<UserDTO>>() {

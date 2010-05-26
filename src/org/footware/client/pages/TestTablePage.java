@@ -55,7 +55,6 @@ public class TestTablePage extends AbstractTablePage {
 
 	@Override
 	public void reload() {
-		// TODO Auto-generated method stub
 
 	}
 }

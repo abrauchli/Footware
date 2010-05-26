@@ -40,7 +40,7 @@ public class TrackSearch extends AbstractSearchForm {
 	@Override
 	public AbstractSearchData getSearch() {
 		TrackSearchData sd = new TrackSearchData();
-		sd.value = Integer.parseInt(searchform.length.getValue());
+//		sd.value = Integer.parseInt(searchform.length.getValue());
 		return sd;
 	}
 
@@ -53,22 +53,18 @@ public class TrackSearch extends AbstractSearchForm {
 	}
 
 	public class SearchForm extends VerticalPanel {
-		TextBox username; // TODO replace this with dropdown / suggestbox?
 		CheckBox commentsEnabled;
 		TextBox trackpoints;
 		TextBox length;
 		TextBox start;
 
 		public SearchForm() {
-			username = new TextBox();
 			commentsEnabled = new CheckBox();
 			trackpoints = new TextBox();
 			length = new TextBox();
 			start = new TextBox();
 			Grid g = new Grid(2, 6);
 			g.setCellPadding(5);
-			g.setWidget(0, 0, new HTML("User"));
-			g.setWidget(0, 1, username);
 			g.setWidget(0, 2, new HTML("Comments enabled"));
 			g.setWidget(0, 3, commentsEnabled);
 			g.setWidget(0, 4, new HTML("# of Trackpoints"));

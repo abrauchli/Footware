@@ -40,24 +40,20 @@ public class TestNode extends AbstractTreeNode {
 
 	@Override
 	protected void execCreateChildren() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public AbstractPage getConfiguredPage() {
-		// TODO Auto-generated method stub
 		return new TestTablePage(this);
 	}
 
 	@Override
 	public AbstractSearchForm getConfiguredSearchForm() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void search(AbstractSearchData search) {
-		// TODO Auto-generated method stub
 		
 	}
 	
