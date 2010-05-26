@@ -40,6 +40,7 @@ public class UploadTrackBox extends DialogBox {
 	public static String COMMENTS = "comments";
 	public static String NOTES = "notes";
 	public static String FILE = "file";
+	public static String EMAIL = "email";
 
 	private TextBox trackName;
 	private CheckBox enableComments;
@@ -83,7 +84,7 @@ public class UploadTrackBox extends DialogBox {
 		email = new TextBox();
 		email.setValue(Session.getUser().getEmail());
 		email.setVisible(false);
-		email.setName("email");
+		email.setName(EMAIL);
 
 		file = new FileUpload();
 		file.setName(FILE);

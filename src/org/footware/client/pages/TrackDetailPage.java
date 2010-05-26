@@ -40,8 +40,9 @@ import com.google.gwt.user.datepicker.client.DateBox;
 
 public class TrackDetailPage extends AbstractFormPage {
 
-	public TrackDetailPage(AbstractTreeNode treeNode) {
+	public TrackDetailPage(AbstractTreeNode treeNode, TrackDTO track) {
 		super(treeNode);
+		myTrack = track;
 	}
 
 	private TrackDTO myTrack;
