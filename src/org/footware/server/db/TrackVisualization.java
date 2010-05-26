@@ -57,7 +57,7 @@ public class TrackVisualization implements Serializable {
     @Column(name="y_unit",length=32)
     private String yUnit;
     
-    @OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+    @OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(name="visualization_id")
     private List<TrackVisualizationPoint> data = new LinkedList<TrackVisualizationPoint>();
 

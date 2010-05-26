@@ -20,9 +20,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.footware.shared.dto.TagDTO;
 
@@ -41,13 +43,16 @@ public class Tag extends DbEntity implements Serializable {
 	@Column(length=16)
 	private String tag;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Track track;
+	
 	protected Tag() {}
 	
 	/**
 	 * Creates a new Tag
 	 * @param tag name of the tag
 	 */
-	public Tag(String tag) {
+	public Tag(Track track, String tag) {
 		this.tag = tag;
 	}
 
@@ -85,11 +90,26 @@ public class Tag extends DbEntity implements Serializable {
 	}
 
 	/**
+	 * Gets the track
+	 * @return the track
+	 */
+	public Track getTrack() {
+		return track;
+	}
+	
+	/**
+	 * Sets the track for this tag
+	 * @param track new track for this tag
+	 */
+	public void setTrack(Track track) {
+		this.track = track;
+	}
+
+	/**
 	 * Gets the TagDTO for the current Tag state
 	 * @return the TagDTO for the current Tag state
 	 */
 	public TagDTO getTagDTO() {
-		return new TagDTO(tag);
+		return new TagDTO(track.getTrackDTO(), tag);
 	}
-
 }

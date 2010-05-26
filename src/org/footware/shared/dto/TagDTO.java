@@ -24,6 +24,7 @@ public class TagDTO implements Serializable {
 
 	private long id;
 	private String tag;
+	private TrackDTO track;
 
 	/**
 	 * Gets the id of the corresponding DB row
@@ -35,15 +36,17 @@ public class TagDTO implements Serializable {
 	
 	/**
 	 * Creates a new Tag
+	 * @param track track to tag
 	 * @param tag name of the tag
 	 */
-	public TagDTO(String tag) {
+	public TagDTO(TrackDTO track, String tag) {
+		this.track = track;
 		this.tag = tag;
 	}
 
 	/**
 	 * Gets the tag
-	 * @return tag the tag name
+	 * @return the tag name
 	 */
 	public String getTag() {
 		return tag;
@@ -55,5 +58,21 @@ public class TagDTO implements Serializable {
 	 */
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+	
+	/**
+	 * Gets the track
+	 * @return the track
+	 */
+	public TrackDTO getTrack() {
+		return track;
+	}
+	
+	/**
+	 * Sets the track for this tag
+	 * @param track new track for this tag
+	 */
+	public void setTrack(TrackDTO track) {
+		this.track = track;
 	}
 }
