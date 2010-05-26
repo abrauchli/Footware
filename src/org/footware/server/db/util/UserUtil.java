@@ -89,10 +89,10 @@ public class UserUtil {
 		Transaction t = s.beginTransaction();
 		Query q = s.getNamedQuery("users.getIfValid");
 		q.setParameter("email", email);
-		q.setParameter("password", pw_hash);
+		q.setParameter("password", pw_hash.toCharArray());
 		User res = null;
 		try {
-			res = (User)q.uniqueResult();
+			res = (User) q.uniqueResult();
 			t.commit();
 		} catch (HibernateException e) {
 			t.rollback();
