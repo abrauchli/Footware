@@ -34,6 +34,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.footware.server.db.Track;
+import org.footware.server.db.TrackSegment;
+import org.footware.server.db.Trackpoint;
 import org.footware.server.db.User;
 import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.GPXImport;
@@ -179,7 +181,8 @@ public class TrackUploadServlet extends HttpServlet {
 							&& item.getFieldName().equals("name")) {
 						name = item.getString();
 						logger.debug("name" + ": " + item.getString());
-					}else if(item.isFormField() && item.getFieldName().equals("email")){
+					} else if (item.isFormField()
+							&& item.getFieldName().equals("email")) {
 						email = item.getString();
 						logger.debug("email" + ": " + item.getString());
 					}
@@ -222,6 +225,7 @@ public class TrackUploadServlet extends HttpServlet {
 
 					// Add meta information to track
 					for (TrackDTO track : importer.getTracks()) {
+
 						track.setCommentsEnabled(comments);
 						track.setNotes(notes);
 						track.setPublicity(privacy);
@@ -230,6 +234,13 @@ public class TrackUploadServlet extends HttpServlet {
 						Track dbTrack = new Track(track);
 						dbTrack.setPath(fileName);
 						// dbTrack.setUser(user);
+						for (TrackSegment ts : dbTrack.getSegments()) {
+							for (Trackpoint tp : ts.getTrackpoints()) {
+								tp.store();
+							}
+							ts.store();
+						}
+
 						dbTrack.store();
 					}
 
