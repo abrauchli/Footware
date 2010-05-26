@@ -24,7 +24,7 @@
 		<servlet-name>trackUploadServlet</servlet-name>
 		<servlet-class>org.footware.server.services.TrackUploadServlet</servlet-class>
 	</servlet>
-		<servlet>
+	<servlet>
 		<servlet-name>trackDownloadServlet</servlet-name>
 		<servlet-class>org.footware.server.services.TrackDownloadServlet</servlet-class>
 	</servlet>

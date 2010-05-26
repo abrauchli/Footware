@@ -30,6 +30,7 @@ public class UserDTO implements Serializable {
 	private String fullName;
 	private String password;
 	private boolean isAdmin;
+	private boolean isDeactivated;
 	private Set<TrackDTO> tracks = new HashSet<TrackDTO>();
 	private Set<TagDTO> tags = new HashSet<TagDTO>();
 
@@ -103,6 +104,28 @@ public class UserDTO implements Serializable {
 	 */
 	public void setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+	
+	/**
+	 * Gets whether this user is active
+	 * @return true if the user is deactivated
+	 */
+	public boolean isDeactivated() {
+		return isDeactivated;
+	}
+	
+	/**
+	 * Disables this user
+	 */
+	public void deactivate() {
+		isDeactivated = true;
+	}
+	
+	/**
+	 * Reactivated this user
+	 */
+	public void activate() {
+		isDeactivated = false;
 	}
 
 	/**
