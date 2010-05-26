@@ -24,6 +24,10 @@
 		<servlet-name>trackUploadServlet</servlet-name>
 		<servlet-class>org.footware.server.services.TrackUploadServlet</servlet-class>
 	</servlet>
+		<servlet>
+		<servlet-name>trackDownloadServlet</servlet-name>
+		<servlet-class>org.footware.server.services.TrackDownloadServlet</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>outlineService</servlet-name>
 		<servlet-class>org.footware.server.services.OutlineServiceImpl</servlet-class>
@@ -61,6 +65,11 @@
 	<servlet-mapping>
 		<servlet-name>trackUploadServlet</servlet-name>
 		<url-pattern>/footware/trackUpload</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>trackDownloadServlet</servlet-name>
+		<url-pattern>/footware/trackDownload</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
