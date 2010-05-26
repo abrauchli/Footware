@@ -45,7 +45,10 @@ public class DBA {
 	
 	@Test
 	public void t20_deactivateUser() {
-		
+		User u = UserUtil.getByEmail("test@footware.org");
+		assert (u != null);
+		u.setDisabled(true);
+		//TODO
 	}
 	
 	@Test

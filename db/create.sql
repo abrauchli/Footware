@@ -51,7 +51,10 @@ COMMENT ON COLUMN track.disabled    IS 'is this track disabled ("deleted") or no
 
 CREATE TABLE tag (
     id          INTEGER         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    tag         VARCHAR(16)     NOT NULL UNIQUE
+    track_id    INTEGER         NOT NULL,
+    tag         VARCHAR(16)     NOT NULL UNIQUE,
+
+    FOREIGN KEY (track_id)      REFERENCES track (id)
 );
 
 CREATE TABLE track_tag (
@@ -84,10 +87,13 @@ CREATE TABLE `comment` (
 
 CREATE TABLE tracksegment (
     id           INTEGER            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    track_id     INTEGER            NOT NULL,
     max_speed    INTEGER            NOT NULL DEFAULT(0),
     max_elevation    DOUBLE         NOT NULL DEFAULT(0),
     min_elevation    DOUBLE         NOT NULL DEFAULT(0),
-    length       DOUBLE             NOT NULL DEFAULT(0)
+    length       DOUBLE             NOT NULL DEFAULT(0),
+
+    FOREIGN KEY (track_id)          REFERENCES track (id)
 );
 
 CREATE TABLE trackpoint (
@@ -115,4 +121,6 @@ CREATE TABLE visualization_point (
     x_value      DOUBLE,
     y_value      DOUBLE
 );
+
+/* vim: set ts=4 sw=4 et: */
 
