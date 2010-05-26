@@ -19,6 +19,8 @@
  */
 package org.footware.server.gpx;
 
+import org.footware.server.db.Track;
+import org.footware.server.db.TrackSegment;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
@@ -31,18 +33,19 @@ import org.footware.shared.dto.TrackVisualizationDTO;
 public class TrackVisualizationElevationStrategy implements TrackVisualizationStrategy {
 
     
-    private GPXTrack track;
+    private Track track;
     
     /* (non-Javadoc)
      * @see org.footware.server.gpx.TrackVisualizationStrategy#execute(org.footware.server.gpx.TrackVisualizationFactory)
      */
     @Override
     public void execute(TrackVisualizationFactoryStrategyView factory) {
-        for(GPXTrackSegment gpxSegment : track.getSegments()) {
-            for(GPXTrackPoint gpxPoint : gpxSegment.getPoints()) {
-                factory.addPoint(gpxPoint.getTime().getMillis(), gpxPoint.getElevation().doubleValue());
-            }
-        }
+//TODO
+    	//        for(TrackSegment gpxSegment : track.getTrackDTO().getSegments()) {
+//            for(TrackPoint gpxPoint : gpxSegment.getPoints()) {
+//                factory.addPoint(gpxPoint.getTime().getMillis(), gpxPoint.getElevation().doubleValue());
+//            }
+//        }
     }
 
     /* (non-Javadoc)
@@ -57,7 +60,7 @@ public class TrackVisualizationElevationStrategy implements TrackVisualizationSt
      * @see org.footware.server.gpx.TrackVisualizationStrategy#setTrack(org.footware.server.gpx.model.GPXTrack)
      */
     @Override
-    public void setTrack(GPXTrack track) {
+    public void setTrack(Track track) {
         this.track = track;  
     }
 
