@@ -29,6 +29,7 @@ import javax.persistence.ManyToOne;
 
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
+import org.footware.shared.dto.TrackSegmentDTO;
 
 /**
  * Class for ER Mapping of persisted TrackSegments,
