@@ -17,6 +17,7 @@
 package org.footware.shared.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class TrackpointDTO implements Serializable {
 	
@@ -24,6 +25,8 @@ public class TrackpointDTO implements Serializable {
 	
 	private double latitude;
 	private double longitude;
+	private double elevation;
+	private Date time;
 	
 	/**
 	 * Creates a new empty TrackpointDTO instance
@@ -36,9 +39,11 @@ public class TrackpointDTO implements Serializable {
 	 * @param longitude longitude to set
 	 * @param latitude latitude to set
 	 */
-	public TrackpointDTO(double longitude, double latitude) {
+	public TrackpointDTO(double longitude, double latitude, double elevation, Date time) {
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.elevation = elevation;
+		this.time = time;
 	}
 
 	/**
@@ -67,6 +72,34 @@ public class TrackpointDTO implements Serializable {
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+
+	/**
+	 * @return the elevation
+	 */
+	public double getElevation() {
+		return elevation;
+	}
+
+	/**
+	 * @param elevation the elevation to set
+	 */
+	public void setElevation(double elevation) {
+		this.elevation = elevation;
+	}
+
+	/**
+	 * @return the time
+	 */
+	public Date getTime() {
+		return time;
+	}
+
+	/**
+	 * @param time the time to set
+	 */
+	public void setTime(Date time) {
+		this.time = time;
 	}
 
 }

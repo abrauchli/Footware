@@ -24,6 +24,6 @@ public interface TrackVisualizationStrategy {
     
     public void setTrack(GPXTrack track);
     
-    public void execute(TrackVisualizationFactory factory);
+    public void execute(TrackVisualizationFactoryStrategyView factory);
 
 }

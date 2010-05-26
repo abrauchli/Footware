@@ -37,7 +37,7 @@ public class TrackVisualizationElevationStrategy implements TrackVisualizationSt
      * @see org.footware.server.gpx.TrackVisualizationStrategy#execute(org.footware.server.gpx.TrackVisualizationFactory)
      */
     @Override
-    public void execute(TrackVisualizationFactory factory) {
+    public void execute(TrackVisualizationFactoryStrategyView factory) {
         for(GPXTrackSegment gpxSegment : track.getSegments()) {
             for(GPXTrackPoint gpxPoint : gpxSegment.getPoints()) {
                 factory.addPoint(gpxPoint.getTime().getMillis(), gpxPoint.getElevation().doubleValue());
