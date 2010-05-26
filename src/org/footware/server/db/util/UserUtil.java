@@ -92,7 +92,7 @@ public class UserUtil {
 		q.setParameter("password", pw_hash.toCharArray());
 		User res = null;
 		try {
-			res = (User)q.uniqueResult();
+			res = (User) q.uniqueResult();
 			t.commit();
 		} catch (HibernateException e) {
 			t.rollback();
