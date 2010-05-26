@@ -267,6 +267,11 @@ public class User extends DbEntity implements Serializable {
 		UserDTO u = new UserDTO();
 		u.setEmail(email);
 		u.setFullName(fullName);
+		if (isDeactivated)
+			u.deactivate();
+		else
+			u.activate();
+		
 		for (Track t : tracks)
 			u.addTrackDTO(t.getTrackDTO());
 		//do not set password (it's only the hash anyway)
