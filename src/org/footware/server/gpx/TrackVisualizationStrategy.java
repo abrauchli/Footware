@@ -16,13 +16,13 @@
 
 package org.footware.server.gpx;
 
-import org.footware.server.gpx.model.GPXTrack;
+import org.footware.server.db.Track;
 
 public interface TrackVisualizationStrategy {
     
     public String getType();
     
-    public void setTrack(GPXTrack track);
+    public void setTrack(Track track);
     
     public void execute(TrackVisualizationFactoryStrategyView factory);
 

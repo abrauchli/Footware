@@ -19,6 +19,7 @@
  */
 package org.footware.server.gpx;
 
+import org.footware.server.db.Track;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
@@ -31,15 +32,16 @@ import org.footware.shared.dto.TrackVisualizationDTO;
 
 public class TrackVisualizationSpeedStrategy implements TrackVisualizationStrategy {
 
-    private GPXTrack track;
+    private Track track;
 
     @Override
     public void execute(TrackVisualizationFactoryStrategyView factory) {
-        for(GPXTrackSegment gpxSegment : track.getSegments()) {
-            for(GPXTrackPoint gpxPoint : gpxSegment.getPoints()) {
-                factory.addPoint(gpxPoint.getTime().getMillis(), gpxPoint.getSpeed());
-            }
-        }
+//TODO
+    	//        for(GPXTrackSegment gpxSegment : track.getSegments()) {
+//            for(GPXTrackPoint gpxPoint : gpxSegment.getPoints()) {
+//                factory.addPoint(gpxPoint.getTime().getMillis(), gpxPoint.getSpeed());
+//            }
+//        }
     }
 
     @Override
@@ -48,7 +50,7 @@ public class TrackVisualizationSpeedStrategy implements TrackVisualizationStrate
     }
 
     @Override
-    public void setTrack(GPXTrack track) {
+    public void setTrack(Track track) {
         this.track = track;   
     }
 
