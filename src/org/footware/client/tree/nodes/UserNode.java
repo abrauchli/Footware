@@ -56,7 +56,7 @@ public class UserNode extends AbstractTreeNode {
 	@Override
 	protected void execCreateChildren() {
 		ArrayList<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
-		for (TrackDTO t : myUser.getTracks()) {
+		for (TrackDTO t : myUser.getPublicTracks()) {
 			TrackNode child = new TrackNode(t);
 			if(admin){
 				child.startAdmin();
