@@ -38,6 +38,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.CommentDTO;
@@ -129,7 +130,7 @@ public class Track extends DbEntity implements Serializable {
 
 	public Track(TrackDTO track) {
 		this.id = track.getId();
-		this.user = new User(track.getUser());
+		this.user = UserUtil.getByEmail(track.getUser().getEmail());
 		this.filename = track.getFilename();
 		// this.path = track.getPath(); //cannot be modified by the client
 		this.notes = track.getNotes();

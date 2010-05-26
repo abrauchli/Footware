@@ -41,6 +41,7 @@ public class UploadTrackBox extends DialogBox {
 	public static String NOTES = "notes";
 	public static String FILE = "file";
 	public static String EMAIL = "email";
+	
 
 //	private TextBox trackName;
 	private CheckBox enableComments;
@@ -49,6 +50,7 @@ public class UploadTrackBox extends DialogBox {
 	private TextArea notes;
 	private FileUpload file;
 	private FormPanel form;
+	
 
 	public UploadTrackBox() {
 		setText("Upload a Track");
@@ -83,11 +85,7 @@ public class UploadTrackBox extends DialogBox {
 
 		email = new TextBox();
 		email.setVisible(false);
-		if (Session.getUser() != null) {
-			email.setValue(Session.getUser().getEmail());
-			email.setName(EMAIL);
-
-		}
+		
 		g.setWidget(6, 0, email);
 
 		file = new FileUpload();
@@ -129,6 +127,11 @@ public class UploadTrackBox extends DialogBox {
 	}
 
 	private void doUpload() {
+		if (Session.getUser() != null) {
+			email.setValue(Session.getUser().getEmail());
+			email.setName(EMAIL);
+
+		}
 		form.submit();
 	}
 }
