@@ -22,7 +22,13 @@ import java.util.List;
 import org.footware.client.framework.pages.AbstractTablePage;
 import org.footware.client.framework.search.AbstractSearchData;
 import org.footware.client.framework.tree.AbstractTreeNode;
+import org.footware.client.services.OutlineService;
+import org.footware.client.services.OutlineServiceAsync;
+import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AllTracksPage extends AbstractTablePage {
 
@@ -35,19 +41,26 @@ public class AllTracksPage extends AbstractTablePage {
 		// return new String[][] { {
 		// "Please search first to narrow down the selection" } };
 	}
-
 	@Override
 	public void execLoadTableData(AbstractSearchData search) {
 		// TODO andy methode um tracks abhängig von suche als tabelle zu laden.
 		// kann eventuell als separater service implementiert werden: service
 		// holt DTOs und erstellt String[][] auf server
 		TrackSearchData sd = (TrackSearchData) search;// getSearchFilter();
-		String[][] result = new String[sd.value][2];
-		for (int i = 0; i < sd.value; i++) {
-			result[i] = new String[] { "bogus track", "dumbo user", "666",
-					"500 miles", "8.11.1984", "0" };
-		}
-		setTableData(result);
+		OutlineServiceAsync svc = GWT.create(OutlineService.class);
+		svc.getTracksTable(sd, new AsyncCallback<String[][]>() {
+
+			@Override
+			public void onSuccess(String[][] result) {
+				setTableData(result);
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				displayError("No vonnection to server");
+
+			}
+		});
 	}
 
 	@Override
