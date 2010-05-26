@@ -17,10 +17,11 @@
 package org.footware.server.db;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +34,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.footware.shared.dto.CommentDTO;
+import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ManyToAny;
@@ -81,11 +83,14 @@ public class Track extends DbEntity implements Serializable {
 	@Column(name = "time_start")
 	private Date startTime;
 
-	@ManyToAny(metaColumn = @Column(name = "comment_id"), fetch = FetchType.LAZY)
+	@ManyToAny(metaColumn = @Column(name = "comment_id"), fetch = FetchType.EAGER)
 	private List<Comment> comments = new LinkedList<Comment>();
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private List<TrackSegment> segments = new LinkedList<TrackSegment>();
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Set<Tag> tags = new HashSet<Tag>();
 
 	protected Track() {
 	}
@@ -117,12 +122,10 @@ public class Track extends DbEntity implements Serializable {
 		this.trackpoints = track.getTrackpoints();
 		this.length = track.getLength();
 		this.startTime = track.getStartTime();
-		List<CommentDTO> comments = track.getComments();
-		if (comments != null) {
-			this.comments = new ArrayList<Comment>();
-			for (CommentDTO comment : comments)
-				this.comments.add(new Comment(comment));
-		}
+		for (CommentDTO c : track.getComments())
+			this.comments.add(new Comment(c));
+		for (TagDTO t : track.getTags())
+			this.tags.add(new Tag(t));
 	}
 
 	/**
@@ -360,11 +363,39 @@ public class Track extends DbEntity implements Serializable {
 	public void addComment(Comment comment) {
 		comments.add(comment);
 	}
-
 	
+	/**
+	 * Gets the segments belonging to this track
+	 * @return segments of this track
+	 */
 	public List<TrackSegment> getSegments() {
 		Hibernate.initialize(segments);
 		return segments;
+	}
+	
+	/**
+	 * Adds a new segment to this track
+	 * @param s segment to add
+	 */
+	public void addSegment(TrackSegment s) {
+		segments.add(s);
+	}
+
+	/**
+	 * Gets the tags attached to this track
+	 * @return set of tags attached to this track
+	 */
+	public Set<Tag> getTags() {
+		Hibernate.initialize(segments);
+		return tags;
+	}
+	
+	/**
+	 * Adds a tag to this track
+	 * @param t tag to add
+	 */
+	public void addTag(Tag t) {
+		tags.add(t);
 	}
 	
 	/**
@@ -388,6 +419,8 @@ public class Track extends DbEntity implements Serializable {
 			t.addComment(c.getCommentDTO());
 		for (TrackSegment s : getSegments())
 			t.addSegment(s.getTrackSegmentDTO());
+		for (Tag tag : getTags())
+			t.addTag(tag.getTagDTO());
 		return t;
 	}
 
