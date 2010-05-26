@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package org.footware.server.db;
+package org.footware.server.db.util;
 
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.footware.server.db.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;

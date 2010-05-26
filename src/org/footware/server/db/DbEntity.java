@@ -18,6 +18,7 @@ package org.footware.server.db;
 
 import java.io.Serializable;
 
+import org.footware.server.db.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

@@ -18,6 +18,7 @@ package org.footware.server.db;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,9 +33,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import org.footware.server.db.util.HibernateUtil;
+import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.UserDTO;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -43,12 +47,15 @@ import org.hibernate.Transaction;
  */
 @Entity()
 @NamedQueries(value = {
-// Get user by email
+		// Get user by email
 		@NamedQuery(name = "users.getByEmail", query = "FROM User u WHERE u.email = :email"),
 		// Get all users
 		@NamedQuery(name = "users.getAll", query = "FROM User"),
-		// Get user from email/password pair
-		@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password") })
+		//Get user from email/password pair
+		@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password"),
+		//Get user from email/password pair
+		@NamedQuery(name = "users.getPublicTracks", query = "FROM Track t WHERE t.user_id = :user_id AND t.publicity=5")
+	})
 public class User extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -279,6 +286,22 @@ public class User extends DbEntity implements Serializable {
 		if (tracks != null) {
 			tracks.remove(track);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Track> getPublicTracks() {
+		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction t = s.beginTransaction();
+		Query q = s.getNamedQuery("users.getPublicTracks");
+		q.setParameter("user_id", id);
+		List<Track> res = null;
+		try {
+			res = q.list();
+			t.commit();
+		} catch (HibernateException e) {
+			t.rollback();
+		}
+		return res;
 	}
 
 	// /**

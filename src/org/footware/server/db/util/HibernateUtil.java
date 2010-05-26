@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.footware.server.db;
+package org.footware.server.db.util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
