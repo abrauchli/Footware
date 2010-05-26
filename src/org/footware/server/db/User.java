@@ -55,7 +55,7 @@ import org.hibernate.Transaction;
 		//Get user from email/password pair
 		@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password"),
 		//Get user from email/password pair
-		@NamedQuery(name = "users.getPublicTracks", query = "FROM Track t WHERE t.user_id = :user_id AND t.publicity=5")
+		@NamedQuery(name = "users.getPublicTracks", query = "FROM Track t WHERE t.user = :user AND t.publicity = 5")
 	})
 public class User extends DbEntity implements Serializable {
 
@@ -294,7 +294,7 @@ public class User extends DbEntity implements Serializable {
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
 		Transaction t = s.beginTransaction();
 		Query q = s.getNamedQuery("users.getPublicTracks");
-		q.setParameter("user_id", id);
+		q.setParameter("user", this);
 		List<Track> res = null;
 		try {
 			res = q.list();
