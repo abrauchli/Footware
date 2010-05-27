@@ -156,6 +156,24 @@ public final class DB {
 			throw new Exception("Empty result");
 		}
 	}
+	
+	/**
+	 * Query a single long
+	 * @param qry Query
+	 * @return DB result
+	 * @throws Exception throws up in case of errors.
+	 */
+	public static long queryLong(String qry) throws Exception {
+		System.out.println(qry);
+		ResultSet res = DB.query(qry);
+		if (res.first()) {
+			long i = res.getLong(1);
+			DB.freeResult(res);
+			return i;
+		} else {
+			throw new Exception("Empty result");
+		}
+	}
 
 	/**
 	 * Query a single double value
