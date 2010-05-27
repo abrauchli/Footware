@@ -16,10 +16,19 @@
 
 package org.footware.server.db;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
+import javax.persistence.Column;
 
 import org.footware.server.db.util.DB;
 
@@ -29,7 +38,80 @@ public abstract class DbEntity {
 	protected long id;
 	protected final long defaultId = -1;
 	
-	public abstract void store();
+	/**
+	 * Take the camelCaseName of the field and make it camel_case_name
+	 * @param s input string
+	 * @return lowercase db-conform string
+	 */
+	public String makeDbName(String s) {
+		char[] cs = s.toCharArray();
+		StringBuilder sb = new StringBuilder(cs.length + 5);
+		for (int i=0; i<cs.length; ++i) {
+			if (Character.isUpperCase(cs[i])) {
+				sb.append('_');
+				sb.append(Character.toLowerCase(cs[i]));
+			} else {
+				sb.append(cs[i]);
+			}
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * Store an object with all it's non null fields into the DB
+	 * The field names will be used UnCamelCased -> un_camel_cased as DB cols.
+	 * DO NOT USE TO UPDATE AN OBJECT!
+	 */
+	public void store() {
+		Map<String, String> kv = new HashMap<String, String>();
+		for (Field f : getClass().getDeclaredFields()) {
+			if ((f.getModifiers() & Modifier.STATIC) > 0)
+				continue;
+			if (!f.isAccessible())
+				f.setAccessible(true); //it's private.. so make the field accessible :D
+
+			Type t = f.getGenericType();
+			try {
+				boolean append_id = false;
+				String val = null;
+				if (t == Integer.class) {
+					val = Integer.toString(f.getInt(this));
+				} else if (t == String.class) {
+					val = (String)f.get(this);
+				} else if (t == Long.class) {
+					val = Long.toString(f.getLong(this));
+				} else if (DbEntity.class.isInstance(f.get(this))) {
+					val = Long.toString(((DbEntity)f.get(this)).getId());
+					append_id = true;
+				} else if (t == char[].class) {
+					val = String.valueOf((char[])f.get(this));
+				} else if (t == boolean.class) {
+					val = f.getBoolean(this) ? "1" : "0";
+				} else if (t == Date.class) {
+					val = DB.sqlFormatDate((Date)f.get(this));
+				}
+				if (val != null) {
+					String db_field = null;
+					Column c = (Column)f.getAnnotation(Column.class);
+					if (c != null) {
+						db_field = c.name();
+					} else {
+						db_field = makeDbName(f.getName());
+						if (append_id)
+							db_field += "_id";
+					}
+					kv.put(db_field, val);
+				}
+			} catch(IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		String[] cols = new String[kv.size()];
+		String[] vals = new String[cols.length]; 
+		kv.keySet().toArray(cols);
+		kv.values().toArray(vals);
+		insertValues(getTable(), cols, vals);
+	}
 	
 	/**
 	 * Default constructor

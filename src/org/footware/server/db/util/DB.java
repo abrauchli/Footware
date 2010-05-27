@@ -267,4 +267,10 @@ public final class DB {
 				time.getYear(), time.getMonth(), time.getDay(),
 				time.getHours(), time.getMinutes(), time.getSeconds());
 	}
+	
+	public static String escapeString(String s) {
+		s = s.replace("\\", "\\\\");
+		s = s.replace("'", "\\'");
+		return s;
+	}
 }

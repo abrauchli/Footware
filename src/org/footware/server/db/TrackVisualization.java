@@ -70,12 +70,6 @@ public class TrackVisualization extends DbEntity implements Serializable {
 	public TrackVisualization(Long id) {
 		this.id = id;
 	}
-    
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 
     /**
      * @return the xUnit

@@ -141,12 +141,6 @@ public class Track extends DbEntity implements Serializable {
 		this.id = id;
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	/**
 	 * Gets the user belonging to this track
 	 * @return this track's user

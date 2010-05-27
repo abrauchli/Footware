@@ -41,17 +41,6 @@ public class UserUtil {
 		return DigestUtils.md5Hex(password);
 	}
 
-	// @NamedQuery(name = "users.getByEmail", query =
-	// "FROM User u WHERE u.email = :email"),
-	// // Get all users
-	// @NamedQuery(name = "users.getAll", query = "FROM User"),
-	// //Get user from email/password pair
-	// @NamedQuery(name = "users.getIfValid", query =
-	// "FROM User u WHERE u.email = :email AND u.password = :password"),
-	// //Get user from email/password pair
-	// @NamedQuery(name = "users.getPublicTracks", query =
-	// "FROM Track t WHERE t.user = :user AND t.publicity = 5")
-
 	/**
 	 * Gets a single user by email
 	 * 
@@ -62,10 +51,10 @@ public class UserUtil {
 	public static User getByEmail(String email) {
 		long id = -1;
 		try {
-			id = DB.queryLong("SELECT id FROM User u WHERE u.email = '" + email+"'");
+			email = DB.escapeString(email);
+			id = DB.queryLong("SELECT id FROM User u WHERE u.email = '"+ email +"'");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
 		}
 		return new User(id);
 	}
@@ -80,8 +69,7 @@ public class UserUtil {
 		try {
 			r = DB.query("SELECT id FROM User u");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return new LinkedList<User>();
 		}
 
 		LinkedList<User> res = new LinkedList<User>();
@@ -89,12 +77,10 @@ public class UserUtil {
 			int i = 1;
 			try {
 				while(r.next()) {
-					res.add(new User(r.getLong(i)));
-					i++;
+					res.add(new User(r.getLong(i++)));
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				return null;
 			}
 			
 		}

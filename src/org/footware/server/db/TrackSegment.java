@@ -105,11 +105,6 @@ public class TrackSegment extends DbEntity implements Serializable {
 			// TODO
 		}
 	}
-
-	@Override
-	public void update() {
-		// TODO
-	}
 	
 	/**
 	 * Gets the track belonging to this segment

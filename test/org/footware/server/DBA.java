@@ -65,7 +65,6 @@ public class DBA {
 		assert (u != null);
 
 		u.setDisabled(true);
-		u.store();
 
 		u = null;
 		u = UserUtil.getByEmail(email);
@@ -84,7 +83,6 @@ public class DBA {
 		u.addTrack(t);
 
 		//store just the user
-		u.store();
 		u = null;
 
 		u = UserUtil.getByEmail(email);
@@ -123,7 +121,6 @@ public class DBA {
 		}
 		assert (trk != null);
 		trk.setPublicity(0);
-		trk.store();
 		ts = TrackUtil.getAllPublicTracks();
 		assert (ts.size() == numtracks -1);
 	}
@@ -145,7 +142,6 @@ public class DBA {
 		assert (trk != null);
 		
 		trk.setDisabled(true);
-		trk.store();
 		
 		ts = TrackUtil.getAllPublicTracks();
 		assert (ts.size() == numtracks - 1);
@@ -189,7 +185,6 @@ public class DBA {
 
 		Comment c = new Comment("test comment", u);
 		tracks[0].addComment(c);
-		tracks[0].store();
 
 		u = UserUtil.getByEmail(email);
 		u.getTracks().toArray(tracks);

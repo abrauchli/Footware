@@ -17,8 +17,9 @@
 package org.footware.server.db;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.ResultSet;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -36,13 +37,12 @@ public class User extends DbEntity implements Serializable {
 
 	private String email;
 	private String fullName;
-	private char[] password;
+	private char[] password; //don't delete it's used with reflections
 	private boolean isAdmin;
 	private boolean isDisabled;
 //	@JoinColumn(name = "user_id",nullable=false)
 	private Set<Track> tracks = new HashSet<Track>();
 
-	// TODO:
 	// @JoinTable(name = "user_tag")
 	// @JoinColumn(name = "user_id")
 	// private Set<String> tags = new HashSet<String>();
@@ -69,18 +69,6 @@ public class User extends DbEntity implements Serializable {
 	@Override
 	protected String getTable() {
 		return "user";
-	}
-
-	@Override
-	public void store() {
-		String cols = "email,full_name,password";
-		String vals = String.format("'%s','%s','%s'",
-									email, fullName, password);
-		try {
-			DB.insert("INSERT INTO "+ getTable() +" SET ("+ cols +") VALUES ("+ vals +")");
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
 	}
 
 	/**
@@ -216,26 +204,35 @@ public class User extends DbEntity implements Serializable {
 	 *            track to add
 	 */
 	public void addTrack(Track track) {
-		tracks.add(track);
+		//tracks.add(track); // caching for the future
+		track.setUser(this);
 	}
 
 	/**
 	 * Removes a track from this user's track collection
-	 * 
-	 * @param track
-	 *            track to remove
+	 * (Will mark it as disabled)
+	 * @param track track to remove
 	 */
 	public void removeTrack(Track track) {
-		if (tracks != null) {
-			tracks.remove(track);
-		}
+		track.setDisabled(true);
 	}
-	
+
 	public List<Track> getPublicTracks() {
 //		Query q = s.getNamedQuery("users.getPublicTracks");
 //		q.setParameter("user", this);
-		List<Track> res = null;
-		return res;
+		try {
+			List<Track> res = new LinkedList<Track>();
+			String qry = String.format("SELECT id FROM %s WHERE user_id=%d AND publicity=%d",
+										getTable(), getId(), 5);
+
+			ResultSet rs = DB.query(qry);
+			while (rs.next()) {
+				res.add(new Track(rs.getLong(1)));
+			}
+			return res;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	// /**

@@ -78,22 +78,21 @@ public class Comment extends DbEntity implements Serializable {
 		this.text = comment;
 		this.user = user;
 	}
-	
-	@Override
-	public void store() {
-		String cols = "comment,track_id,user_id,time";
-		text = text.replace("\\", "\\\\");
-		text = text.replace("'", "\\'");
-		if (time == null)
-			time = new Date();
-		String timefmt = DB.sqlFormatDate(time);
-		String vals = String.format("'%s',%d,%d,'%s'", text, track.getId(), user.getId(), timefmt);
-		try {
-			DB.insert("INSERT INTO "+ getTable() +" SET ("+ cols +") VALUES ("+ vals +")");
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
+
+//	@Override
+//	public void store() {
+//		String cols = "comment,track_id,user_id,time";
+//		text = DB.escapeString(text);
+//		if (time == null)
+//			time = new Date();
+//		String timefmt = DB.sqlFormatDate(time);
+//		String vals = String.format("'%s',%d,%d,'%s'", text, track.getId(), user.getId(), timefmt);
+//		try {
+//			DB.insert("INSERT INTO "+ getTable() +" SET ("+ cols +") VALUES ("+ vals +")");
+//		} catch (Exception e) {
+//			throw new RuntimeException(e.getMessage());
+//		}
+//	}
 
 	/**
 	 * Gets the track for which this comment is written

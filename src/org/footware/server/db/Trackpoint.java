@@ -82,23 +82,30 @@ public class Trackpoint extends DbEntity implements Serializable {
 		this.speed = gpx.getSpeed();
 	}
 	
-	@Override
-	public void store() {
-		if (segment.getId() == defaultId)
-			segment.store();
-		
-		String cols = "segment_id,latitude,longitude,elevation,time,speed";
-		if (time == null)
-			time = new Date();
-		String timefmt = DB.sqlFormatDate(time);
-		String vals = String.format("%d,%f,%f,%f,'%s',%f",
-				segment.id,latitude,longitude,elevation,timefmt,speed);
-		try {
-			DB.insert("INSERT INTO "+ getTable() +" SET ("+ cols +") VALUES ("+ vals +")");
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
+//	@Override
+//	public void store() {
+//
+//		this.segment = seg;
+//		this.latitude = gpx.getLatitude().doubleValue();
+//		this.longitude = gpx.getLongitude().doubleValue();
+//		this.elevation = gpx.getElevation().doubleValue();
+//		this.time = gpx.getTime().toDate();
+//		this.speed = gpx.getSpeed();
+//		
+//		if (segment.getId() == defaultId)
+//			segment.store();
+//		
+//		String[] cols = {"segment_id","latitude","longitude","elevation","time","speed";
+//		
+//		String timefmt = DB.sqlFormatDate(time);
+//		String vals = String.format("%d,%f,%f,%f,'%s',%f",
+//				segment.id,latitude,longitude,elevation,timefmt,speed);
+//		try {
+//			DB.insert("INSERT INTO "+ getTable() +" SET ("+ cols +") VALUES ("+ vals +")");
+//		} catch (Exception e) {
+//			throw new RuntimeException(e.getMessage());
+//		}
+//	}
 
 	/**
 	 * Gets the segment this point is part of

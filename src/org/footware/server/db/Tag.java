@@ -63,11 +63,6 @@ public class Tag extends DbEntity implements Serializable {
 	protected String getTable() {
 		return "tag";
 	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-	}
 	
 	/**
 	 * Gets the tag
