@@ -17,10 +17,12 @@
 package org.footware.server.db;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.footware.server.db.util.DB;
 import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.UserDTO;
@@ -70,9 +72,15 @@ public class User extends DbEntity implements Serializable {
 	}
 
 	@Override
-	public void update() {
-		updateValues(new String[] {"email", "password"},
-					new String[] {email, password.toString()});
+	public void store() {
+		String cols = "email,full_name,password";
+		String vals = String.format("'%s','%s','%s'",
+									email, fullName, password);
+		try {
+			DB.insert("INSERT INTO "+ getTable() +" SET ("+ cols +") VALUES ("+ vals +")");
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	/**

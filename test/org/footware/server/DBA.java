@@ -8,7 +8,6 @@ import org.footware.server.db.Tag;
 import org.footware.server.db.Track;
 import org.footware.server.db.TrackSegment;
 import org.footware.server.db.User;
-import org.footware.server.db.util.HibernateUtil;
 import org.footware.server.db.util.TrackUtil;
 import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TagDTO;
