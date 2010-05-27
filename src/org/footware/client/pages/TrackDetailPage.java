@@ -154,12 +154,13 @@ public class TrackDetailPage extends AbstractFormPage {
 			});
 			TextBox trackid = new TextBox();
 			trackid.setName("trackid");
-			trackid.setValue(Long.toString(myTrack.getId()));
+			trackid.setText(Long.toString(myTrack.getId()));
 			trackid.setVisible(false);
 			TextBox userid = new TextBox();
 			userid.setName("userid");
+			userid.setText("testuserid");
+//			userid.setText(myTrack.getUser().getEmail());
 			userid.setVisible(false);
-			userid.setValue(myTrack.getUser().getEmail());
 			fp.add(download);
 			fp.add(userid);
 			fp.add(trackid);

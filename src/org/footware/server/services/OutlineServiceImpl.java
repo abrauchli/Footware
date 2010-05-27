@@ -1,16 +1,20 @@
 package org.footware.server.services;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.footware.client.services.OutlineService;
 import org.footware.server.db.Tag;
 import org.footware.server.db.Track;
+import org.footware.server.db.TrackVisualization;
 import org.footware.server.db.User;
 import org.footware.server.db.util.TrackUtil;
 import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
+import org.footware.shared.dto.TrackVisualizationDTO;
 import org.footware.shared.dto.UserDTO;
 import org.footware.shared.dto.UserSearchData;
 
@@ -98,6 +102,18 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 		}
 		System.out.println("This is the 5000th line of code :)");
 		return result;
+	}
+
+	@Override
+	public List<TrackVisualizationDTO> getTrackVisualizationList(Long id) {
+		Track track = TrackUtil.getTrackById(id);
+		Set<TrackVisualization> vis = track.getVisualizations();
+		
+		LinkedList<TrackVisualizationDTO> res = new LinkedList<TrackVisualizationDTO>();
+		for(TrackVisualization tv : vis) {
+			res.add(tv.getTrackVisualizationDTO());
+		}
+		return res;
 	}
 
 }

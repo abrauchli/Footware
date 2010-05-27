@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
+import org.footware.shared.dto.TrackVisualizationDTO;
 import org.footware.shared.dto.UserDTO;
 import org.footware.shared.dto.UserSearchData;
 
@@ -21,4 +22,7 @@ public interface OutlineServiceAsync {
 
 	public void getTracksTable(TrackSearchData filter,
 			AsyncCallback<String[][]> callback);
+
+	void getTrackVisualizationList(Long id,
+			AsyncCallback<List<TrackVisualizationDTO>> callback);
 }

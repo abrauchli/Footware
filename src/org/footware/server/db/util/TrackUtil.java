@@ -16,10 +16,14 @@
 
 package org.footware.server.db.util;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.footware.server.db.Track;
+import org.footware.server.db.TrackVisualization;
 import org.footware.server.db.User;
+import org.footware.shared.dto.TrackVisualizationDTO;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -64,4 +68,10 @@ public class TrackUtil {
 		}
 		return res;
 	}
+	
+	public static Set<TrackVisualization> getTrackVisualizationsById(Long id) {
+		Track track = getTrackById(id);
+		return track.getVisualizations();
+	}
+
 }

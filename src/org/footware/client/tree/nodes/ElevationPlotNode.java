@@ -5,6 +5,7 @@ import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
 import org.footware.client.pages.SpeedPlotPage;
 import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackVisualizationDTO;
 
 public class ElevationPlotNode extends AbstractTreeNode {
 	private TrackDTO myTrack;
@@ -25,7 +26,7 @@ public class ElevationPlotNode extends AbstractTreeNode {
 
 	@Override
 	public AbstractPage getConfiguredPage() {
-		return new SpeedPlotPage(this, myTrack, 2);
+		return new SpeedPlotPage(this, myTrack, TrackVisualizationDTO.TYPE_ELEVATION);
 	}
 
 	@Override

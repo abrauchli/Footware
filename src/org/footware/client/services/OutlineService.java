@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSearchData;
+import org.footware.shared.dto.TrackVisualizationDTO;
 import org.footware.shared.dto.UserDTO;
 import org.footware.shared.dto.UserSearchData;
 
@@ -18,5 +19,7 @@ public interface OutlineService extends RemoteService {
 
 	public List<TrackDTO> getTrackList(TrackSearchData filter);
 	public String[][] getTracksTable(TrackSearchData filter);
+
+	public List<TrackVisualizationDTO> getTrackVisualizationList(Long id);
 	
 }
