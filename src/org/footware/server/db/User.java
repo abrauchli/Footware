@@ -237,6 +237,24 @@ public class User extends DbEntity implements Serializable {
 	 * @return all user's tracks
 	 */
 	public Set<Track> getTracks() {
+		Transaction tx = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			tx = session.beginTransaction();
+			session.refresh(tracks);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null && tx.isActive()) {
+				try {
+					// Second try catch as the rollback could fail as well
+					tx.rollback();
+				} catch (HibernateException e1) {
+					// logger.debug("Error rolling back transaction");
+				}
+				// throw again the first exception
+				throw e;
+			}
+		}
 		return tracks;
 	}
 
@@ -247,9 +265,6 @@ public class User extends DbEntity implements Serializable {
 	 *            track to add
 	 */
 	public void addTrack(Track track) {
-		if (tracks == null)
-			tracks = new HashSet<Track>();
-
 		tracks.add(track);
 	}
 

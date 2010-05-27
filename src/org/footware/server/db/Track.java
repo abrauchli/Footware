@@ -499,35 +499,35 @@ public class Track extends DbEntity implements Serializable {
 		return t;
 	}
 
-	/**
-	 * Persist (save or update) the object
-	 */
-	public void persist() {
-		Transaction tx = null;
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			tx = session.beginTransaction();
-			session.persist(this);
-			for (TrackSegment s : segments) {
-				s.setTrack(this);
-				session.persist(s);
-				for (Trackpoint p : s.getTrackpoints()) {
-					p.setSegment(s);
-					session.persist(p);
-				}
-			}
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null && tx.isActive()) {
-				try {
-					// Second try catch as the rollback could fail as well
-					tx.rollback();
-				} catch (HibernateException e1) {
-					// logger.debug("Error rolling back transaction");
-				}
-				// throw again the first exception
-				throw e;
-			}
-		}
-	}
+//	/**
+//	 * Persist (save or update) the object
+//	 */
+//	public void persist() {
+//		Transaction tx = null;
+//		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+//		try {
+//			tx = session.beginTransaction();
+//			session.persist(this);
+//			for (TrackSegment s : segments) {
+//				s.setTrack(this);
+//				session.persist(s);
+//				for (Trackpoint p : s.getTrackpoints()) {
+//					p.setSegment(s);
+//					session.persist(p);
+//				}
+//			}
+//			tx.commit();
+//		} catch (RuntimeException e) {
+//			if (tx != null && tx.isActive()) {
+//				try {
+//					// Second try catch as the rollback could fail as well
+//					tx.rollback();
+//				} catch (HibernateException e1) {
+//					// logger.debug("Error rolling back transaction");
+//				}
+//				// throw again the first exception
+//				throw e;
+//			}
+//		}
+//	}
 }

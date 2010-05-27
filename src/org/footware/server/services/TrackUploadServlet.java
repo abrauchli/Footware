@@ -230,7 +230,7 @@ public class TrackUploadServlet extends HttpServlet {
 
 						dbTrack.setUser(user);
 						//persist
-						dbTrack.persist();
+						dbTrack.store();
 					}
 
 				} else {
