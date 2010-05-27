@@ -38,7 +38,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-import org.footware.server.db.util.HibernateUtil;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.CommentDTO;
@@ -46,9 +45,6 @@ import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSegmentDTO;
 import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * Class for ER mapping of Tracks
@@ -124,9 +120,20 @@ public class Track extends DbEntity implements Serializable {
 
 	protected Track() {
 		Hibernate.initialize(segments);
+		for (TrackSegment s : segments)
+			Hibernate.initialize(s);
+		
 		Hibernate.initialize(comments);
+		for (Comment c : comments)
+			Hibernate.initialize(c);
+		
 		Hibernate.initialize(visualizations);
+		for (TrackVisualization v : visualizations)
+			Hibernate.initialize(v);
+		
 		Hibernate.initialize(tags);
+		for (Tag t : tags)
+			Hibernate.initialize(t);
 	}
 
 	/**
@@ -492,42 +499,12 @@ public class Track extends DbEntity implements Serializable {
 		t.setDisabled(disabled);
 		for (Comment c : getComments())
 			t.addComment(c.getCommentDTO());
+		
 		for (TrackSegment s : getSegments())
 			t.addSegment(s.getTrackSegmentDTO());
+		
 		for (Tag tag : getTags())
 			t.addTag(tag.getTagDTO());
 		return t;
 	}
-
-//	/**
-//	 * Persist (save or update) the object
-//	 */
-//	public void persist() {
-//		Transaction tx = null;
-//		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-//		try {
-//			tx = session.beginTransaction();
-//			session.persist(this);
-//			for (TrackSegment s : segments) {
-//				s.setTrack(this);
-//				session.persist(s);
-//				for (Trackpoint p : s.getTrackpoints()) {
-//					p.setSegment(s);
-//					session.persist(p);
-//				}
-//			}
-//			tx.commit();
-//		} catch (RuntimeException e) {
-//			if (tx != null && tx.isActive()) {
-//				try {
-//					// Second try catch as the rollback could fail as well
-//					tx.rollback();
-//				} catch (HibernateException e1) {
-//					// logger.debug("Error rolling back transaction");
-//				}
-//				// throw again the first exception
-//				throw e;
-//			}
-//		}
-//	}
 }

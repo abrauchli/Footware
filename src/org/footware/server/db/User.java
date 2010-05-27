@@ -89,13 +89,15 @@ public class User extends DbEntity implements Serializable {
 	// @OneToMany(fetch = FetchType.LAZY)
 	// @JoinTable(name = "user_tag")
 	// @JoinColumn(name = "user_id")
-	// private Set<String> tags = new HashSet<String>();
+	// private Set<Tag> tags = new HashSet<Tag>();
 
 	/**
 	 * Protected constructor for hibernate object initialization
 	 */
 	protected User() {
 		Hibernate.initialize(tracks);
+		for (Track t : tracks)
+			Hibernate.initialize(t);
 		//Hibernate.initialize(tags);
 	}
 

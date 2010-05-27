@@ -69,6 +69,8 @@ public class TrackVisualization extends DbEntity implements Serializable {
      */
     public TrackVisualization() {
 		Hibernate.initialize(data);
+		for (TrackVisualizationPoint p : data)
+			Hibernate.initialize(p);
     }
     
     public TrackVisualization(List<TrackVisualizationPoint> data, String type, String xUnit, String yUnit) {
