@@ -16,8 +16,6 @@ CREATE TABLE user (
     full_name   VARCHAR(64),
     is_admin    BOOLEAN         DEFAULT(0),
     is_disabled BOOLEAN         DEFAULT(0),
-
-    ON DELETE CASCADE
 );
 COMMENT ON COLUMN user.password IS 'MD5 hash';
 
@@ -37,8 +35,7 @@ CREATE TABLE track (
     time_start  DATETIME,                           /* timestamp of the first trackpoint; timezones? */
     disabled    BOOLEAN         DEFAULT(0),         /* is this track disabled ("deleted") or not */
 
-    FOREIGN KEY (user_id)    REFERENCES user (id),
-    ON DELETE CASCADE
+    FOREIGN KEY (user_id)    REFERENCES user (id) ON DELETE CASCADE
 );
 COMMENT ON COLUMN track.filename    IS 'original filename as uploaded';
 COMMENT ON COLUMN track.path        IS 'path on server where the file is saved';
@@ -57,7 +54,7 @@ CREATE TABLE tag (
     track_id    INTEGER         NOT NULL,
     tag         VARCHAR(16)     NOT NULL UNIQUE,
 
-    FOREIGN KEY (track_id)      REFERENCES track (id)
+    FOREIGN KEY (track_id)      REFERENCES track (id) ON DELETE CASCADE
 );
 
 CREATE TABLE track_tag (
@@ -65,9 +62,8 @@ CREATE TABLE track_tag (
     tag_id      INTEGER         NOT NULL,
 
     PRIMARY KEY (track_id, tag_id),
-    FOREIGN KEY (track_id)      REFERENCES track (id),
+    FOREIGN KEY (track_id)      REFERENCES track (id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id)        REFERENCES tag (id),
-    ON DELETE CASCADE
 );
 
 CREATE VIEW user_tag (
@@ -81,14 +77,16 @@ CREATE VIEW user_tag (
 
 CREATE TABLE `comment` (
     id          INTEGER         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    track_id    INTEGER         NOT NULL,
-    user_id     INTEGER         NOT NULL,
+    track_id    INTEGER         NOT NULL,        /* comment on this track */
+    user_id     INTEGER         NOT NULL,        /* comment by this user */
     text        VARCHAR(256)    NOT NULL,
     time        DATETIME        NOT NULL,
 
-    FOREIGN KEY (track_id)      REFERENCES track (id),
+    FOREIGN KEY (track_id)      REFERENCES track (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id)       REFERENCES user (id)
 );
+COMMENT ON COLUMN `comment`.track_id IS 'comment on this track';
+COMMENT ON COLUMN `comment`.user_id IS 'comment by this user';
 
 CREATE TABLE tracksegment (
     id           INTEGER            NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -98,8 +96,7 @@ CREATE TABLE tracksegment (
     min_elevation    DOUBLE         NOT NULL DEFAULT(0),
     length       DOUBLE             NOT NULL DEFAULT(0),
 
-    FOREIGN KEY (track_id)          REFERENCES track (id),
-    ON DELETE CASCADE
+    FOREIGN KEY (track_id)          REFERENCES track (id) ON DELETE CASCADE
 );
 
 CREATE TABLE trackpoint (
@@ -111,7 +108,7 @@ CREATE TABLE trackpoint (
     time         DATETIME,
     speed        DOUBLE,
 
-    FOREIGN KEY (tracksegment_id) REFERENCES tracksegment (id)
+    FOREIGN KEY (tracksegment_id) REFERENCES tracksegment (id) ON DELETE CASCADE
 );
 
 CREATE TABLE visualization (
@@ -121,9 +118,8 @@ CREATE TABLE visualization (
     x_unit       VARCHAR(32),
     y_unit       VARCHAR(32),
 
-    FOREIGN KEY (track_id)          REFERENCES track (id),
-    UNIQUE      (track_id, type), /* allow only one visualization type per track */
-    ON DELETE CASCADE
+    FOREIGN KEY (track_id)          REFERENCES track (id) ON DELETE CASCADE,
+    UNIQUE      (track_id, type)    /* allow only one visualization type per track */
 );
 
 CREATE TABLE visualization_point (
