@@ -268,6 +268,11 @@ public final class DB {
 				time.getHours(), time.getMinutes(), time.getSeconds());
 	}
 	
+	/**
+	 * Escapes a string to prevent SQL injections
+	 * @param s string to escape
+	 * @return escaped string
+	 */
 	public static String escapeString(String s) {
 		s = s.replace("\\", "\\\\");
 		s = s.replace("'", "\\'");

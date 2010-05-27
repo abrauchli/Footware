@@ -12,6 +12,7 @@ import org.footware.server.db.util.TrackUtil;
 import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.UserDTO;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class DBA {
@@ -52,8 +53,8 @@ public class DBA {
 		new User(new_user).store();
 
 		User u = UserUtil.getByEmail(email);
-		assert (u != null);
-		assert (u.getEmail().equals(email));
+		Assert.assertTrue (u != null);
+		Assert.assertTrue (u.getEmail().equals(email));
 	}
 
 	/**
@@ -62,13 +63,13 @@ public class DBA {
 	@Test
 	public void t20_deactivateUser() {
 		User u = UserUtil.getByEmail(email);
-		assert (u != null);
+		Assert.assertTrue (u != null);
 
 		u.setDisabled(true);
 
 		u = null;
 		u = UserUtil.getByEmail(email);
-		assert (u.isDisabled());
+		Assert.assertTrue (u.isDisabled());
 	}
 
 	/**
@@ -77,16 +78,14 @@ public class DBA {
 	@Test
 	public void t30_addTrackToUser() {
 		User u = UserUtil.getByEmail(email);
-		assert (u != null);
-		assert (u.getTracks().size() == 0);
+		Assert.assertTrue (u != null);
+		Assert.assertTrue (u.getTracks().size() == 0);
 		Track t = new Track(u, "foo", "/foo");
 		u.addTrack(t);
 
-		//store just the user
 		u = null;
-
 		u = UserUtil.getByEmail(email);
-		assert (u.getTracks().size() == 1);
+		Assert.assertTrue (u.getTracks().size() >= 1);
 	}
 	
 	/**
@@ -95,14 +94,14 @@ public class DBA {
 	@Test
 	public void t31_addTrackWithUser() {
 		User u = UserUtil.getByEmail(email);
-		assert (u != null);
+		Assert.assertTrue (u != null);
 		Track t = new Track(u, "bar", "/bar");
 		//this time store the track
 		t.store();
 
 		u = null;
 		u = UserUtil.getByEmail(email);
-		assert (u.getTracks().size() == 2);
+		Assert.assertTrue (u.getTracks().size() == 2);
 	}
 	
 	/**
@@ -119,10 +118,10 @@ public class DBA {
 				break;
 			}
 		}
-		assert (trk != null);
+		Assert.assertTrue (trk != null);
 		trk.setPublicity(0);
 		ts = TrackUtil.getAllPublicTracks();
-		assert (ts.size() == numtracks -1);
+		Assert.assertTrue (ts.size() == numtracks -1);
 	}
 	
 	/**
@@ -139,12 +138,12 @@ public class DBA {
 				break;
 			}
 		}
-		assert (trk != null);
+		Assert.assertTrue (trk != null);
 		
 		trk.setDisabled(true);
 		
 		ts = TrackUtil.getAllPublicTracks();
-		assert (ts.size() == numtracks - 1);
+		Assert.assertTrue (ts.size() == numtracks - 1);
 	}
 
 	/**
@@ -153,9 +152,8 @@ public class DBA {
 	@Test
 	public void t35_addTrackSegmentToTrack() {
 		List<Track> tracks = TrackUtil.getAllPublicTracks();
-		assert (tracks.size() > 0);
+		Assert.assertTrue (tracks.size() > 0);
 		Track t = tracks.get(0);
-		Long tid = t.getId();
 		
 		TrackSegment s = new TrackSegment();
 		s.setLength(16.5);
@@ -164,11 +162,11 @@ public class DBA {
 		
 		t = null;
 //		t = (Track)session.get(Track.class, tid);
-		assert (t != null);
+		Assert.assertTrue (t != null);
 		Set<TrackSegment> segs = t.getSegments();
-		assert (segs.size() == 1);
+		Assert.assertTrue (segs.size() == 1);
 		for (TrackSegment seg : segs)
-			assert (seg.getLength() == 16.5);
+			Assert.assertTrue (seg.getLength() == 16.5);
 	}
 	
 	/**
@@ -177,11 +175,11 @@ public class DBA {
 	@Test
 	public void t40_addTrackComment() {
 		User u = UserUtil.getByEmail(email);
-		assert (u != null);
+		Assert.assertTrue (u != null);
 
 		Track[] tracks = new Track[0];
 		u.getTracks().toArray(tracks);
-		assert (tracks.length > 0);
+		Assert.assertTrue (tracks.length > 0);
 
 		Comment c = new Comment("test comment", u);
 		tracks[0].addComment(c);
@@ -195,7 +193,7 @@ public class DBA {
 				break;
 			}
 		}
-		assert (found);
+		Assert.assertTrue (found);
 	}
 
 	/**
@@ -204,7 +202,7 @@ public class DBA {
 	@Test
 	public void t50_addTag() {
 		List<Track> tracks = TrackUtil.getAllPublicTracks();
-		assert (tracks.size() > 0);
+		Assert.assertTrue (tracks.size() > 0);
 		Track t = tracks.get(0);
 
 		TagDTO new_tag = new TagDTO(t.getTrackDTO(), "tag");
@@ -217,7 +215,7 @@ public class DBA {
 				break;
 			}
 		}
-		assert (found);
+		Assert.assertTrue (found);
 	}
 
 	/**

@@ -63,6 +63,9 @@ public abstract class DbEntity {
 	 * DO NOT USE TO UPDATE AN OBJECT!
 	 */
 	public void store() {
+		if (getId() != defaultId)
+			return;
+		
 		Map<String, String> kv = new HashMap<String, String>();
 		for (Field f : getClass().getDeclaredFields()) {
 			if ((f.getModifiers() & Modifier.STATIC) > 0)
@@ -74,21 +77,37 @@ public abstract class DbEntity {
 			try {
 				boolean append_id = false;
 				String val = null;
+				
+				//Int
 				if (t == Integer.class) {
 					val = Integer.toString(f.getInt(this));
+					
+				//String
 				} else if (t == String.class) {
 					val = (String)f.get(this);
+					
+				//Long
 				} else if (t == Long.class) {
 					val = Long.toString(f.getLong(this));
+
+				//DbEntity
 				} else if (DbEntity.class.isInstance(f.get(this))) {
 					val = Long.toString(((DbEntity)f.get(this)).getId());
 					append_id = true;
+
+				//char[]
 				} else if (t == char[].class) {
 					val = String.valueOf((char[])f.get(this));
+
+				//boolean
 				} else if (t == boolean.class) {
 					val = f.getBoolean(this) ? "1" : "0";
+
+				//Date
 				} else if (t == Date.class) {
-					val = DB.sqlFormatDate((Date)f.get(this));
+					Date d = (Date)f.get(this);
+					if (d != null)
+						val = DB.sqlFormatDate(d);
 				}
 				if (val != null) {
 					String db_field = null;

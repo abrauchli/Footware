@@ -17,8 +17,10 @@
 package org.footware.server.db;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.footware.shared.dto.TrackVisualizationDTO;
 import org.footware.shared.dto.TrackVisualizationPointDTO;
@@ -46,12 +48,15 @@ public class TrackVisualization extends DbEntity implements Serializable {
     //@Column(name="y_unit",length=32)
     private String yUnit;
     
+    private Track track;
+    
     //@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
     //@JoinColumn(name="visualization_id")
     private List<TrackVisualizationPoint> data = new LinkedList<TrackVisualizationPoint>();
 
     /**
-     * Constructor for hibernate initialization
+     * Constructor for special initializations
+     * It is advised not to use this diretly
      */
     public TrackVisualization() {
     }
@@ -117,15 +122,24 @@ public class TrackVisualization extends DbEntity implements Serializable {
      * @return the data
      */
     public List<TrackVisualizationPoint> getData() {
-        return data;
+        //return data;
+		List<Long> ids = getForeignKeys("visualization_point", "visualization_id");
+		List<TrackVisualizationPoint> res = new LinkedList<TrackVisualizationPoint>();
+		for (Long l : ids)
+			res.add(new TrackVisualizationPoint(l));
+		return res;
     }
 
     /**
+     * Sets the data for this visualization
+     * Do this only after calling store() to persist the object
      * @param data the data to set
      */
     public void setData(List<TrackVisualizationPoint> data) {
-        this.data = data;
-        //TODO
+        //this.data = data;
+    	assert (this.exists());
+    	for (TrackVisualizationPoint p : data)
+    		p.setTrackVisualization(this);
     }
 
     /**
@@ -144,4 +158,22 @@ public class TrackVisualization extends DbEntity implements Serializable {
 
     	return t;
     }
+
+    /**
+     * Gets the track this visualization is for
+     * @return track this visualization is for
+     */
+	public Track getTrack() {
+		//return track;
+		return new Track(getLongValue("track_id", defaultId));
+	}
+
+	/**
+	 * Sets the track this visualization is for
+	 * @param track the track this visualization is for
+	 */
+	public void setTrack(Track track) {
+		//this.track = track;
+		setDblValue("track_id", track.getId());
+	}
 }

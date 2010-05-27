@@ -117,6 +117,7 @@ public class Track extends DbEntity implements Serializable {
 		this.trackpoints = track.getTrackpoints();
 		this.length = track.getLength();
 		this.startTime = track.getStartTime();
+		//Code below not handled this way yet, append them after DB creation
 		for (TrackSegmentDTO segment : track.getSegments()) 
 			this.segments.add(new TrackSegment(segment));
 		for (CommentDTO c : track.getComments())
@@ -137,7 +138,7 @@ public class Track extends DbEntity implements Serializable {
 	 * Create a new object from the db id
 	 * @param id
 	 */
-	public Track(Long id) {
+	public Track(long id) {
 		this.id = id;
 	}
 
@@ -201,7 +202,7 @@ public class Track extends DbEntity implements Serializable {
 	 * @param notes
 	 */
 	public void setNotes(String notes) {
-		this.notes = notes;
+		setStrValue("notes", notes);
 	}
 
 	/**
@@ -385,7 +386,8 @@ public class Track extends DbEntity implements Serializable {
 	 *            comment to be added to this track
 	 */
 	public void addComment(Comment comment) {
-		comments.add(comment);
+		//comments.add(comment);
+		comment.setTrack(this);
 	}
 	
 	/**
@@ -405,8 +407,8 @@ public class Track extends DbEntity implements Serializable {
 	 * @param v visualization to add
 	 */
 	public void addVisualization(TrackVisualization v) {
-		//TODO
-		visualizations.add(v);
+		//visualizations.add(v);
+		v.setTrack(this);
 	}
 	
 	/**
@@ -426,8 +428,8 @@ public class Track extends DbEntity implements Serializable {
 	 * @param s segment to add
 	 */
 	public void addSegment(TrackSegment s) {
-		//TODO
-		segments.add(s);
+		//segments.add(s);
+		s.setTrack(this);
 	}
 
 	/**
@@ -447,8 +449,8 @@ public class Track extends DbEntity implements Serializable {
 	 * @param t tag to add
 	 */
 	public void addTag(Tag t) {
-		//TODO
-		tags.add(t);
+		//tags.add(t);
+		t.setTrack(this);
 	}
 	
 	/**
@@ -470,6 +472,7 @@ public class Track extends DbEntity implements Serializable {
 		t.setMidLongitude(midLongitude);
 		t.setStartTime(startTime);
 		t.setDisabled(disabled);
+		//Code below not handled yet, append them after object creation (after store() call)
 		for (Comment c : getComments())
 			t.addComment(c.getCommentDTO());
 		for (TrackSegment s : getSegments())

@@ -77,22 +77,8 @@ public class Comment extends DbEntity implements Serializable {
 	public Comment(String comment, User user) {
 		this.text = comment;
 		this.user = user;
+		this.time = new Date();
 	}
-
-//	@Override
-//	public void store() {
-//		String cols = "comment,track_id,user_id,time";
-//		text = DB.escapeString(text);
-//		if (time == null)
-//			time = new Date();
-//		String timefmt = DB.sqlFormatDate(time);
-//		String vals = String.format("'%s',%d,%d,'%s'", text, track.getId(), user.getId(), timefmt);
-//		try {
-//			DB.insert("INSERT INTO "+ getTable() +" SET ("+ cols +") VALUES ("+ vals +")");
-//		} catch (Exception e) {
-//			throw new RuntimeException(e.getMessage());
-//		}
-//	}
 
 	/**
 	 * Gets the track for which this comment is written
@@ -102,9 +88,9 @@ public class Comment extends DbEntity implements Serializable {
 		return track;
 	}
 	
-//	public void setTrack(Track track) {
-//		this.track = track;
-//	}
+	public void setTrack(Track track) {
+		setDblValue("track_id", track.getId());
+	}
 
 	/**
 	 * Gets the author of the comment
@@ -113,9 +99,13 @@ public class Comment extends DbEntity implements Serializable {
 		return new User(getLongValue("user_id", defaultId));
 	}
 	
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
+	/**
+	 * Sets the author of this comment
+	 * @param user author who wrote this comment
+	 */
+	public void setUser(User user) {
+		setDblValue("user_id", user.getId());
+	}
 	
 	/**
 	 * Gets the comment text

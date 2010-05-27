@@ -186,22 +186,22 @@ public class User extends DbEntity implements Serializable {
 	}
 
 	/**
-	 * Gets all tracks associated with this user
+	 * Gets all (non disabled) tracks associated with this user
 	 * @return all user's tracks
 	 */
 	public Set<Track> getTracks() {
 		Set<Track> ts = new HashSet<Track>();
 		for (Long l : getForeignKeys("track", "user_id")) {
-			ts.add(new Track(l));
+			Track t = new Track(l);
+			if (!t.isDisabled())
+				ts.add(t);
 		}
 		return tracks;
 	}
 
 	/**
 	 * Adds a new track to this user's track collection
-	 * 
-	 * @param track
-	 *            track to add
+	 * @param track track to add
 	 */
 	public void addTrack(Track track) {
 		//tracks.add(track); // caching for the future

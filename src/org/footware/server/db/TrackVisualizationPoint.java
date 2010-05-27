@@ -37,11 +37,19 @@ public class TrackVisualizationPoint extends DbEntity implements Serializable {
     private TrackVisualization visualization;
 
     /**
-     * Constructor for hibernate initialization
+     * Constructor for special initialization
+     * it is advised not to use this directly
      */
     public TrackVisualizationPoint() {
     }
-    
+
+    /**
+     * Constructor for initialization
+     */
+    public TrackVisualizationPoint(Long id) {
+    	this.id = id;
+    }
+
     /**
      * Constructor for initialization with x and y values
      * @param xValue x value to set
@@ -86,6 +94,22 @@ public class TrackVisualizationPoint extends DbEntity implements Serializable {
 	 */
     public void setY(double yValue) {
     	setDblValue("x_value", 0.0);
+    }
+    
+    /**
+     * Gets the track visualization belonging to this point
+     * @return the track visualization belonging to this point
+     */
+    public TrackVisualization getTrackVisualization() {
+    	return new TrackVisualization(getLongValue("visualization_id", defaultId));
+    }    
+    
+    /**
+     * Sets the track visualization belonging to this point
+     * @param tv the track visualization belonging to this point
+     */
+    public void setTrackVisualization(TrackVisualization tv) {
+    	setLongValue("visualization_id", tv.getId());
     }
 
     /**
