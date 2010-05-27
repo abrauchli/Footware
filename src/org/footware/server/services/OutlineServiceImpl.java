@@ -95,7 +95,7 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 
 		}
 		System.out.println("This is the 5000th line of code :)");
-		return new String[1][1];
+		return result;
 	}
 
 }

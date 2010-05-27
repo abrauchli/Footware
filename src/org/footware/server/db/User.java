@@ -48,15 +48,14 @@ import org.hibernate.Transaction;
  */
 @Entity()
 @NamedQueries(value = {
-		// Get user by email
+// Get user by email
 		@NamedQuery(name = "users.getByEmail", query = "FROM User u WHERE u.email = :email"),
 		// Get all users
 		@NamedQuery(name = "users.getAll", query = "FROM User"),
-		//Get user from email/password pair
+		// Get user from email/password pair
 		@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password"),
-		//Get user from email/password pair
-		@NamedQuery(name = "users.getPublicTracks", query = "FROM Track t WHERE t.user = :user AND t.publicity = 5")
-	})
+		// Get user from email/password pair
+		@NamedQuery(name = "users.getPublicTracks", query = "FROM Track t WHERE t.user = :user AND t.publicity = 5") })
 public class User extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -80,7 +79,7 @@ public class User extends DbEntity implements Serializable {
 	@Column(name = "is_disabled")
 	private boolean isDisabled;
 
-	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private Set<Track> tracks = new HashSet<Track>();
 
@@ -219,10 +218,12 @@ public class User extends DbEntity implements Serializable {
 	public boolean isDisabled() {
 		return isDisabled;
 	}
-	
+
 	/**
 	 * Set whether this user is disabled or not
-	 * @param disabled true to disable, false to (re-)enable
+	 * 
+	 * @param disabled
+	 *            true to disable, false to (re-)enable
 	 */
 	public void setDisabled(boolean disabled) {
 		isDisabled = disabled;
@@ -234,7 +235,6 @@ public class User extends DbEntity implements Serializable {
 	 * @return all user's tracks
 	 */
 	public Set<Track> getTracks() {
-		Hibernate.initialize(tracks);
 		return tracks;
 	}
 
@@ -264,7 +264,7 @@ public class User extends DbEntity implements Serializable {
 			tracks.remove(track);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Track> getPublicTracks() {
 		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -311,7 +311,7 @@ public class User extends DbEntity implements Serializable {
 		}
 		// do not set password (it's only the hash anyway)
 		// for (String t : getTags())
-		// 		u.addTag(t);
+		// u.addTag(t);
 
 		return u;
 	}
