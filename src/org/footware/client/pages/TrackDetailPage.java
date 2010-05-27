@@ -171,7 +171,9 @@ public class TrackDetailPage extends AbstractFormPage {
 			vp.add(hp);
 			ScrollPanel sp = new ScrollPanel();
 			sp.setHeight("300px");
-			sp.add(loadComments());
+			commentContainer = new HorizontalPanel();
+			commentContainer.add(loadComments());
+			sp.add(commentContainer);
 			mapPlaceholder = new HorizontalPanel();
 			add(sp, SOUTH);
 			add(new HTML("<b>" + myTrack.getFilename() + "</b>"), NORTH);
@@ -179,7 +181,8 @@ public class TrackDetailPage extends AbstractFormPage {
 			add(vp, CENTER);
 		}
 
-		CommentBox cb;
+		private HorizontalPanel commentContainer;
+		private CommentBox cb;
 
 		private Widget loadComments() {
 			List<CommentDTO> c = myTrack.getComments();
@@ -190,7 +193,7 @@ public class TrackDetailPage extends AbstractFormPage {
 					@Override
 					public void onClick(ClickEvent event) {
 						if (cb == null) {
-							cb = new CommentBox(myTrack);
+							cb = new CommentBox(myTrack, content);
 						}
 						cb.doClear();
 						cb.center();
@@ -267,6 +270,12 @@ public class TrackDetailPage extends AbstractFormPage {
 			});
 		}
 
+		public void addComment(CommentDTO c) {
+			myTrack.addComment(c);
+			commentContainer.clear();
+			commentContainer.add(loadComments());
+			//TODO server call
+		}
 	}
 
 	public void editableMode() {
@@ -289,7 +298,7 @@ public class TrackDetailPage extends AbstractFormPage {
 	@Override
 	public void execLazyload() {
 		content.loadData(getMyTrack());
-		content.map = new FootwareMapWidget("400px","600px");
+		content.map = new FootwareMapWidget("400px", "600px");
 		content.map.displayTracks(myTrack);
 		content.mapPlaceholder.clear();
 		content.mapPlaceholder.add(content.map);

@@ -3,6 +3,7 @@ package org.footware.client.dialogs;
 import java.util.Date;
 
 import org.footware.client.Session;
+import org.footware.client.pages.TrackDetailPage.TrackDetailForm;
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TrackDTO;
 
@@ -20,9 +21,11 @@ public class CommentBox extends DialogBox {
 	private Button cancel;
 	private Button save;
 	private TrackDTO track;
+	private TrackDetailForm container;
 
-	public CommentBox(TrackDTO track) {
+	public CommentBox(TrackDTO track, TrackDetailForm container) {
 		super();
+		this.container = container;
 		this.track = track;
 		text = new TextArea();
 		text.setWidth("200px");
@@ -62,6 +65,7 @@ public class CommentBox extends DialogBox {
 	private void doSave() {
 		CommentDTO c = new CommentDTO(text.getValue(), Session.getUser(), track);
 		c.setTime(new Date());
+		container.addComment(c);
 
 	}
 
