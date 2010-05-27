@@ -24,8 +24,17 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String[][] getUsersTable(UserSearchData filter) {
 		List<User> l = UserUtil.getAll();
+		if (!filter.admin) {
+			List<User> ll = new ArrayList<User>();
+			for (User u : l) {
+				if (!u.isDisabled()) {
+					ll.add(u);
+				}
+			}
+			l = ll;
+		}
 		int n = 2;
-		if(filter.admin){
+		if (filter.admin) {
 			n = 4;
 		}
 		if (l != null) {
@@ -34,7 +43,7 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 			for (int i = 0; i < l.size(); i++) {
 				result[i][0] = l.get(i).getFullName();
 				result[i][1] = Integer.toString(l.get(i).getTracks().size());
-				if(filter.admin){
+				if (filter.admin) {
 					result[i][2] = Boolean.toString(l.get(i).isDisabled());
 					result[i][3] = Boolean.toString(l.get(i).getIsAdmin());
 				}

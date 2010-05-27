@@ -86,7 +86,6 @@ public class TrackDetailPage extends AbstractFormPage {
 		private Button download;
 		private FormPanel form;
 
-		// TODO change publicity of a track
 		public TrackDetailForm() {
 			super();
 			user = new TextBox();

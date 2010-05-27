@@ -99,14 +99,14 @@ public class Track extends DbEntity implements Serializable {
 	
 	private boolean disabled;
 
-	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.EAGER)
+	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.LAZY)
 	private List<Comment> comments = new LinkedList<Comment>();
 	
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.PERSIST)
 	@JoinColumn(name="track_id")
 	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
 	
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.PERSIST)
 	@JoinColumn(name="track_id")
 	private Set<Tag> tags = new HashSet<Tag>();
 
