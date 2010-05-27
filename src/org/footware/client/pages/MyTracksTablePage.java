@@ -40,7 +40,7 @@ public class MyTracksTablePage extends AllTracksPage {
 		TrackSearchData sd = (TrackSearchData) search;
 		sd.user = u;
 		//FIXME currently, we ignore the search
-		createTableData(u.getTracks());
+		setTableData(createTableData(u.getTracks()));
 		// OutlineServiceAsync svc = GWT.create(OutlineService.class);
 		// svc.getTracksTable(sd, new AsyncCallback<String[][]>() {
 		//

@@ -34,11 +34,13 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.footware.server.db.Track;
+import org.footware.server.db.TrackVisualization;
 import org.footware.server.db.User;
 import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
 import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackVisualizationDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -219,19 +221,32 @@ public class TrackUploadServlet extends HttpServlet {
 					importer.importTrack(uploadedFile);
 
 					// Add meta information to track
-					for (TrackDTO track : importer.getTracks()) {
+					List<TrackDTO> tracks = importer.getTracks();
+					List<TrackVisualizationDTO> elevationVisualizations = importer.getElevationVisualizations();
+					List<TrackVisualizationDTO> speedVisualizations = importer.getSpeedVisualizations();
+					
+					for (int i = 0; i < tracks.size() ; i++) {
+						TrackDTO track = tracks.get(i);
 
 						Track dbTrack = new Track(track);
 						dbTrack.setCommentsEnabled(comments);
 						dbTrack.setNotes(notes);
 						dbTrack.setPublicity(privacy);
-						dbTrack.setFilename(uploadedFile.getAbsolutePath());
-						dbTrack.setPath(fileName);
+						dbTrack.setFilename(fileName);
+						dbTrack.setPath(uploadedFile.getAbsolutePath());
 
 						dbTrack.setUser(user);
 						//persist
 						dbTrack.persist();
+						
+						TrackVisualization ele = new TrackVisualization(elevationVisualizations.get(i));
+						ele.store();
+						
+						TrackVisualization spd = new TrackVisualization(speedVisualizations.get(i));
+						spd.store();
 					}
+					
+					
 
 				} else {
 					logger.error("error: file: " + (file != null));

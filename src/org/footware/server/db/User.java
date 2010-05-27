@@ -79,7 +79,7 @@ public class User extends DbEntity implements Serializable {
 	@Column(name = "is_disabled")
 	private boolean isDisabled;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private Set<Track> tracks = new HashSet<Track>();
 
@@ -301,7 +301,6 @@ public class User extends DbEntity implements Serializable {
 		u.setFullName(fullName);
 		u.setIsAdmin(isAdmin);
 		u.setDisabled(isDisabled);
-
 		for (Track t : getTracks()) {
 			TrackDTO dto = t.getTrackDTO();
 			dto.setUser(u);

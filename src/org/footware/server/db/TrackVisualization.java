@@ -38,7 +38,7 @@ import org.hibernate.annotations.Entity;
  * Class for ER mapping of track visualizations
  */
 @Entity
-public class TrackVisualization implements Serializable {
+public class TrackVisualization extends DbEntity implements Serializable {
     
 	private static final long serialVersionUID = 1L;
 	public static String TYPE_SPEED = "Speed plot";
@@ -72,6 +72,16 @@ public class TrackVisualization implements Serializable {
         this.type = type;
         this.xUnit = xUnit;
         this.yUnit = yUnit;
+    }
+    
+    public TrackVisualization(TrackVisualizationDTO vis) {
+   
+    	data = new LinkedList<TrackVisualizationPoint>();
+    	for(TrackVisualizationPointDTO pt : vis.getData()) {
+    		data.add(new TrackVisualizationPoint(pt.getX(), pt.getY()));
+    	}
+    	xUnit = vis.getxUnit();
+    	yUnit = vis.getyUnit();
     }
 
 	/**

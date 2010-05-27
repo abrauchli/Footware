@@ -78,7 +78,7 @@ public class FootwareMapWidget extends Composite {
         defaultMapOptions.setProjection("EPSG:900913");
         defaultMapOptions.setDisplayProjection(new Projection(EPSG4326));
 
-        MapWidget mapWidget = new MapWidget(width + "px", height + "px", defaultMapOptions);
+        MapWidget mapWidget = new MapWidget("400px", "800px", defaultMapOptions);
         map = mapWidget.getMap();
 
         map.addControl(new LayerSwitcher());
@@ -142,8 +142,6 @@ public class FootwareMapWidget extends Composite {
 //					displayTracks(track);
 //				}
 //			}
-
-
 
     /**
      * @return the width
