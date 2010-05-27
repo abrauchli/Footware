@@ -398,7 +398,7 @@ public class Track extends DbEntity implements Serializable {
 	 * @return List of all comments for this track
 	 */
 	public List<Comment> getComments() {
-		Hibernate.initialize(comments);
+//		Hibernate.initialize(comments);
 		return comments;
 	}
 
@@ -466,8 +466,8 @@ public class Track extends DbEntity implements Serializable {
 		t.setMidLongitude(midLongitude);
 		t.setStartTime(startTime);
 		t.setDisabled(disabled);
-		for (Comment c : getComments())
-			t.addComment(c.getCommentDTO());
+//		for (Comment c : getComments())
+////			t.addComment(c.getCommentDTO());
 		for (TrackSegment s : getSegments())
 			t.addSegment(s.getTrackSegmentDTO());
 		for (Tag tag : getTags())

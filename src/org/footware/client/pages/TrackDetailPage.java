@@ -289,7 +289,9 @@ public class TrackDetailPage extends AbstractFormPage {
 	@Override
 	public void execLazyload() {
 		content.loadData(getMyTrack());
-		content.map = new FootwareMapWidget();
+		content.map = new FootwareMapWidget("400px","600px");
+		content.map.displayTracks(myTrack);
+		content.mapPlaceholder.clear();
 		content.mapPlaceholder.add(content.map);
 	}
 
