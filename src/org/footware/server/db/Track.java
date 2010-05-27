@@ -55,6 +55,7 @@ import org.hibernate.annotations.ManyToAny;
 @NamedQueries(value = {
 		//Get all public tracks
 		@NamedQuery(name = "tracks.getAllPublic", query = "FROM Track t WHERE t.disabled=0 AND t.publicity=5"),
+		@NamedQuery(name="tracks.getTrackById", query= "FROM Track t where t.id = :id")
 	})
 public class Track extends DbEntity implements Serializable {
 
@@ -102,7 +103,7 @@ public class Track extends DbEntity implements Serializable {
 	private List<Comment> comments = new LinkedList<Comment>();
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
-	@JoinColumn(name="id")
+	@JoinColumn(name="track_id")
 	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)

@@ -45,5 +45,4 @@ public abstract class AbstractTree {
 	public abstract List<AbstractTreeNode> execCreateChildren(AbstractSearchData search);
 
 	
-	
 }

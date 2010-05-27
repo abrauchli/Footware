@@ -16,13 +16,12 @@
 
 package org.footware.client.framework.views;
 
+
 import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTree;
 import org.footware.client.framework.tree.AbstractTreeNode;
 
-import com.google.gwt.event.logical.shared.OpenEvent;
-import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -91,6 +90,11 @@ public class TreeView extends ScrollPanel {
 
 	private void addTreeNode(AbstractTreeNode node) {
 		treeWidget.addItem(node);
+	}
+	public void refresh(){
+		for(AbstractTreeNode n : myTree.getToplevel()){
+			n.refresh();
+		}
 	}
 
 }

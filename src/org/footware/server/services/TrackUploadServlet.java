@@ -233,13 +233,6 @@ public class TrackUploadServlet extends HttpServlet {
 						track.setUser(user);
 						Track dbTrack = new Track(track);
 						dbTrack.setPath(fileName);
-						for (TrackSegment ts : dbTrack.getSegments()) {
-							for (Trackpoint tp : ts.getTrackpoints()) {
-								tp.store();
-							}
-							ts.store();
-						}
-
 						dbTrack.store();
 					}
 

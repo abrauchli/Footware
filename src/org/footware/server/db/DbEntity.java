@@ -27,12 +27,39 @@ public abstract class DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Persist (save or update) the object
+	 */
 	public void store() {
 		Transaction tx = null;
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			tx = session.beginTransaction();
 			session.saveOrUpdate(this);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null && tx.isActive()) {
+				try {
+					// Second try catch as the rollback could fail as well
+					tx.rollback();
+				} catch (HibernateException e1) {
+					// logger.debug("Error rolling back transaction");
+				}
+				// throw again the first exception
+				throw e;
+			}
+		}
+	}
+
+	/**
+	 * Delete the object from persistence
+	 */
+	public void delete() {
+		Transaction tx = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			tx = session.beginTransaction();
+			session.delete(this);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null && tx.isActive()) {

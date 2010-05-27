@@ -80,7 +80,7 @@ public class User extends DbEntity implements Serializable {
 	@Column(name = "is_disabled")
 	private boolean isDisabled;
 
-	@OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private Set<Track> tracks = new HashSet<Track>();
 

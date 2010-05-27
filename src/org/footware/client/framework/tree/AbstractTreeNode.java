@@ -46,7 +46,7 @@ public abstract class AbstractTreeNode extends TreeItem {
 		setText(getConfiguredName());
 		page = getConfiguredPage();
 	}
-	
+
 	private void reloadChildren() {
 		if (childNodes != null && !childNodes.isEmpty()) {
 			removeItems();
@@ -146,7 +146,16 @@ public abstract class AbstractTreeNode extends TreeItem {
 	public void lazyLoad() {
 		getPage().execLazyload();
 	}
-	public void noConnection(){
+
+	public void noConnection() {
 		Window.alert("No connection to server");
+	}
+
+	public void refresh() {
+		reloadChildren();
+//		for (AbstractTreeNode c : childNodes) {
+//			c.refresh();
+//		}
+		lazyLoad();
 	}
 }
