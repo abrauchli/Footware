@@ -16,6 +16,9 @@
 
 package org.footware.server.db.util;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.footware.server.db.Track;
@@ -26,18 +29,52 @@ import org.footware.server.db.User;
  */
 public class TrackUtil {
 
+	
+	//@NamedQueries(value = {
+//	//Get all public tracks
+//	@NamedQuery(name = "tracks.getAllPublic", query = "FROM Track t WHERE t.disabled=0 AND t.publicity=5"),
+//	@NamedQuery(name="tracks.getTrackById", query= "FROM Track t where t.id = :id")
+//})
+	
 	/**
 	 * Gets a list of all enabled public tracks
 	 * 
 	 * @return a list of all enabled public tracks
 	 */
 	public static List<Track> getAllPublicTracks() {
-		//TODO
-		return null;
+		ResultSet r = null;
+		try {
+			r = DB.query("SELECT id FROM Track t WHERE t.disabled=0 AND t.publicity=5");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		LinkedList<Track> res = new LinkedList<Track>();
+		if (r != null) {
+			int i = 1;
+			try {
+				while(r.next()) {
+					res.add(new Track(r.getLong(i)));
+					i++;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return res;
 	}
 
 	public static Track getTrackById(Long id) {
-		//TODO
-		return null;
+		long tid = -1;
+		try {
+			tid = DB.queryLong("SELECT id FROM Track t where t.id = "+id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new Track(tid);
 	}
 }
