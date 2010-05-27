@@ -71,7 +71,9 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public List<TrackDTO> getTrackList(TrackSearchData filter) {
 		List<TrackDTO> children = new ArrayList<TrackDTO>();
-		List<Track> tracks = TrackUtil.getAllPublicTracks();
+		//List<Track> tracks = TrackUtil.getAllPublicTracks();
+		List<Track> tracks = new ArrayList<Track>();
+		tracks.add(new Track(new User(new UserDTO()),"f","ff"));
 		for (Track t : tracks) {
 			children.add(t.getTrackDTO());
 		}
@@ -79,7 +81,9 @@ public class OutlineServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public String[][] getTracksTable(TrackSearchData filter) {
-		List<Track> tracks = TrackUtil.getAllPublicTracks();
+		//List<Track> tracks = TrackUtil.getAllPublicTracks();
+		List<Track> tracks = new ArrayList<Track>();
+		tracks.add(new Track(new User(new UserDTO()),"f","ff"));
 		String[][] result = new String[tracks.size()][6];
 		for (int i = 0; i < tracks.size(); i++) {
 			result[i][0] = tracks.get(i).getUser().getFullName();
