@@ -34,6 +34,7 @@ import javax.persistence.OneToMany;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.TrackSegmentDTO;
+import org.footware.shared.dto.TrackpointDTO;
 import org.hibernate.Hibernate;
 
 /**
@@ -105,6 +106,11 @@ public class TrackSegment extends DbEntity implements Serializable {
 	
 	
 	public TrackSegment(TrackSegmentDTO segment) {
+		// Deep replication
+		for (TrackpointDTO gpt : segment.getPoints()) {
+			Trackpoint tp = new Trackpoint(this,gpt.getLatitude(),gpt.getLongitude(),gpt.getElevation(),gpt.getTime(),0);
+			this.trackpoints.add(tp);
+		}
 	}
 
 	/**
