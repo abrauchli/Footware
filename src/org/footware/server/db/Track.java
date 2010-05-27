@@ -53,6 +53,7 @@ public class Track extends DbEntity implements Serializable {
 	//@Column(length = 128, nullable = false)
 	private String filename;
 	//@Column(length = 128)
+	@SuppressWarnings("unused")
 	private String path;
 	//@Column(length = 256)
 	private String notes;

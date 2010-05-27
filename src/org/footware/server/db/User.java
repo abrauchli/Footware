@@ -37,6 +37,7 @@ public class User extends DbEntity implements Serializable {
 
 	private String email;
 	private String fullName;
+	@SuppressWarnings("unused")
 	private char[] password; //don't delete it's used with reflections
 	private boolean isAdmin;
 	private boolean isDisabled;
