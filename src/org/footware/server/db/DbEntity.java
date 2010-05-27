@@ -16,7 +16,6 @@
 
 package org.footware.server.db;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -280,9 +279,12 @@ public abstract class DbEntity {
 			String valStr = (vals[i] == null ? "NULL" : "'"+ vals[i] +"'");
 			v += (i == 0 ? valStr : ","+ valStr);
 		}
+		String qry = "INSERT INTO "+ table +" ("+ c +") VALUES ("+ v +")";
 		try {
-			return DB.insert("INSERT INTO "+ table +" ("+ c +") VALUES ("+ v +")");
+			return DB.insert(qry);
 		} catch (Exception e) {
+			System.err.println("Error while inserting: "+ qry);
+			e.printStackTrace();
 			return -1;
 		}
 	}
@@ -296,9 +298,12 @@ public abstract class DbEntity {
 			else
 				c += cols[i] + "='"+ vals[i] +"'";
 		}
+		String qry = "UPDATE "+ getTable() +" SET "+ c +" WHERE id="+ this.id;
 		try {
-			return DB.update("UPDATE "+ getTable() +" SET "+ c +" WHERE id="+ this.id);
+			return DB.update(qry);
 		} catch (Exception e) {
+			System.err.println("Error while updating: "+ qry);
+			e.printStackTrace();
 			return -1;
 		}
 	}
