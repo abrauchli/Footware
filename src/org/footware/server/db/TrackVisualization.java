@@ -22,24 +22,26 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.footware.shared.dto.TrackVisualizationDTO;
 import org.footware.shared.dto.TrackVisualizationPointDTO;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Entity;
 
 /**
  * Class for ER mapping of track visualizations
  */
 @Entity
-public class TrackVisualization implements Serializable {
-    
+@Table(name="visualization")
+public class TrackVisualization extends DbEntity implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	public static String TYPE_SPEED = "Speed plot";
     public static String TYPE_ELEVATION = "Elevation plot";
@@ -58,7 +60,7 @@ public class TrackVisualization implements Serializable {
     @Column(name="y_unit",length=32)
     private String yUnit;
     
-    @OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+    @OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
     @JoinColumn(name="visualization_id")
     private List<TrackVisualizationPoint> data = new LinkedList<TrackVisualizationPoint>();
 
@@ -66,6 +68,7 @@ public class TrackVisualization implements Serializable {
      * Constructor for hibernate initialization
      */
     public TrackVisualization() {
+		Hibernate.initialize(data);
     }
     
     public TrackVisualization(List<TrackVisualizationPoint> data, String type, String xUnit, String yUnit) {
@@ -129,7 +132,6 @@ public class TrackVisualization implements Serializable {
      * @return the data
      */
     public List<TrackVisualizationPoint> getData() {
-    	Hibernate.initialize(data);
         return data;
     }
 

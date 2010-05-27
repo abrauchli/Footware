@@ -49,9 +49,6 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.ManyToAny;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class for ER mapping of Tracks
@@ -71,8 +68,8 @@ public class Track extends DbEntity implements Serializable {
 	@Column(updatable=false,nullable=false)
 	private long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	// @Column(nullable=false)
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(insertable=false,updatable=false)
 	private User user;
 
 	@Column(length = 128, nullable = false)
@@ -102,10 +99,11 @@ public class Track extends DbEntity implements Serializable {
 
 	@Column(name="time_start")
 	private Date startTime;
-	
+
 	private boolean disabled;
 
-	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.LAZY)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
+	@JoinColumn(name="track_id")
 	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private List<Comment> comments = new LinkedList<Comment>();
 
@@ -113,13 +111,22 @@ public class Track extends DbEntity implements Serializable {
 	@JoinColumn(name="track_id")
 	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
-	
+
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name="track_id")
 	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private Set<Tag> tags = new HashSet<Tag>();
 
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
+	@JoinColumn(name="track_id")
+	//@OnDelete(action=OnDeleteAction.CASCADE)
+	private Set<TrackVisualization> visualizations = new HashSet<TrackVisualization>();
+
 	protected Track() {
+		Hibernate.initialize(segments);
+		Hibernate.initialize(comments);
+		Hibernate.initialize(visualizations);
+		Hibernate.initialize(tags);
 	}
 
 	/**
@@ -288,7 +295,6 @@ public class Track extends DbEntity implements Serializable {
 	 * @return number of track points for this track
 	 */
 	public int getTrackpoints() {
-		Hibernate.initialize(trackpoints);
 		return trackpoints;
 	}
 
@@ -403,7 +409,6 @@ public class Track extends DbEntity implements Serializable {
 	 * @return List of all comments for this track
 	 */
 	public List<Comment> getComments() {
-		Hibernate.initialize(comments);
 		return comments;
 	}
 
@@ -419,11 +424,26 @@ public class Track extends DbEntity implements Serializable {
 	}
 	
 	/**
+	 * Gets the visualizations for this track
+	 * @return visualizations for this track
+	 */
+	public Set<TrackVisualization> getVisualizations() {
+		return visualizations;
+	}
+	
+	/**
+	 * Adds a visualization for this track
+	 * @param v visualization to add
+	 */
+	public void addVisualization(TrackVisualization v) {
+		visualizations.add(v);
+	}
+	
+	/**
 	 * Gets the segments belonging to this track
 	 * @return segments of this track
 	 */
 	public Set<TrackSegment> getSegments() {
-		Hibernate.initialize(segments);
 		return segments;
 	}
 	
@@ -440,7 +460,6 @@ public class Track extends DbEntity implements Serializable {
 	 * @return set of tags attached to this track
 	 */
 	public Set<Tag> getTags() {
-		Hibernate.initialize(segments);
 		return tags;
 	}
 	

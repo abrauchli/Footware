@@ -82,7 +82,7 @@ public class User extends DbEntity implements Serializable {
 	private boolean isDisabled;
 
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL, orphanRemoval=true)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id",nullable=false)
 	private Set<Track> tracks = new HashSet<Track>();
 
 	// TODO:
@@ -95,6 +95,8 @@ public class User extends DbEntity implements Serializable {
 	 * Protected constructor for hibernate object initialization
 	 */
 	protected User() {
+		Hibernate.initialize(tracks);
+		//Hibernate.initialize(tags);
 	}
 
 	/**
@@ -235,7 +237,6 @@ public class User extends DbEntity implements Serializable {
 	 * @return all user's tracks
 	 */
 	public Set<Track> getTracks() {
-		Hibernate.initialize(tracks);
 		return tracks;
 	}
 
@@ -246,7 +247,6 @@ public class User extends DbEntity implements Serializable {
 	 *            track to add
 	 */
 	public void addTrack(Track track) {
-		Hibernate.initialize(tracks);
 		if (tracks == null)
 			tracks = new HashSet<Track>();
 
@@ -260,7 +260,6 @@ public class User extends DbEntity implements Serializable {
 	 *            track to remove
 	 */
 	public void removeTrack(Track track) {
-		Hibernate.initialize(tracks);
 		if (tracks != null) {
 			tracks.remove(track);
 		}
@@ -287,7 +286,6 @@ public class User extends DbEntity implements Serializable {
 	// * @return all tags of this user
 	// */
 	// public Set<String> getTags() {
-	// Hibernate.initialize(tags);
 	// return tags;
 	// }
 

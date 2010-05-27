@@ -80,6 +80,7 @@ CREATE TABLE `comment` (
     track_id    INTEGER         NOT NULL,
     user_id     INTEGER         NOT NULL,
     text        VARCHAR(256)    NOT NULL,
+    time        DATETIME        NOT NULL,
 
     FOREIGN KEY (track_id)      REFERENCES track (id),
     FOREIGN KEY (user_id)       REFERENCES user (id)
@@ -110,9 +111,13 @@ CREATE TABLE trackpoint (
 
 CREATE TABLE visualization (
     id           INTEGER            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    track_id     INTEGER            NOT NULL,
     type         VARCHAR(64)        NOT NULL,
     x_unit       VARCHAR(32),
-    y_unit       VARCHAR(32)
+    y_unit       VARCHAR(32),
+
+    FOREIGN KEY (track_id)          REFERENCES track (id),
+    UNIQUE      (track_id, type) /* allow only one visualization type per track */
 );
 
 CREATE TABLE visualization_point (

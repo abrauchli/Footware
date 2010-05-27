@@ -48,7 +48,9 @@ public class Tag extends DbEntity implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Track track;
 	
-	protected Tag() {}
+	protected Tag() {
+		Hibernate.initialize(track);
+	}
 	
 	/**
 	 * Creates a new Tag
@@ -96,7 +98,6 @@ public class Tag extends DbEntity implements Serializable {
 	 * @return the track
 	 */
 	public Track getTrack() {
-		Hibernate.initialize(track);
 		return track;
 	}
 	

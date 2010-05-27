@@ -31,17 +31,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.footware.server.db.util.HibernateUtil;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.TrackSegmentDTO;
 import org.footware.shared.dto.TrackpointDTO;
 import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class for ER Mapping of persisted TrackSegments, the ("sub-")tracks in a
@@ -97,11 +91,9 @@ public class TrackSegment extends DbEntity implements Serializable {
 		this.maxElevation = gpx.getMaxElevation().intValue();
 		this.length = (long) gpx.getLength();
 
-		// Deep replication
 		for (GPXTrackPoint gpt : gpx.getPoints()) {
 			Trackpoint tp = new Trackpoint(this, gpt);
 			this.trackpoints.add(tp);
-			// TODO: Check if we should persist here
 		}
 	}
 	

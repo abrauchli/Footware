@@ -18,19 +18,27 @@ package org.footware.server.db;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.footware.shared.dto.TrackVisualizationPointDTO;
+import org.hibernate.Hibernate;
 
 /**
  * Class for ER mapping of single points of a track visualization
  */
 @Entity
-public class TrackVisualizationPoint implements Serializable {
+@Table(name="visualization_point")
+public class TrackVisualizationPoint extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,11 +52,16 @@ public class TrackVisualizationPoint implements Serializable {
 	
 	@Column(name="y_value")
     private double yValue;
+	
+    @ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+    @JoinColumn(name="visualization_id", nullable=false)
+    private TrackVisualization visualization;
 
     /**
      * Constructor for hibernate initialization
      */
     public TrackVisualizationPoint() {
+    	Hibernate.initialize(visualization);
     }
     
     /**

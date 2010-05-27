@@ -26,6 +26,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.footware.shared.dto.CommentDTO;
 import org.hibernate.Hibernate;
@@ -53,11 +54,14 @@ public class Comment extends DbEntity implements Serializable {
 	
 	@Column(length=256,nullable=false)
 	private String text;
-	
+
 	@Column(nullable=false)
 	private Date time;
 	
-	protected Comment() {}
+	protected Comment() {
+		Hibernate.initialize(track);
+		Hibernate.initialize(user);
+	}
 
 	/**
 	 * Create a new comment for persistence
@@ -93,7 +97,6 @@ public class Comment extends DbEntity implements Serializable {
 	 * @return corresponding track for this comment
 	 */
 	public Track getTrack() {
-		Hibernate.initialize(track);
 		return track;
 	}
 	
@@ -105,7 +108,6 @@ public class Comment extends DbEntity implements Serializable {
 	 * Gets the author of the comment
 	 */
 	public User getUser() {
-		Hibernate.initialize(user);
 		return user;
 	}
 	
