@@ -3,6 +3,7 @@ package org.footware.server.gpx;
 import java.io.File;
 import java.util.List;
 
+import org.footware.server.db.Track;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackVisualizationDTO;
 
@@ -23,7 +24,7 @@ public interface TrackImporter {
 	 * @return a list of tracks of the import file. Ensure that importTrack is
 	 *         called before executing this method!
 	 */
-	public List<TrackDTO> getTracks();
+	public List<Track> getTracks();
 
 	/**
 	 * @return a list of speed visualizations of the import file. Ensure that
