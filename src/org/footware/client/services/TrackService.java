@@ -33,7 +33,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface TrackService extends RemoteService {
     List<TrackDTO> getTracks(ConfigDTO config) throws IllegalArgumentException;
 
-    TrackVisualizationDTO getTrackVisualization(ConfigDTO config) throws IllegalArgumentException;
+    TrackVisualizationDTO getTrackVisualization(int type) throws IllegalArgumentException;
     
     Boolean saveChanges(TrackDTO track);
     

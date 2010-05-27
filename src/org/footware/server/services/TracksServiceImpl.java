@@ -52,15 +52,9 @@ public class TracksServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public TrackVisualizationDTO getTrackVisualization(ConfigDTO config)
+	public TrackVisualizationDTO getTrackVisualization(int type)
 			throws IllegalArgumentException {
-		// // TODO Auto-generated method stub
-		// GPXImport importer = new GPXImport();
-		// List<GPXTrack> tracks = new LinkedList<GPXTrack>();
-		//        
-		// TrackVisualizationFactory factory = new TrackVisualizationFactory(new
-		// TrackVisualizationElevationStrategy());
-		// return factory.create(tracks.get(6));
+		// TODO
 		return null;
 	}
 

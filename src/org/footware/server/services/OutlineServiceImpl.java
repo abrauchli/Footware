@@ -15,7 +15,6 @@ import org.footware.shared.dto.UserDTO;
 import org.footware.shared.dto.UserSearchData;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 public class OutlineServiceImpl extends RemoteServiceServlet implements
 		OutlineService {

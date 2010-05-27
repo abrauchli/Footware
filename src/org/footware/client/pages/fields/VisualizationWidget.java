@@ -142,7 +142,7 @@ public class VisualizationWidget extends Composite {
 
 	public void test() {
 		final TrackServiceAsync trackService = GWT.create(TrackService.class);
-		trackService.getTrackVisualization(null,
+		trackService.getTrackVisualization(-1,
 				new AsyncCallback<TrackVisualizationDTO>() {
 
 					@Override

@@ -40,7 +40,7 @@ public interface TrackServiceAsync {
 	 */
 	void getTracks(ConfigDTO config, AsyncCallback<List<TrackDTO>> callback);
 
-	void getTrackVisualization(ConfigDTO config,
+	void getTrackVisualization(int type,
 			AsyncCallback<TrackVisualizationDTO> callback);
 
 	void saveChanges(TrackDTO track, AsyncCallback<Boolean> callback);

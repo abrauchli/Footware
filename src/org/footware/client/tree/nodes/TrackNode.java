@@ -16,6 +16,9 @@
 
 package org.footware.client.tree.nodes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.footware.client.framework.pages.AbstractPage;
 import org.footware.client.framework.search.AbstractSearchForm;
 import org.footware.client.framework.tree.AbstractTreeNode;
@@ -29,11 +32,15 @@ public class TrackNode extends AbstractTreeNode {
 	public TrackNode(TrackDTO track) {
 		myTrack = track;
 		init();
-		
+
 	}
 
 	@Override
 	protected void execCreateChildren() {
+		List<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
+		children.add(new SpeedPlotNode(myTrack));
+		children.add(new ElevationPlotNode(myTrack));
+		setChildNodes(children);
 	}
 
 	public TrackDTO getMyTrack() {
