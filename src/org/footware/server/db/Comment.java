@@ -40,6 +40,7 @@ public class Comment extends DbEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(updatable=false,nullable=false)
 	private long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)

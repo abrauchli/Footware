@@ -68,6 +68,7 @@ public class Track extends DbEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(updatable=false,nullable=false)
 	private long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -108,12 +109,12 @@ public class Track extends DbEntity implements Serializable {
 	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private List<Comment> comments = new LinkedList<Comment>();
 
-	@OneToMany(fetch=FetchType.LAZY,cascade={CascadeType.REMOVE,CascadeType.PERSIST},orphanRemoval=true)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name="track_id")
 	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade={CascadeType.REMOVE,CascadeType.PERSIST},orphanRemoval=true)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name="track_id")
 	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private Set<Tag> tags = new HashSet<Tag>();

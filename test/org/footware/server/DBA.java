@@ -36,7 +36,7 @@ public class DBA {
 		if (u != null) {
 			System.out.println("Deleting existing test user");
 			u.delete();
-		}	
+		}
 	}
 	
 	@Test

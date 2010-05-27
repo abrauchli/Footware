@@ -46,6 +46,7 @@ public class TrackVisualization implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(updatable=false,nullable=false)
 	private long id;
 	
     @Column(length=64)

@@ -36,6 +36,7 @@ public class TrackVisualizationPoint implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(updatable=false,nullable=false)
 	private long id;
 	
 	@Column(name="x_value")

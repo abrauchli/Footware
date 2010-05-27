@@ -39,6 +39,7 @@ public class Tag extends DbEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(updatable=false,nullable=false)
 	private long id;
 	
 	@Column(length=16)

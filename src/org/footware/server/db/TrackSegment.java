@@ -31,11 +31,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.footware.server.db.util.HibernateUtil;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.TrackSegmentDTO;
 import org.footware.shared.dto.TrackpointDTO;
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -50,6 +54,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(updatable=false,nullable=false)
 	private long id;
 
 	// Statistics
@@ -68,7 +73,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	@JoinColumn(name="track_id")
 	private Track track;
 
-	@OneToMany(fetch=FetchType.LAZY,cascade={CascadeType.REMOVE,CascadeType.PERSIST},orphanRemoval=true)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name="tracksegment_id")
 	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private List<Trackpoint> trackpoints = new LinkedList<Trackpoint>();
