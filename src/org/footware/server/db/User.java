@@ -42,6 +42,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class for ER mapping of Users
@@ -80,7 +83,7 @@ public class User extends DbEntity implements Serializable {
 	@Column(name = "is_disabled")
 	private boolean isDisabled;
 
-	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY,cascade={CascadeType.REMOVE,CascadeType.PERSIST}, orphanRemoval=true)
 	@JoinColumn(name = "user_id")
 	private Set<Track> tracks = new HashSet<Track>();
 

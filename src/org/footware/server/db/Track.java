@@ -50,6 +50,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.ManyToAny;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class for ER mapping of Tracks
@@ -103,14 +105,17 @@ public class Track extends DbEntity implements Serializable {
 	private boolean disabled;
 
 	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.LAZY)
+	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private List<Comment> comments = new LinkedList<Comment>();
 
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(fetch=FetchType.LAZY,cascade={CascadeType.REMOVE,CascadeType.PERSIST},orphanRemoval=true)
 	@JoinColumn(name="track_id")
+	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.PERSIST)
+	@OneToMany(fetch=FetchType.LAZY,cascade={CascadeType.REMOVE,CascadeType.PERSIST},orphanRemoval=true)
 	@JoinColumn(name="track_id")
+	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private Set<Tag> tags = new HashSet<Tag>();
 
 	protected Track() {

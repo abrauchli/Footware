@@ -36,6 +36,8 @@ import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.TrackSegmentDTO;
 import org.footware.shared.dto.TrackpointDTO;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class for ER Mapping of persisted TrackSegments, the ("sub-")tracks in a
@@ -66,8 +68,9 @@ public class TrackSegment extends DbEntity implements Serializable {
 	@JoinColumn(name="track_id")
 	private Track track;
 
-	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY,cascade={CascadeType.REMOVE,CascadeType.PERSIST},orphanRemoval=true)
 	@JoinColumn(name="tracksegment_id")
+	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private List<Trackpoint> trackpoints = new LinkedList<Trackpoint>();
 
 	/**

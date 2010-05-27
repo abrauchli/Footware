@@ -13,7 +13,6 @@ import org.footware.server.db.util.TrackUtil;
 import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.UserDTO;
-import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 import org.junit.Test;
 
@@ -32,21 +31,24 @@ public class DBA {
 //	}
 	
 	@Test
-	public void t10_newUser() {
-		String pwd = "test";
-		
+	public void t00_deleteUserIfExists() {
 		User u = UserUtil.getByEmail(email);
 		if (u != null) {
 			System.out.println("Deleting existing test user");
 			u.delete();
-		}
-
+		}	
+	}
+	
+	@Test
+	public void t10_newUser() {
+		String pwd = "test";
+		
 		UserDTO new_user = new UserDTO();
 		new_user.setEmail(email);
 		new_user.setPassword(pwd);
 		new User(new_user).store();
 
-		u = UserUtil.getByEmail(email);
+		User u = UserUtil.getByEmail(email);
 		assert (u != null);
 		assert (u.getEmail().equals(email));
 	}
@@ -65,7 +67,7 @@ public class DBA {
 	}
 
 	@Test
-	public void t30_addTrack() {
+	public void t30_addTrackToUser() {
 		User u = UserUtil.getByEmail(email);
 		assert (u != null);
 		assert (u.getTracks().size() == 0);
@@ -81,7 +83,7 @@ public class DBA {
 	}
 	
 	@Test
-	public void t31_addTrack() {
+	public void t31_addTrackWithUser() {
 		User u = UserUtil.getByEmail(email);
 		assert (u != null);
 		Track t = new Track(u, "foo", "/foo");
@@ -125,10 +127,10 @@ public class DBA {
 
 		Comment c = new Comment("test comment", u);
 		tracks[0].addComment(c);
-		session.update(tracks[0]);
+		tracks[0].store();
 
-		Long id = (Long) session.save(c);
-		assert (id != null);
+//		Long id = (Long) session.save(c);
+//		assert (id != null);
 
 		u = UserUtil.getByEmail(email);
 		u.getTracks().toArray(tracks);
@@ -148,13 +150,27 @@ public class DBA {
 		assert (tracks.size() > 0);
 		Track t = tracks.get(0);
 
-//		TagDTO new_tag = new TagDTO(t.getTrackDTO(), "tag");
-//		Long id = (Long) session.save(new Tag(new_tag));
-//		assert (id != null);
+		TagDTO new_tag = new TagDTO(t.getTrackDTO(), "tag");
+		new Tag(new_tag).store();
 
-//		Tag tag = (Tag) session.load(Tag.class, id);
-//		assert (tag != null);
-//		assert (tag.getTag().equals("tag"));
+		boolean found = false;
+		for (Tag tag : t.getTags()) {
+			if (tag.getTag().equals("tag")) {
+				found = true;
+				break;
+			}
+		}
+		assert (found);
 	}
 
+	@Test
+	public void t51_deleteTag() {
+		List<Track> tracks = TrackUtil.getAllPublicTracks();
+		for (Track t : tracks) {
+			for (Tag tag : t.getTags()) {
+				if (tag.getTag().equals("tag"))
+					tag.delete();
+			}
+		}
+	}
 }
