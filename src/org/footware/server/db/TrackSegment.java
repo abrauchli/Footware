@@ -27,6 +27,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -61,6 +62,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	private double length = 0.0;
 
 	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="track_id")
 	private Track track;
 
 	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
@@ -121,6 +123,16 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 */
 	public Track getTrack() {
 		return track;
+	}
+
+	/**
+	 * Sets the track this segment belongs to
+	 * 
+	 * @param track
+	 *            new owner of this segment
+	 */
+	public void setTrack(Track track) {
+		this.track = track;
 	}
 
 	/**
@@ -203,7 +215,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * @return all segment's trackpoints
 	 */
 	public List<Trackpoint> getTrackpoints() {
-		Hibernate.initialize(trackpoints);
+		//Hibernate.initialize(trackpoints);
 		return trackpoints;
 	}
 
@@ -215,16 +227,6 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 */
 	public void addTrackpoint(Trackpoint p) {
 		this.trackpoints.add(p);
-	}
-
-	/**
-	 * Sets the track this segment belongs to
-	 * 
-	 * @param track
-	 *            new owner of this segment
-	 */
-	public void setTrack(Track track) {
-		this.track = track;
 	}
 
 	/**

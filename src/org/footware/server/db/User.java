@@ -123,24 +123,6 @@ public class User extends DbEntity implements Serializable {
 					.toCharArray();
 		this.isDisabled = user.isDisabled();
 		// this.isAdmin = user.getIsAdmin();
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			session.save(this);
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null && tx.isActive()) {
-				try {
-					// Second try catch as the rollback could fail as well
-					tx.rollback();
-				} catch (HibernateException e1) {
-					// logger.debug("Error rolling back transaction");
-				}
-				// throw again the first exception
-				throw e;
-			}
-		}
 	}
 
 	/**

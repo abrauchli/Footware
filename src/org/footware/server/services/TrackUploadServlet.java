@@ -34,15 +34,11 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.footware.server.db.Track;
-import org.footware.server.db.TrackSegment;
-import org.footware.server.db.Trackpoint;
 import org.footware.server.db.User;
 import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
 import org.footware.shared.dto.TrackDTO;
-import org.footware.shared.dto.UserDTO;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +78,6 @@ public class TrackUploadServlet extends HttpServlet {
 		Boolean comments = false;
 		String fileName = null;
 		String email = null;
-		;
 		FileItem file = null;
 
 		if (isMultipart) {
@@ -187,8 +182,7 @@ public class TrackUploadServlet extends HttpServlet {
 						logger.debug("email" + ": " + item.getString());
 					}
 				}
-				User uu = UserUtil.getByEmail(email);
-				UserDTO user = uu.getUserDTO();
+				User user = UserUtil.getByEmail(email);
 
 				// If we read all fields, we can start the import
 				if (file != null) {
@@ -218,6 +212,7 @@ public class TrackUploadServlet extends HttpServlet {
 					} catch (Exception e) {
 						logger.error("File upload unsucessful", e);
 						e.printStackTrace();
+						return;
 					}
 
 					TrackImporter importer = importerMap.get(extension);
@@ -226,23 +221,16 @@ public class TrackUploadServlet extends HttpServlet {
 					// Add meta information to track
 					for (TrackDTO track : importer.getTracks()) {
 
-						track.setCommentsEnabled(comments);
-						track.setNotes(notes);
-						track.setPublicity(privacy);
-						track.setFilename(uploadedFile.getAbsolutePath());
-						track.setUser(user);
 						Track dbTrack = new Track(track);
+						dbTrack.setCommentsEnabled(comments);
+						dbTrack.setNotes(notes);
+						dbTrack.setPublicity(privacy);
+						dbTrack.setFilename(uploadedFile.getAbsolutePath());
 						dbTrack.setPath(fileName);
-						// dbTrack.setUser(user);
-//						for (TrackSegment ts : dbTrack.getSegments()) {
-//							for (Trackpoint tp : ts.getTrackpoints()) {
-//								tp.store();
-//							}
-//							ts.setTrack(dbTrack);
-//							ts.store();
-//						}
-						
-						dbTrack.store();
+
+						dbTrack.setUser(user);
+						//persist
+						dbTrack.persist();
 					}
 
 				} else {
