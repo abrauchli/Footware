@@ -26,6 +26,7 @@ import org.footware.client.services.TrackService;
 import org.footware.client.services.TrackServiceAsync;
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TrackDTO;
+import org.hibernate.Session;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -163,7 +164,7 @@ public class TrackDetailPage extends AbstractFormPage {
 			fp.add(userid);
 			fp.add(trackid);
 			form.setMethod(FormPanel.METHOD_POST);
-//			form.setEncoding(FormPanel.)
+			// form.setEncoding(FormPanel.)
 			form.setAction("/footware/trackDownload");
 			form.add(fp);
 			hp.add(form);
@@ -183,18 +184,19 @@ public class TrackDetailPage extends AbstractFormPage {
 		private Widget loadComments() {
 			List<CommentDTO> c = myTrack.getComments();
 			VerticalPanel vp = new VerticalPanel();
-			vp.add(new Button("add comment", new ClickHandler() {
+			if (org.footware.client.Session.getUser() != null) {
+				vp.add(new Button("add comment", new ClickHandler() {
 
-				@Override
-				public void onClick(ClickEvent event) {
-					if (cb == null) {
-						cb = new CommentBox(myTrack);
+					@Override
+					public void onClick(ClickEvent event) {
+						if (cb == null) {
+							cb = new CommentBox(myTrack);
+						}
+						cb.doClear();
+						cb.center();
 					}
-					cb.doClear();
-					cb.center();
-				}
-			}));
-
+				}));
+			}
 			for (CommentDTO comment : c) {
 				DisclosurePanel dc = new DisclosurePanel();
 				dc.setHeader(new HTML(comment.getUser().getFullName() + "-"

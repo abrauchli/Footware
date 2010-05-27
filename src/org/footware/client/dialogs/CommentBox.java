@@ -25,6 +25,8 @@ public class CommentBox extends DialogBox {
 		super();
 		this.track = track;
 		text = new TextArea();
+		text.setWidth("200px");
+		text.setHeight("100px");
 		clear = new Button("clear", new ClickHandler() {
 
 			@Override
@@ -52,6 +54,9 @@ public class CommentBox extends DialogBox {
 		hp.add(save);
 		hp.add(clear);
 		hp.add(cancel);
+		vp.add(hp);
+		add(vp);
+		setText("Add a comment");
 	}
 
 	private void doSave() {
@@ -59,7 +64,8 @@ public class CommentBox extends DialogBox {
 		c.setTime(new Date());
 
 	}
-	public void doClear(){
+
+	public void doClear() {
 		text.setValue("");
 	}
 }
