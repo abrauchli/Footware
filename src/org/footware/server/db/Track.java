@@ -454,7 +454,8 @@ public class Track extends DbEntity implements Serializable {
 	 */
 	public TrackDTO getTrackDTO() {
 		TrackDTO t = new TrackDTO();
-		t.setUser(user.getUserDTO());
+		//will be set by the user to prevent stackoverflow
+		//t.setUser(user.getUserDTO());
 		t.setFilename(filename);
 		t.setNotes(notes);
 		t.setPublicity(publicity);

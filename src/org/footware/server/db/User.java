@@ -304,6 +304,7 @@ public class User extends DbEntity implements Serializable {
 
 		for (Track t : getTracks()) {
 			TrackDTO dto = t.getTrackDTO();
+			dto.setUser(u);
 			u.addTrackDTO(dto);
 			if (t.getPublicity() == 5)
 				u.addPublicTrack(dto);
