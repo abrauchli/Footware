@@ -20,10 +20,6 @@ import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.footware.server.db.User;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * Utility class for user specific operations
@@ -39,23 +35,22 @@ public class UserUtil {
 		return DigestUtils.md5Hex(password);
 	}
 	
+//	@NamedQuery(name = "users.getByEmail", query = "FROM User u WHERE u.email = :email"),
+//	// Get all users
+//	@NamedQuery(name = "users.getAll", query = "FROM User"),
+//	//Get user from email/password pair
+//	@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password"),
+//	//Get user from email/password pair
+//	@NamedQuery(name = "users.getPublicTracks", query = "FROM Track t WHERE t.user = :user AND t.publicity = 5")
+	
 	/**
 	 * Gets a single user by email
 	 * @param email the email belonging to the user
 	 * @return user object if email is valid, null otherwise
 	 */
 	public static User getByEmail(String email) {
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction t = s.beginTransaction();
-		Query q = s.getNamedQuery("users.getByEmail");
-		q.setParameter("email", email);
+//		Query q = s.getNamedQuery("users.getByEmail");
 		User res = null;
-		try {
-			res = (User)q.uniqueResult();
-			t.commit();
-		} catch (HibernateException e) {
-			t.rollback();
-		}
 		return res;
 	}
 
@@ -65,16 +60,8 @@ public class UserUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<User> getAll() {
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction t = s.beginTransaction();
-		Query q = s.getNamedQuery("users.getAll");
+//		Query q = s.getNamedQuery("users.getAll");
 		List<User> res = null;
-		try {
-			res = (List<User>)q.list();
-			t.commit();
-		} catch (HibernateException e) {
-			t.rollback();
-		}
 		return res;
 	}
 	
@@ -85,18 +72,10 @@ public class UserUtil {
 	 * @return user object if email/pw-hash pair is valid, null otherwise
 	 */
 	public static User getIfValid(String email, String pw_hash) {
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction t = s.beginTransaction();
-		Query q = s.getNamedQuery("users.getIfValid");
-		q.setParameter("email", email);
-		q.setParameter("password", pw_hash.toCharArray());
+//		Query q = s.getNamedQuery("users.getIfValid");
+//		q.setParameter("email", email);
+//		q.setParameter("password", pw_hash.toCharArray());
 		User res = null;
-		try {
-			res = (User) q.uniqueResult();
-			t.commit();
-		} catch (HibernateException e) {
-			t.rollback();
-		}
 		return res;
 	}
 }

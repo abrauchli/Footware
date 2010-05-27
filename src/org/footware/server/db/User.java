@@ -21,72 +21,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-
 import org.footware.server.db.util.HibernateUtil;
 import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.UserDTO;
-import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * Class for ER mapping of Users
  */
-@Entity()
-@NamedQueries(value = {
-		// Get user by email
-		@NamedQuery(name = "users.getByEmail", query = "FROM User u WHERE u.email = :email"),
-		// Get all users
-		@NamedQuery(name = "users.getAll", query = "FROM User"),
-		//Get user from email/password pair
-		@NamedQuery(name = "users.getIfValid", query = "FROM User u WHERE u.email = :email AND u.password = :password"),
-		//Get user from email/password pair
-		@NamedQuery(name = "users.getPublicTracks", query = "FROM Track t WHERE t.user = :user AND t.publicity = 5")
-	})
 public class User extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(updatable=false,nullable=false)
 	private long id;
 
-	@Column(length = 128, unique = true, nullable = false)
 	private String email;
-
-	@Column(name = "full_name", length = 64)
 	private String fullName;
-
-	@Column(length = 32)
 	private char[] password;
-
-	@Column(name = "is_admin")
 	private boolean isAdmin;
-
-	@Column(name = "is_disabled")
 	private boolean isDisabled;
-
-	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL, orphanRemoval=true)
-	@JoinColumn(name = "user_id",nullable=false)
+//	@JoinColumn(name = "user_id",nullable=false)
 	private Set<Track> tracks = new HashSet<Track>();
 
 	// TODO:
-	// @OneToMany(fetch = FetchType.LAZY)
 	// @JoinTable(name = "user_tag")
 	// @JoinColumn(name = "user_id")
 	// private Set<String> tags = new HashSet<String>();
@@ -95,8 +52,6 @@ public class User extends DbEntity implements Serializable {
 	 * Protected constructor for hibernate object initialization
 	 */
 	protected User() {
-		Hibernate.initialize(tracks);
-		//Hibernate.initialize(tags);
 	}
 
 	/**
@@ -237,24 +192,6 @@ public class User extends DbEntity implements Serializable {
 	 * @return all user's tracks
 	 */
 	public Set<Track> getTracks() {
-		Transaction tx = null;
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			tx = session.beginTransaction();
-			session.refresh(tracks);
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null && tx.isActive()) {
-				try {
-					// Second try catch as the rollback could fail as well
-					tx.rollback();
-				} catch (HibernateException e1) {
-					// logger.debug("Error rolling back transaction");
-				}
-				// throw again the first exception
-				throw e;
-			}
-		}
 		return tracks;
 	}
 
@@ -282,17 +219,9 @@ public class User extends DbEntity implements Serializable {
 	
 	@SuppressWarnings("unchecked")
 	public List<Track> getPublicTracks() {
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction t = s.beginTransaction();
-		Query q = s.getNamedQuery("users.getPublicTracks");
-		q.setParameter("user", this);
+//		Query q = s.getNamedQuery("users.getPublicTracks");
+//		q.setParameter("user", this);
 		List<Track> res = null;
-		try {
-			res = q.list();
-			t.commit();
-		} catch (HibernateException e) {
-			t.rollback();
-		}
 		return res;
 	}
 

@@ -16,62 +16,24 @@
 
 package org.footware.server.db;
 
-import java.io.Serializable;
-
 import org.footware.server.db.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public abstract class DbEntity implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public abstract class DbEntity  {
 
 	/**
 	 * Persist (save or update) the object
 	 */
-	public void store() {
-		Transaction tx = null;
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			tx = session.beginTransaction();
-			session.saveOrUpdate(this);
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null && tx.isActive()) {
-				try {
-					// Second try catch as the rollback could fail as well
-					tx.rollback();
-				} catch (HibernateException e1) {
-					// logger.debug("Error rolling back transaction");
-				}
-				// throw again the first exception
-				throw e;
-			}
-		}
+	public void update(String row, String val) {
+		String qry = "UPDATE "+ getTable() +" SET "+ row
 	}
 
 	/**
 	 * Delete the object from persistence
 	 */
 	public void delete() {
-		Transaction tx = null;
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			tx = session.beginTransaction();
-			session.delete(this);
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null && tx.isActive()) {
-				try {
-					// Second try catch as the rollback could fail as well
-					tx.rollback();
-				} catch (HibernateException e1) {
-					// logger.debug("Error rolling back transaction");
-				}
-				// throw again the first exception
-				throw e;
-			}
-		}
+		String qry = "DELETE FROM "+ getTable() + " WHERE id="+ getId();
 	}
 }
