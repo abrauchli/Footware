@@ -39,6 +39,9 @@ import org.footware.server.db.User;
 import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.GPXImport;
 import org.footware.server.gpx.TrackImporter;
+import org.footware.server.gpx.TrackVisualizationElevationStrategy;
+import org.footware.server.gpx.TrackVisualizationFactoryImpl;
+import org.footware.server.gpx.TrackVisualizationSpeedStrategy;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackVisualizationDTO;
 import org.slf4j.Logger;
@@ -221,14 +224,14 @@ public class TrackUploadServlet extends HttpServlet {
 					importer.importTrack(uploadedFile);
 
 					// Add meta information to track
-					List<TrackDTO> tracks = importer.getTracks();
-					List<TrackVisualizationDTO> elevationVisualizations = importer.getElevationVisualizations();
-					List<TrackVisualizationDTO> speedVisualizations = importer.getSpeedVisualizations();
+					List<Track> tracks = importer.getTracks();
+					TrackVisualizationFactoryImpl speedFactory = new TrackVisualizationFactoryImpl(
+							new TrackVisualizationSpeedStrategy());
+					TrackVisualizationFactoryImpl elevationFactory = new TrackVisualizationFactoryImpl(
+							new TrackVisualizationElevationStrategy());
 					
 					for (int i = 0; i < tracks.size() ; i++) {
-						TrackDTO track = tracks.get(i);
-
-						Track dbTrack = new Track(track);
+						Track dbTrack = tracks.get(i);
 						dbTrack.setCommentsEnabled(comments);
 						dbTrack.setNotes(notes);
 						dbTrack.setPublicity(privacy);
@@ -239,10 +242,9 @@ public class TrackUploadServlet extends HttpServlet {
 						//persist
 						dbTrack.persist();
 						
-						TrackVisualization ele = new TrackVisualization(elevationVisualizations.get(i));
+						TrackVisualization ele = new TrackVisualization(speedFactory.create(dbTrack));
 						ele.store();
-						
-						TrackVisualization spd = new TrackVisualization(speedVisualizations.get(i));
+						TrackVisualization spd = new TrackVisualization(elevationFactory.create(dbTrack));
 						spd.store();
 					}
 					

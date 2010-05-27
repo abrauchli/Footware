@@ -18,50 +18,68 @@ package org.footware.server.db;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+import org.footware.client.pages.fields.VisualizationWidget;
 import org.footware.shared.dto.TrackVisualizationPointDTO;
 
 /**
  * Class for ER mapping of single points of a track visualization
  */
 @Entity
+@Table(name = "visualization_point")
 public class TrackVisualizationPoint implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(updatable = false, nullable = false)
 	private long id;
-	
-	@Column(name="x_value")
-	private double xValue;
-	
-	@Column(name="y_value")
-    private double yValue;
 
-    /**
-     * Constructor for hibernate initialization
-     */
-    public TrackVisualizationPoint() {
-    }
-    
-    /**
-     * Constructor for initialization with x and y values
-     * @param xValue x value to set
-     * @param yValue y value to set
-     */
-    public TrackVisualizationPoint(double xValue, double yValue) {
-        this.xValue = xValue;
-        this.yValue = yValue;
-    }
-    
+	@Column(name = "x_value")
+	private double xValue;
+
+	@Column(name = "y_value")
+	private double yValue;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "visualization_id", nullable = false)
+	private TrackVisualization visualization;
+
+	/**
+	 * Constructor for hibernate initialization
+	 */
+	public TrackVisualizationPoint() {
+	}
+
+	/**
+	 * Constructor for initialization with x and y values
+	 * 
+	 * @param xValue
+	 *            x value to set
+	 * @param yValue
+	 *            y value to set
+	 */
+	public TrackVisualizationPoint(TrackVisualization vis, double xValue,
+			double yValue) {
+		this.visualization = vis;
+		this.xValue = xValue;
+		this.yValue = yValue;
+	}
+
 	/**
 	 * Gets the id of the corresponding DB row
+	 * 
 	 * @return the ID of the row in the DB
 	 */
 	public long getId() {
@@ -70,40 +88,47 @@ public class TrackVisualizationPoint implements Serializable {
 
 	/**
 	 * Gets the x value
+	 * 
 	 * @return x value
 	 */
-    public double getX() {
-        return xValue;
-    }
+	public double getX() {
+		return xValue;
+	}
 
 	/**
 	 * Sets the x value
-	 * @param x value to set
+	 * 
+	 * @param x
+	 *            value to set
 	 */
-    public void setX(double xValue) {
-        this.xValue = xValue;
-    }
+	public void setX(double xValue) {
+		this.xValue = xValue;
+	}
 
 	/**
 	 * Gets the y value
+	 * 
 	 * @return y value
 	 */
-    public double getY() {
-        return yValue;
-    }
+	public double getY() {
+		return yValue;
+	}
 
 	/**
 	 * Sets the y value
-	 * @param y value to set
+	 * 
+	 * @param y
+	 *            value to set
 	 */
-    public void setY(double yValue) {
-        this.yValue = yValue;
-    }
+	public void setY(double yValue) {
+		this.yValue = yValue;
+	}
 
-    /**
-     * Gets the DTO for this object's current state
-     * @return DTO for this object's current state
-     */
+	/**
+	 * Gets the DTO for this object's current state
+	 * 
+	 * @return DTO for this object's current state
+	 */
 	public TrackVisualizationPointDTO getTrackVisualizationPointDTO() {
 		TrackVisualizationPointDTO p = new TrackVisualizationPointDTO();
 		p.setX(xValue);

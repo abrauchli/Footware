@@ -33,6 +33,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.XPath;
 import org.dom4j.io.SAXReader;
+import org.footware.server.db.Track;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
@@ -61,7 +62,7 @@ public class GPXImport implements TrackImporter {
 
 	private List<TrackVisualizationDTO> speedVisualizations = new LinkedList<TrackVisualizationDTO>();
 	private List<TrackVisualizationDTO> elevationVisualizations = new LinkedList<TrackVisualizationDTO>();
-	private List<TrackDTO> tracks = new LinkedList<TrackDTO>();
+	private List<Track> tracks = new LinkedList<Track>();
 
 	public GPXImport() {
 		logger = LoggerFactory.getLogger(GPXImport.class);
@@ -78,9 +79,10 @@ public class GPXImport implements TrackImporter {
 
 		//TODO
 		for (GPXTrack track : gpxTracks) {
-			tracks.add(TrackFactory.create(track));
-//			speedVisualizations.add(speedFactory.create(track));
-//			elevationVisualizations.add(elevationFactory.create(track));
+			Track newTrack = TrackFactory.create(track);
+			tracks.add(newTrack);
+			speedVisualizations.add(speedFactory.create(newTrack));
+			elevationVisualizations.add(elevationFactory.create(newTrack));
 		}
 		trackImported = true;
 	}
@@ -265,7 +267,7 @@ public class GPXImport implements TrackImporter {
 	}
 
 	@Override
-	public List<TrackDTO> getTracks() {
+	public List<Track> getTracks() {
 		if(!trackImported) {
 			try {
 				throw new Exception("importTrack must be called first!");

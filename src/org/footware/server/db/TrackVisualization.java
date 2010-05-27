@@ -22,22 +22,24 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.footware.shared.dto.TrackVisualizationDTO;
 import org.footware.shared.dto.TrackVisualizationPointDTO;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Entity;
 
 /**
  * Class for ER mapping of track visualizations
  */
 @Entity
+@Table(name="visualization")
 public class TrackVisualization extends DbEntity implements Serializable {
     
 	private static final long serialVersionUID = 1L;
@@ -78,8 +80,9 @@ public class TrackVisualization extends DbEntity implements Serializable {
    
     	data = new LinkedList<TrackVisualizationPoint>();
     	for(TrackVisualizationPointDTO pt : vis.getData()) {
-    		data.add(new TrackVisualizationPoint(pt.getX(), pt.getY()));
+    		data.add(new TrackVisualizationPoint(this,pt.getX(), pt.getY()));
     	}
+    	type = vis.getType();
     	xUnit = vis.getxUnit();
     	yUnit = vis.getyUnit();
     }
