@@ -19,10 +19,14 @@ package org.footware.server.db;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.shared.dto.TrackpointDTO;
@@ -39,6 +43,8 @@ public class Trackpoint extends DbEntity implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="tracksegment_id")
 	TrackSegment segment;
 	double latitude;
 	double longitude;
