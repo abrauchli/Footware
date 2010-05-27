@@ -28,6 +28,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.footware.shared.dto.CommentDTO;
+import org.hibernate.Hibernate;
 
 /**
  * Class for ER mapping of comments
@@ -91,6 +92,7 @@ public class Comment extends DbEntity implements Serializable {
 	 * @return corresponding track for this comment
 	 */
 	public Track getTrack() {
+		Hibernate.initialize(track);
 		return track;
 	}
 	
@@ -102,6 +104,7 @@ public class Comment extends DbEntity implements Serializable {
 	 * Gets the author of the comment
 	 */
 	public User getUser() {
+		Hibernate.initialize(user);
 		return user;
 	}
 	

@@ -39,7 +39,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import org.footware.server.db.util.HibernateUtil;
-import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.CommentDTO;
@@ -103,14 +102,14 @@ public class Track extends DbEntity implements Serializable {
 	
 	private boolean disabled;
 
-	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.EAGER)
+	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.LAZY)
 	private List<Comment> comments = new LinkedList<Comment>();
 
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="track_id")
 	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
 	
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.PERSIST)
 	@JoinColumn(name="track_id")
 	private Set<Tag> tags = new HashSet<Tag>();
 

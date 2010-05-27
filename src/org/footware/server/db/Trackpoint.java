@@ -30,6 +30,7 @@ import javax.persistence.ManyToOne;
 
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.shared.dto.TrackpointDTO;
+import org.hibernate.Hibernate;
 
 /**
  * Class for ER Mapping of persisted Trackpoints
@@ -43,7 +44,7 @@ public class Trackpoint extends DbEntity implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="tracksegment_id")
 	TrackSegment segment;
 	double latitude;
@@ -98,6 +99,7 @@ public class Trackpoint extends DbEntity implements Serializable {
 	 * @return the segment this point is part of
 	 */
 	public TrackSegment getSegment() {
+		Hibernate.initialize(this.segment);
 		return this.segment;
 	}
 

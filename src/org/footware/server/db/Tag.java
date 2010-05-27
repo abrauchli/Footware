@@ -27,6 +27,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.footware.shared.dto.TagDTO;
+import org.hibernate.Hibernate;
 
 /**
  * Class for ER mapping of Tags
@@ -94,6 +95,7 @@ public class Tag extends DbEntity implements Serializable {
 	 * @return the track
 	 */
 	public Track getTrack() {
+		Hibernate.initialize(track);
 		return track;
 	}
 	

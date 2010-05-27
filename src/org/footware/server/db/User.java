@@ -85,7 +85,7 @@ public class User extends DbEntity implements Serializable {
 	private Set<Track> tracks = new HashSet<Track>();
 
 	// TODO:
-	// @OneToMany(fetch = FetchType.EAGER)
+	// @OneToMany(fetch = FetchType.LAZY)
 	// @JoinTable(name = "user_tag")
 	// @JoinColumn(name = "user_id")
 	// private Set<String> tags = new HashSet<String>();

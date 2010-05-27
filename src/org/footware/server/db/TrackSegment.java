@@ -62,11 +62,11 @@ public class TrackSegment extends DbEntity implements Serializable {
 
 	private double length = 0.0;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="track_id")
 	private Track track;
 
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name="tracksegment_id")
 	private List<Trackpoint> trackpoints = new LinkedList<Trackpoint>();
 
@@ -129,6 +129,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * @return this segment's corresponding track
 	 */
 	public Track getTrack() {
+		Hibernate.initialize(track);
 		return track;
 	}
 
@@ -222,7 +223,18 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * @return all segment's trackpoints
 	 */
 	public List<Trackpoint> getTrackpoints() {
-		//Hibernate.initialize(trackpoints);
+		return getTrackpoints(true);
+	}
+	
+	/**
+	 * Gets the trackpoints of this segment without initializing them
+	 * 
+	 * @param initialize hack to skip initialization
+	 * @return all segment's trackpoints
+	 */
+	public List<Trackpoint> getTrackpoints(boolean initialize) {
+		if (initialize)
+			Hibernate.initialize(trackpoints);
 		return trackpoints;
 	}
 
