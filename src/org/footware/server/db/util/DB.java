@@ -17,6 +17,7 @@
 package org.footware.server.db.util;
 
 import java.sql.*;
+import java.util.Date;
 
 /**
  * Helper Class to access the DB in a transparent fashion.
@@ -235,5 +236,17 @@ public final class DB {
 		res = rs.getInt(1);
 		stmt.close();
 		return res;
+	}
+	
+	/**
+	 * Returns the Date in SQL format 'YYYY-MM-DD HH:mm:ss'
+	 * @param time time object
+	 * @return SQL Date string
+	 */
+	@SuppressWarnings("deprecation")
+	public static String sqlFormatDate(Date time) {
+		return String.format("%4d-%02d-%02d %02d:%02d:%02d",
+				time.getYear(), time.getMonth(), time.getDay(),
+				time.getHours(), time.getMinutes(), time.getSeconds());
 	}
 }

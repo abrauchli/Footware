@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.footware.server.db.util.DB;
 import org.footware.shared.dto.CommentDTO;
 
 /**
@@ -79,8 +80,19 @@ public class Comment extends DbEntity implements Serializable {
 	}
 	
 	@Override
-	public void update() {
-		
+	public void store() {
+		String cols = "comment,track_id,user_id,time";
+		text = text.replace("\\", "\\\\");
+		text = text.replace("'", "\\'");
+		if (time == null)
+			time = new Date();
+		String timefmt = DB.sqlFormatDate(time);
+		String vals = String.format("'%s',%d,%d,'%s'", text, track.getId(), user.getId(), timefmt);
+		try {
+			DB.insert("INSERT INTO "+ getTable() +" SET ("+ cols +") VALUES ("+ vals +")");
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	/**

@@ -29,7 +29,7 @@ public abstract class DbEntity {
 	protected long id;
 	protected final long defaultId = -1;
 	
-	public abstract void update();
+	public abstract void store();
 	
 	/**
 	 * Default constructor

@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.footware.server.db.util.DB;
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.shared.dto.TrackpointDTO;
 
@@ -82,8 +83,21 @@ public class Trackpoint extends DbEntity implements Serializable {
 	}
 	
 	@Override
-	public void update() {
-		// TODO
+	public void store() {
+		if (segment.getId() == defaultId)
+			segment.store();
+		
+		String cols = "segment_id,latitude,longitude,elevation,time,speed";
+		if (time == null)
+			time = new Date();
+		String timefmt = DB.sqlFormatDate(time);
+		String vals = String.format("%d,%f,%f,%f,'%s',%f",
+				segment.id,latitude,longitude,elevation,timefmt,speed);
+		try {
+			DB.insert("INSERT INTO "+ getTable() +" SET ("+ cols +") VALUES ("+ vals +")");
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	/**
