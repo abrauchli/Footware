@@ -30,6 +30,10 @@ public class DBA {
 //	public void tearDown() throws Exception {
 //	}
 	
+	/**
+	 * Removes the test user if it exists
+	 * Such that all tests runs are on the same db set
+	 */
 	@Test
 	public void t00_deleteUserIfExists() {
 		User u = UserUtil.getByEmail(email);
@@ -39,6 +43,9 @@ public class DBA {
 		}
 	}
 	
+	/**
+	 * Creates a new test user
+	 */
 	@Test
 	public void t10_newUser() {
 		String pwd = "test";
@@ -53,6 +60,9 @@ public class DBA {
 		assert (u.getEmail().equals(email));
 	}
 
+	/**
+	 * Deactivates the test user
+	 */
 	@Test
 	public void t20_deactivateUser() {
 		User u = UserUtil.getByEmail(email);
@@ -66,6 +76,9 @@ public class DBA {
 		assert (u.isDisabled());
 	}
 
+	/**
+	 * Adds a track to the user
+	 */
 	@Test
 	public void t30_addTrackToUser() {
 		User u = UserUtil.getByEmail(email);
@@ -82,11 +95,14 @@ public class DBA {
 		assert (u.getTracks().size() == 1);
 	}
 	
+	/**
+	 * Adds a track with the user in it
+	 */
 	@Test
 	public void t31_addTrackWithUser() {
 		User u = UserUtil.getByEmail(email);
 		assert (u != null);
-		Track t = new Track(u, "foo", "/foo");
+		Track t = new Track(u, "bar", "/bar");
 		//this time store the track
 		t.store();
 
@@ -94,7 +110,54 @@ public class DBA {
 		u = UserUtil.getByEmail(email);
 		assert (u.getTracks().size() == 2);
 	}
+	
+	/**
+	 * Make track private
+	 */
+	@Test
+	public void t32_makeTrackPrivate() {
+		List<Track> ts = TrackUtil.getAllPublicTracks();
+		int numtracks = ts.size();
+		Track trk = null;
+		for (Track t : ts) {
+			if (t.getFilename().equals("foo")) {
+				trk = t;
+				break;
+			}
+		}
+		assert (trk != null);
+		trk.setPublicity(0);
+		trk.store();
+		ts = TrackUtil.getAllPublicTracks();
+		assert (ts.size() == numtracks -1);
+	}
+	
+	/**
+	 * Disables a track
+	 */
+	@Test
+	public void t32_disableTrack() {
+		List<Track> ts = TrackUtil.getAllPublicTracks();
+		int numtracks = ts.size();
+		Track trk = null;
+		for (Track t : ts) {
+			if (t.getFilename().equals("bar")) {
+				trk = t;
+				break;
+			}
+		}
+		assert (trk != null);
+		
+		trk.setDisabled(true);
+		trk.store();
+		
+		ts = TrackUtil.getAllPublicTracks();
+		assert (ts.size() == numtracks - 1);
+	}
 
+	/**
+	 * Add a segment to a track
+	 */
 	@Test
 	public void t35_addTrackSegmentToTrack() {
 		List<Track> tracks = TrackUtil.getAllPublicTracks();
@@ -116,6 +179,9 @@ public class DBA {
 			assert (seg.getLength() == 16.5);
 	}
 	
+	/**
+	 * Adds a comment to a track
+	 */
 	@Test
 	public void t40_addTrackComment() {
 		User u = UserUtil.getByEmail(email);
@@ -129,9 +195,6 @@ public class DBA {
 		tracks[0].addComment(c);
 		tracks[0].store();
 
-//		Long id = (Long) session.save(c);
-//		assert (id != null);
-
 		u = UserUtil.getByEmail(email);
 		u.getTracks().toArray(tracks);
 		boolean found = false;
@@ -144,6 +207,9 @@ public class DBA {
 		assert (found);
 	}
 
+	/**
+	 * Adds a tag to a track
+	 */
 	@Test
 	public void t50_addTag() {
 		List<Track> tracks = TrackUtil.getAllPublicTracks();
@@ -163,6 +229,9 @@ public class DBA {
 		assert (found);
 	}
 
+	/**
+	 * Removes a tag from a track
+	 */
 	@Test
 	public void t51_deleteTag() {
 		List<Track> tracks = TrackUtil.getAllPublicTracks();
