@@ -17,36 +17,26 @@
 package org.footware.server.db;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.shared.dto.TrackpointDTO;
-import org.hibernate.Hibernate;
 
 /**
  * Class for ER Mapping of persisted Trackpoints
  */
-@Entity
 public class Trackpoint extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(updatable=false,nullable=false)
-	private long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="tracksegment_id")
+	@Override
+	public String getTable() {
+		return "trackpoint";
+	}
+
+	//@ManyToOne(fetch=FetchType.LAZY)
+	//@JoinColumn(name="tracksegment_id")
 	TrackSegment segment;
 	double latitude;
 	double longitude;
@@ -72,6 +62,10 @@ public class Trackpoint extends DbEntity implements Serializable {
 		this.speed = speed;
 	}
 	
+	public Trackpoint(long id) {
+		this.id = id;
+	}
+	
 	
 	/**
 	 * Create a trackpoint from a GPXTrackPoint for persistence
@@ -87,12 +81,9 @@ public class Trackpoint extends DbEntity implements Serializable {
 		this.speed = gpx.getSpeed();
 	}
 	
-	/**
-	 * Gets the id of the corresponding DB row
-	 * @return the ID of the row in the DB
-	 */
-	public long getId() {
-		return id;
+	@Override
+	public void update() {
+		// TODO
 	}
 
 	/**
@@ -100,7 +91,6 @@ public class Trackpoint extends DbEntity implements Serializable {
 	 * @return the segment this point is part of
 	 */
 	public TrackSegment getSegment() {
-		Hibernate.initialize(this.segment);
 		return this.segment;
 	}
 
@@ -109,77 +99,80 @@ public class Trackpoint extends DbEntity implements Serializable {
 	 * @param seg the new segment this trackpoint is part of
 	 */
 	public void setSegment(TrackSegment seg) {
-		this.segment = seg;
+		setLongValue("tracksegment_id", seg.getId());
 	}
 
 	/**
 	 * @return the longitude
 	 */
 	public double getLongitude() {
-		return longitude;
+		return getDblValue("longitude", 0.0);
 	}
 
 	/**
 	 * @param longitude the longitude to set
 	 */
 	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+		setDblValue("longitude", longitude);
 	}
 
 	/**
 	 * @return the latitude
 	 */
 	public double getLatitude() {
-		return latitude;
+		return getDblValue("latitude", 0.0);
 	}
 
 	/**
 	 * @param latitude the latitude to set
 	 */
 	public void setLatitude(double latitude) {
-		this.latitude = latitude;
+		setDblValue("latitude", latitude);
 	}
 
 	/**
 	 * @return the elevation on this trackpoint
 	 */
 	public double getElevation() {
-		return elevation;
+		return getDblValue("elevation", 0.0);
 	}
 
 	/**
 	 * @param elevation set the elevation on this trackpoint
 	 */
 	public void setElevation(double elevation) {
-		this.elevation = elevation;
+		setDblValue("elevation", elevation);
 	}
 
 	/**
 	 * @return the time of this trackpoint
 	 */
 	public Date getTime() {
-		return time;
+		Timestamp t = getTimestampValue("time", null);
+		if (t != null)
+			return new Date(t.getTime());
+		return null;
 	}
 
 	/**
 	 * @param time set the time for this trackpoint
 	 */
 	public void setTime(Date time) {
-		this.time = time;
+		setTimestampValue("time", new Timestamp(time.getTime()));
 	}
 
 	/**
 	 * @return the momentary speed at this trackpoint
 	 */
 	public double getSpeed() {
-		return speed;
+		return getDblValue("speed", 0);
 	}
 
 	/**
 	 * @param speed set the speed at this trackpoint
 	 */
 	public void setSpeed(double speed) {
-		this.speed = speed;
+		setDblValue("speed", speed);
 	}
 	
 	public TrackpointDTO getTrackpointDTO() {

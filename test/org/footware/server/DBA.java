@@ -13,12 +13,9 @@ import org.footware.server.db.util.TrackUtil;
 import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.UserDTO;
-import org.hibernate.classic.Session;
 import org.junit.Test;
 
 public class DBA {
-
-	private Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	
 	private final String email = "test@footware.org";
 
@@ -168,10 +165,10 @@ public class DBA {
 		TrackSegment s = new TrackSegment();
 		s.setLength(16.5);
 		t.addSegment(s);
-		session.update(t);
+//		session.update(t);
 		
 		t = null;
-		t = (Track)session.get(Track.class, tid);
+//		t = (Track)session.get(Track.class, tid);
 		assert (t != null);
 		Set<TrackSegment> segs = t.getSegments();
 		assert (segs.size() == 1);

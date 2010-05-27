@@ -18,38 +18,20 @@ package org.footware.server.db;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
 import org.footware.shared.dto.TagDTO;
-import org.hibernate.Hibernate;
 
 /**
  * Class for ER mapping of Tags
  */
-@Entity
 public class Tag extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(updatable=false,nullable=false)
-	private long id;
-	
-	@Column(length=16)
+//	@Column(length=16)
 	private String tag;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
 	private Track track;
 	
 	protected Tag() {
-		Hibernate.initialize(track);
 	}
 	
 	/**
@@ -70,19 +52,29 @@ public class Tag extends DbEntity implements Serializable {
 	}
 
 	/**
-	 * Gets the id of the corresponding DB row
-	 * @return the ID of the row in the DB
+	 * Create a new object from the db id
+	 * @param id
 	 */
-	public long getId() {
-		return id;
+	public Tag(Long id) {
+		this.id = id;
 	}
 
+	@Override
+	protected String getTable() {
+		return "tag";
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+	}
+	
 	/**
 	 * Gets the tag
 	 * @return tag the tag name
 	 */
 	public String getTag() {
-		return tag;
+		return getStrValue("tag", null);
 	}
 
 	/**
@@ -90,7 +82,7 @@ public class Tag extends DbEntity implements Serializable {
 	 * @param tag new tag name
 	 */
 	public void setTag(String tag) {
-		this.tag = tag;
+		setStrValue("tag", tag);
 	}
 
 	/**
@@ -98,7 +90,7 @@ public class Tag extends DbEntity implements Serializable {
 	 * @return the track
 	 */
 	public Track getTrack() {
-		return track;
+		return new Track(getLongValue("track_id", defaultId));
 	}
 	
 	/**
@@ -106,7 +98,7 @@ public class Tag extends DbEntity implements Serializable {
 	 * @param track new track for this tag
 	 */
 	public void setTrack(Track track) {
-		this.track = track;
+		setLongValue("track_id", track.getId());
 	}
 
 	/**

@@ -24,7 +24,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 		if (UserUtil.getByEmail(user.getEmail()) != null)
 			return null;
 		User u = new User(user);
-		u.store();
+//		u.store(); TODO
 		return u.getUserDTO();
 	}
 
@@ -33,14 +33,14 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 		User u = UserUtil.getByEmail(user.getEmail());
 		u.setFullName(user.getFullName());
 		u.setPassword(UserUtil.getPasswordHash(user.getPassword()).toCharArray());
-		u.store();
+//		u.store(); TODO
 		return true;
 	}
 
 	public Boolean deactivateUser(UserDTO user) {
 		User u = UserUtil.getByEmail(user.getEmail());
 		u.setDisabled(true);
-		u.store();
+//		u.store(); TODO
 		
 		return true;
 	}

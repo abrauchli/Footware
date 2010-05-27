@@ -18,49 +18,28 @@ package org.footware.server.db;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.footware.shared.dto.TrackVisualizationPointDTO;
-import org.hibernate.Hibernate;
 
 /**
  * Class for ER mapping of single points of a track visualization
  */
-@Entity
-@Table(name="visualization_point")
 public class TrackVisualizationPoint extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public String getTable() {
+		return "visualization_point";
+	}
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(updatable=false,nullable=false)
-	private long id;
-	
-	@Column(name="x_value")
 	private double xValue;
-	
-	@Column(name="y_value")
     private double yValue;
-	
-    @ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-    @JoinColumn(name="visualization_id", nullable=false)
+    //@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+    //@JoinColumn(name="visualization_id", nullable=false)
     private TrackVisualization visualization;
 
     /**
      * Constructor for hibernate initialization
      */
     public TrackVisualizationPoint() {
-    	Hibernate.initialize(visualization);
     }
     
     /**
@@ -73,20 +52,16 @@ public class TrackVisualizationPoint extends DbEntity implements Serializable {
         this.yValue = yValue;
     }
     
-	/**
-	 * Gets the id of the corresponding DB row
-	 * @return the ID of the row in the DB
-	 */
-	public long getId() {
-		return id;
-	}
+    public void update() {
+    	//TODO
+    }
 
 	/**
 	 * Gets the x value
 	 * @return x value
 	 */
     public double getX() {
-        return xValue;
+    	return getDblValue("x_value", 0.0);
     }
 
 	/**
@@ -94,7 +69,7 @@ public class TrackVisualizationPoint extends DbEntity implements Serializable {
 	 * @param x value to set
 	 */
     public void setX(double xValue) {
-        this.xValue = xValue;
+    	setDblValue("x_value", 0.0);
     }
 
 	/**
@@ -102,7 +77,7 @@ public class TrackVisualizationPoint extends DbEntity implements Serializable {
 	 * @return y value
 	 */
     public double getY() {
-        return yValue;
+    	return getDblValue("y_value", 0.0);
     }
 
 	/**
@@ -110,7 +85,7 @@ public class TrackVisualizationPoint extends DbEntity implements Serializable {
 	 * @param y value to set
 	 */
     public void setY(double yValue) {
-        this.yValue = yValue;
+    	setDblValue("x_value", 0.0);
     }
 
     /**

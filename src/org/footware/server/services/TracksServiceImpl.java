@@ -69,20 +69,20 @@ public class TracksServiceImpl extends RemoteServiceServlet implements
 		Track t = TrackUtil.getTrackById(track.getId());
 		t.setNotes(track.getNotes());
 		t.setPublicity(track.getPublicity());
-		t.store();
+//		t.store();
 		return true;
 	}
 
 	public Boolean deactivateTrack(TrackDTO track) {
 		Track t = TrackUtil.getTrackById(track.getId());
 		t.setDisabled(true);
-		t.store();
+//		t.store();
 		return true;
 	}
 
 	public Boolean addComment(CommentDTO comment) {
 		Comment c = new Comment(comment);
-		c.store();
+//		c.store(); TODO
 		return true;
 	}
 }

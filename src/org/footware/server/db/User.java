@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.footware.server.db.util.HibernateUtil;
 import org.footware.server.db.util.UserUtil;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.UserDTO;
@@ -32,8 +31,6 @@ import org.footware.shared.dto.UserDTO;
 public class User extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private long id;
 
 	private String email;
 	private String fullName;
@@ -67,6 +64,17 @@ public class User extends DbEntity implements Serializable {
 		this.password = UserUtil.getPasswordHash(password).toCharArray();
 	}
 
+	@Override
+	protected String getTable() {
+		return "user";
+	}
+
+	@Override
+	public void update() {
+		updateValues(new String[] {"email", "password"},
+					new String[] {email, password.toString()});
+	}
+
 	/**
 	 * Gets the id of the corresponding DB row
 	 * 
@@ -84,12 +92,11 @@ public class User extends DbEntity implements Serializable {
 	}
 
 	/**
-	 * Gets the id of the corresponding DB row
-	 * 
-	 * @return the ID of the row in the DB
+	 * Create a new object from the db id
+	 * @param id
 	 */
-	protected long getId() {
-		return id;
+	public User(Long id) {
+		this.id = id;
 	}
 
 	/**
@@ -98,7 +105,7 @@ public class User extends DbEntity implements Serializable {
 	 * @return user's email address
 	 */
 	public String getEmail() {
-		return email;
+		return getStrValue("email", null);
 	}
 
 	/**
@@ -108,7 +115,7 @@ public class User extends DbEntity implements Serializable {
 	 *            new email address
 	 */
 	public void setEmail(String email) {
-		this.email = email;
+		setStrValue("email", email);
 	}
 
 	/**
@@ -117,7 +124,7 @@ public class User extends DbEntity implements Serializable {
 	 * @return user's full name
 	 */
 	public String getFullName() {
-		return fullName;
+		return getStrValue("full_name", null);
 	}
 
 	/**
@@ -127,26 +134,23 @@ public class User extends DbEntity implements Serializable {
 	 *            new user's name
 	 */
 	public void setFullName(String fullName) {
-		this.fullName = fullName;
+		setStrValue("full_name", fullName);
 	}
 
 	/**
 	 * Gets the user's password hash
-	 * 
 	 * @return user's password hash
 	 */
 	public char[] getPassword() {
-		return password;
+		return getStrValue("password", "").toCharArray();
 	}
 
 	/**
 	 * Sets the user's password hash
-	 * 
-	 * @param password
-	 *            new password hash
+	 * @param password new password hash
 	 */
-	public void setPassword(char[] password) {
-		this.password = password;
+	public void setPassword(char[] pw_hash) {
+		setStrValue("password", pw_hash.toString());
 	}
 
 	/**
@@ -155,7 +159,7 @@ public class User extends DbEntity implements Serializable {
 	 * @return boolean true if user is admin, false otherwise
 	 */
 	public boolean getIsAdmin() {
-		return isAdmin;
+		return (getIntValue("is_admin", 0) == 1);
 	}
 
 	/**
@@ -166,16 +170,15 @@ public class User extends DbEntity implements Serializable {
 	 *            ordinary user
 	 */
 	public void setIsAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
+		setIntValue("is_admin", isAdmin ? 1 : 0);
 	}
 
 	/**
 	 * Gets whether this user is active
-	 * 
 	 * @return true if the user is disabled
 	 */
 	public boolean isDisabled() {
-		return isDisabled;
+		return (getIntValue("is_disabled", 0) == 1);
 	}
 	
 	/**
@@ -183,15 +186,18 @@ public class User extends DbEntity implements Serializable {
 	 * @param disabled true to disable, false to (re-)enable
 	 */
 	public void setDisabled(boolean disabled) {
-		isDisabled = disabled;
+		setIntValue("is_disabled", disabled ? 1 : 0);
 	}
 
 	/**
 	 * Gets all tracks associated with this user
-	 * 
 	 * @return all user's tracks
 	 */
 	public Set<Track> getTracks() {
+		Set<Track> ts = new HashSet<Track>();
+		for (Long l : getForeignKeys("track", "user_id")) {
+			ts.add(new Track(l));
+		}
 		return tracks;
 	}
 
@@ -217,7 +223,6 @@ public class User extends DbEntity implements Serializable {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<Track> getPublicTracks() {
 //		Query q = s.getNamedQuery("users.getPublicTracks");
 //		q.setParameter("user", this);
