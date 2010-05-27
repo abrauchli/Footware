@@ -38,6 +38,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import org.footware.server.db.util.HibernateUtil;
 import org.footware.server.db.util.UserUtil;
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackSegment;
@@ -46,6 +47,9 @@ import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSegmentDTO;
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.ManyToAny;
 
 /**
@@ -101,8 +105,8 @@ public class Track extends DbEntity implements Serializable {
 
 	@ManyToAny(metaColumn = @Column(name="comment_id"), fetch=FetchType.EAGER)
 	private List<Comment> comments = new LinkedList<Comment>();
-	
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+
+	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="track_id")
 	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
 	
@@ -131,7 +135,8 @@ public class Track extends DbEntity implements Serializable {
 
 	public Track(TrackDTO track) {
 		this.id = track.getId();
-		this.user = UserUtil.getByEmail(track.getUser().getEmail());
+		if (track.getUser() != null)
+			this.user = new User(track.getUser());
 		this.filename = track.getFilename();
 		// this.path = track.getPath(); //cannot be modified by the client
 		this.notes = track.getNotes();
@@ -469,4 +474,35 @@ public class Track extends DbEntity implements Serializable {
 		return t;
 	}
 
+	/**
+	 * Persist (save or update) the object
+	 */
+	public void persist() {
+		Transaction tx = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			tx = session.beginTransaction();
+			session.persist(this);
+			for (TrackSegment s : segments) {
+				s.setTrack(this);
+				session.persist(s);
+				for (Trackpoint p : s.getTrackpoints()) {
+					p.setSegment(s);
+					session.persist(p);
+				}
+			}
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null && tx.isActive()) {
+				try {
+					// Second try catch as the rollback could fail as well
+					tx.rollback();
+				} catch (HibernateException e1) {
+					// logger.debug("Error rolling back transaction");
+				}
+				// throw again the first exception
+				throw e;
+			}
+		}
+	}
 }
