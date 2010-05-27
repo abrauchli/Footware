@@ -67,6 +67,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	private Track track;
 
 	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinColumn(name="tracksegment_id")
 	private List<Trackpoint> trackpoints = new LinkedList<Trackpoint>();
 
 	/**

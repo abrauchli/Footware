@@ -485,11 +485,11 @@ public class Track extends DbEntity implements Serializable {
 			session.persist(this);
 			for (TrackSegment s : segments) {
 				s.setTrack(this);
+				session.persist(s);
 				for (Trackpoint p : s.getTrackpoints()) {
 					p.setSegment(s);
 					session.persist(p);
 				}
-				session.persist(s);
 			}
 			tx.commit();
 		} catch (RuntimeException e) {
