@@ -58,7 +58,6 @@ public class UserUtil {
 	 * Gets all users registered with the system
 	 * @return collection of all users
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<User> getAll() {
 //		Query q = s.getNamedQuery("users.getAll");
 		List<User> res = null;
