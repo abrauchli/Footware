@@ -148,9 +148,9 @@ public class TrackVisualization extends DbEntity implements Serializable {
      */
     public TrackVisualizationDTO getTrackVisualizationDTO() {
     	TrackVisualizationDTO t = new TrackVisualizationDTO();
-    	t.setType(type);
-    	t.setxUnit(xUnit);
-    	t.setyUnit(yUnit);
+    	t.setType(getType());
+    	t.setxUnit(getxUnit());
+    	t.setyUnit(getyUnit());
 
     	List<TrackVisualizationPointDTO> ps = t.getData();
     	for (TrackVisualizationPoint p : getData())

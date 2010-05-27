@@ -146,8 +146,8 @@ public class Comment extends DbEntity implements Serializable {
 	 * @return CommentDTO representing this object's state
 	 */
 	public CommentDTO getCommentDTO() {
-		CommentDTO c = new CommentDTO(text, user.getUserDTO(), track.getTrackDTO());
-		c.setTime(time);
+		CommentDTO c = new CommentDTO(getText(), getUser().getUserDTO(), getTrack().getTrackDTO());
+		c.setTime(getTime());
 		return c;
 	}
 

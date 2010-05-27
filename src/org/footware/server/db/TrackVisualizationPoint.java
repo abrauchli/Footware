@@ -118,8 +118,8 @@ public class TrackVisualizationPoint extends DbEntity implements Serializable {
      */
 	public TrackVisualizationPointDTO getTrackVisualizationPointDTO() {
 		TrackVisualizationPointDTO p = new TrackVisualizationPointDTO();
-		p.setX(xValue);
-		p.setY(yValue);
+		p.setX(getX());
+		p.setY(getY());
 		return p;
 	}
 

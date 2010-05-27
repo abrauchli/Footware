@@ -463,15 +463,15 @@ public class Track extends DbEntity implements Serializable {
 		TrackDTO t = new TrackDTO();
 		//will be set by the user to prevent stackoverflow
 		//t.setUser(user.getUserDTO());
-		t.setFilename(filename);
-		t.setNotes(notes);
-		t.setPublicity(publicity);
+		t.setFilename(getFilename());
+		t.setNotes(getNotes());
+		t.setPublicity(getPublicity());
 		t.setCommentsEnabled(commentsEnabled);
-		t.setTrackpoints(trackpoints);
-		t.setLength(length);
-		t.setMidLatitude(midLatitude);
-		t.setMidLongitude(midLongitude);
-		t.setStartTime(startTime);
+		t.setTrackpoints(getTrackpoints());
+		t.setLength(getLength());
+		t.setMidLatitude(getMidLatitude());
+		t.setMidLongitude(getMidLongitude());
+		t.setStartTime(getStartTime());
 		t.setDisabled(disabled);
 		//Code below not handled yet, append them after object creation (after store() call)
 		for (Comment c : getComments())

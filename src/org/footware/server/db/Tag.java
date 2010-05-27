@@ -101,6 +101,6 @@ public class Tag extends DbEntity implements Serializable {
 	 * @return the TagDTO for the current Tag state
 	 */
 	public TagDTO getTagDTO() {
-		return new TagDTO(track.getTrackDTO(), tag);
+		return new TagDTO(getTrack().getTrackDTO(), getTag());
 	}
 }

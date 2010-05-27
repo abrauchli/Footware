@@ -251,9 +251,9 @@ public class User extends DbEntity implements Serializable {
 	 */
 	public UserDTO getUserDTO() {
 		UserDTO u = new UserDTO();
-		u.setEmail(email);
-		u.setFullName(fullName);
-		u.setIsAdmin(isAdmin);
+		u.setEmail(getEmail());
+		u.setFullName(getFullName());
+		u.setIsAdmin(getIsAdmin());
 		u.setDisabled(isDisabled);
 
 		for (Track t : getTracks()) {
