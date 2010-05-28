@@ -17,45 +17,46 @@
 package org.footware.server.db;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
+import org.footware.server.db.util.DB;
 import org.footware.shared.dto.CommentDTO;
 
 /**
  * Class for ER mapping of comments
  */
-@Entity
 public class Comment extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	@Override
+	public String getTable() {
+		return "comment";
+	}
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	//@ManyToOne(fetch=FetchType.LAZY)
 	//@Column(nullable=false)
 	private Track track;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
+	//@ManyToOne(fetch=FetchType.LAZY)
 	//@Column(nullable=false)
 	private User user;
-	
-	@Column(length=256,nullable=false)
+	//@Column(length=256,nullable=false)
 	private String text;
-	
-	@Column(nullable=false)
+
+	//@Column(nullable=false)
 	private Date time;
 	
-	protected Comment() {}
+	protected Comment() {
+	}
+
+	/**
+	 * Create a new object from the db id
+	 * @param id
+	 */
+	public Comment(Long id) {
+		this.id = id;
+	}
 
 	/**
 	 * Create a new comment for persistence
@@ -76,14 +77,7 @@ public class Comment extends DbEntity implements Serializable {
 	public Comment(String comment, User user) {
 		this.text = comment;
 		this.user = user;
-	}
-
-	/**
-	 * Gets the id of the corresponding DB row
-	 * @return the ID of the row in the DB
-	 */
-	protected long getId() {
-		return id;
+		this.time = new Date();
 	}
 
 	/**
@@ -94,26 +88,30 @@ public class Comment extends DbEntity implements Serializable {
 		return track;
 	}
 	
-//	public void setTrack(Track track) {
-//		this.track = track;
-//	}
+	public void setTrack(Track track) {
+		setDblValue("track_id", track.getId());
+	}
 
 	/**
 	 * Gets the author of the comment
 	 */
 	public User getUser() {
-		return user;
+		return new User(getLongValue("user_id", defaultId));
 	}
 	
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
+	/**
+	 * Sets the author of this comment
+	 * @param user author who wrote this comment
+	 */
+	public void setUser(User user) {
+		setDblValue("user_id", user.getId());
+	}
 	
 	/**
 	 * Gets the comment text
 	 */
 	public String getText() {
-		return text;
+		return getStrValue("text", null);
 	}
 	
 	/**
@@ -121,7 +119,7 @@ public class Comment extends DbEntity implements Serializable {
 	 * @param text new comment text
 	 */
 	public void setText(String text) {
-		this.text = text;
+		setStrValue("text", text);
 	}
 
 	/**
@@ -129,7 +127,10 @@ public class Comment extends DbEntity implements Serializable {
 	 * @return the date (and time) the comment was written
 	 */
 	public Date getTime() {
-		return time;
+		Timestamp t = getTimestampValue("time", null);
+		if (t != null)
+			return new Date(t.getTime());
+		return null;
 	}
 
 	/**
@@ -137,7 +138,7 @@ public class Comment extends DbEntity implements Serializable {
 	 * @param set the time this comment was written
 	 */
 	public void setTime(Date time) {
-		this.time = time;
+		setTimestampValue("time",new Timestamp(time.getTime()));
 	}
 
 	/**
@@ -145,8 +146,8 @@ public class Comment extends DbEntity implements Serializable {
 	 * @return CommentDTO representing this object's state
 	 */
 	public CommentDTO getCommentDTO() {
-		CommentDTO c = new CommentDTO(text, user.getUserDTO(), track.getTrackDTO());
-		c.setTime(time);
+		CommentDTO c = new CommentDTO(getText(), getUser().getUserDTO(), getTrack().getTrackDTO());
+		c.setTime(getTime());
 		return c;
 	}
 

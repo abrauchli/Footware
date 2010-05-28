@@ -16,14 +16,13 @@
 
 package org.footware.server.db.util;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.footware.server.db.User;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * Utility class for user specific operations
@@ -32,71 +31,79 @@ public class UserUtil {
 
 	/**
 	 * Digest a password to compute its (MD5) hash for storage
-	 * @param password the password string to hash
-	 * @return the password's hashed string, null if the MD5 algorithm isn't available
+	 * 
+	 * @param password
+	 *            the password string to hash
+	 * @return the password's hashed string, null if the MD5 algorithm isn't
+	 *         available
 	 */
 	public static String getPasswordHash(String password) {
 		return DigestUtils.md5Hex(password);
 	}
-	
+
 	/**
 	 * Gets a single user by email
-	 * @param email the email belonging to the user
+	 * 
+	 * @param email
+	 *            the email belonging to the user
 	 * @return user object if email is valid, null otherwise
 	 */
 	public static User getByEmail(String email) {
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction t = s.beginTransaction();
-		Query q = s.getNamedQuery("users.getByEmail");
-		q.setParameter("email", email);
-		User res = null;
+		long id = -1;
 		try {
-			res = (User)q.uniqueResult();
-			t.commit();
-		} catch (HibernateException e) {
-			t.rollback();
+			email = DB.escapeString(email);
+			id = DB.queryLong("SELECT id FROM User u WHERE u.email = '"+ email +"'");
+		} catch (Exception e) {
+			return null;
+		}
+		return new User(id);
+	}
+
+	/**
+	 * Gets all users registered with the system
+	 * 
+	 * @return collection of all users
+	 */
+	public static List<User> getAll() {
+		ResultSet r = null;
+		try {
+			r = DB.query("SELECT id FROM User u");
+		} catch (Exception e) {
+			return new LinkedList<User>();
+		}
+
+		LinkedList<User> res = new LinkedList<User>();
+		if (r != null) {
+			int i = 1;
+			try {
+				while(r.next()) {
+					res.add(new User(r.getLong(i++)));
+				}
+			} catch (SQLException e) {
+				return null;
+			}
+			
 		}
 		return res;
 	}
 
 	/**
-	 * Gets all users registered with the system
-	 * @return collection of all users
-	 */
-	@SuppressWarnings("unchecked")
-	public static List<User> getAll() {
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction t = s.beginTransaction();
-		Query q = s.getNamedQuery("users.getAll");
-		List<User> res = null;
-		try {
-			res = (List<User>)q.list();
-			t.commit();
-		} catch (HibernateException e) {
-			t.rollback();
-		}
-		return res;
-	}
-	
-	/**
 	 * Gets a single user by email and password hash
-	 * @param email the email belonging to the user
-	 * @param pw_hash the password hash to try as password
+	 * 
+	 * @param email
+	 *            the email belonging to the user
+	 * @param pw_hash
+	 *            the password hash to try as password
 	 * @return user object if email/pw-hash pair is valid, null otherwise
 	 */
 	public static User getIfValid(String email, String pw_hash) {
-		Session s = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction t = s.beginTransaction();
-		Query q = s.getNamedQuery("users.getIfValid");
-		q.setParameter("email", email);
-		q.setParameter("password", pw_hash.toCharArray());
-		User res = null;
+		long id = -1;
 		try {
-			res = (User) q.uniqueResult();
-			t.commit();
-		} catch (HibernateException e) {
-			t.rollback();
+			id = DB.queryLong("SELECT id FROM User u WHERE u.email = '" + email + "' AND u.password = '" + pw_hash+"'");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return res;
+		return new User(id);
 	}
 }

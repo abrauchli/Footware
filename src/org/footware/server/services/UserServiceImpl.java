@@ -33,14 +33,12 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 		User u = UserUtil.getByEmail(user.getEmail());
 		u.setFullName(user.getFullName());
 		u.setPassword(UserUtil.getPasswordHash(user.getPassword()).toCharArray());
-		u.store();
 		return true;
 	}
 
 	public Boolean deactivateUser(UserDTO user) {
 		User u = UserUtil.getByEmail(user.getEmail());
 		u.setDisabled(true);
-		u.store();
 		
 		return true;
 	}

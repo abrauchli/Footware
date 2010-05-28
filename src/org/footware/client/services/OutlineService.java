@@ -21,5 +21,4 @@ public interface OutlineService extends RemoteService {
 	public String[][] getTracksTable(TrackSearchData filter);
 
 	public List<TrackVisualizationDTO> getTrackVisualizationList(Long id);
-	
 }

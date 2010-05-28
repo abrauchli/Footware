@@ -24,30 +24,74 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+<<<<<<< HEAD
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import org.footware.server.db.util.HibernateUtil;
+=======
+>>>>>>> h2
 import org.footware.server.gpx.model.GPXTrack;
 import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.CommentDTO;
 import org.footware.shared.dto.TagDTO;
 import org.footware.shared.dto.TrackDTO;
 import org.footware.shared.dto.TrackSegmentDTO;
+<<<<<<< HEAD
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+=======
+>>>>>>> h2
 
 /**
  * Class for ER mapping of Tracks
  */
+<<<<<<< HEAD
+@Entity
+@NamedQueries(value = {
+		// Get all public tracks
+		@NamedQuery(name = "tracks.getAllPublic", query = "FROM Track t WHERE t.disabled=0 AND t.publicity=5"),
+		@NamedQuery(name = "tracks.getTrackById", query = "FROM Track t where t.id = :id") })
+=======
 //@NamedQueries(value = {
 //		//Get all public tracks
 //		@NamedQuery(name = "tracks.getAllPublic", query = "FROM Track t WHERE t.disabled=0 AND t.publicity=5"),
 //		@NamedQuery(name="tracks.getTrackById", query= "FROM Track t where t.id = :id")
 //	})
+>>>>>>> h2
 public class Track extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+<<<<<<< HEAD
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(updatable = false, nullable = false)
+	private long id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(insertable = false, updatable = false)
+=======
 	@Override
 	public String getTable() {
 		return "track";
 	}
 	
+>>>>>>> h2
 	private User user;
 
 	//@Column(length = 128, nullable = false)
@@ -61,6 +105,38 @@ public class Track extends DbEntity implements Serializable {
 	private boolean commentsEnabled;
 	private int trackpoints;
 	private double length;
+<<<<<<< HEAD
+
+	@Column(name = "mid_latitude")
+	private double midLatitude;
+
+	@Column(name = "mid_longitude")
+	private double midLongitude;
+
+	@Column(name = "time_start")
+	private Date startTime;
+
+	private boolean disabled;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "track_id")
+	// @OnDelete(action=OnDeleteAction.CASCADE)
+	private List<Comment> comments = new LinkedList<Comment>();
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "track_id")
+	// @OnDelete(action=OnDeleteAction.CASCADE)
+	private Set<TrackSegment> segments = new HashSet<TrackSegment>();
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "track_id")
+	// @OnDelete(action=OnDeleteAction.CASCADE)
+	private Set<Tag> tags = new HashSet<Tag>();
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "track_id")
+	// @OnDelete(action=OnDeleteAction.CASCADE)
+=======
 	private double midLatitude;
 	private double midLongitude;
 	//@Column(name="time_start")
@@ -85,9 +161,14 @@ public class Track extends DbEntity implements Serializable {
 	//@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	//@JoinColumn(name="track_id")
 	//@OnDelete(action=OnDeleteAction.CASCADE)
+>>>>>>> h2
 	private Set<TrackVisualization> visualizations = new HashSet<TrackVisualization>();
 
 	protected Track() {
+		Hibernate.initialize(segments);
+		Hibernate.initialize(comments);
+		Hibernate.initialize(visualizations);
+		Hibernate.initialize(tags);
 	}
 
 	/**
@@ -118,8 +199,12 @@ public class Track extends DbEntity implements Serializable {
 		this.trackpoints = track.getTrackpoints();
 		this.length = track.getLength();
 		this.startTime = track.getStartTime();
+<<<<<<< HEAD
+		for (TrackSegmentDTO segment : track.getSegments())
+=======
 		//Code below not handled this way yet, append them after DB creation
 		for (TrackSegmentDTO segment : track.getSegments()) 
+>>>>>>> h2
 			this.segments.add(new TrackSegment(segment));
 		for (CommentDTO c : track.getComments())
 			this.comments.add(new Comment(c));
@@ -255,7 +340,11 @@ public class Track extends DbEntity implements Serializable {
 	 * @return number of track points for this track
 	 */
 	public int getTrackpoints() {
+<<<<<<< HEAD
+		return trackpoints;
+=======
 		return getIntValue("trackpoints", 0);
+>>>>>>> h2
 	}
 
 	/**
@@ -352,7 +441,9 @@ public class Track extends DbEntity implements Serializable {
 
 	/**
 	 * Sets this track as disabled or enabled
-	 * @param disabled whether to enable or disable this track
+	 * 
+	 * @param disabled
+	 *            whether to enable or disable this track
 	 */
 	public void setDisabled(boolean disabled) {
 		setIntValue("is_disabled", disabled ? 1 : 0);
@@ -360,6 +451,7 @@ public class Track extends DbEntity implements Serializable {
 
 	/**
 	 * Gets whether this track is disabled or not
+	 * 
 	 * @return true if disabled, false if enabled
 	 */
 	public boolean isDisabled() {
@@ -372,11 +464,15 @@ public class Track extends DbEntity implements Serializable {
 	 * @return List of all comments for this track
 	 */
 	public List<Comment> getComments() {
+<<<<<<< HEAD
+		return comments;
+=======
 		List<Long> ids = getForeignKeys("comment", "track_id");
 		List<Comment> res = new LinkedList<Comment>();
 		for (Long l : ids)
 			res.add(new Comment(l));
 		return res;
+>>>>>>> h2
 	}
 
 	/**
@@ -413,16 +509,39 @@ public class Track extends DbEntity implements Serializable {
 	}
 
 	/**
+	 * Gets the visualizations for this track
+	 * 
+	 * @return visualizations for this track
+	 */
+	public Set<TrackVisualization> getVisualizations() {
+		return visualizations;
+	}
+
+	/**
+	 * Adds a visualization for this track
+	 * 
+	 * @param v
+	 *            visualization to add
+	 */
+	public void addVisualization(TrackVisualization v) {
+		visualizations.add(v);
+	}
+
+	/**
 	 * Gets the segments belonging to this track
 	 * 
 	 * @return segments of this track
 	 */
 	public Set<TrackSegment> getSegments() {
+<<<<<<< HEAD
+		return segments;
+=======
 		List<Long> ids = getForeignKeys("track_segment", "track_id");
 		Set<TrackSegment> res = new HashSet<TrackSegment>();
 		for (Long l : ids)
 			res.add(new TrackSegment(l));
 		return res;
+>>>>>>> h2
 	}
 
 	/**
@@ -442,16 +561,22 @@ public class Track extends DbEntity implements Serializable {
 	 * @return set of tags attached to this track
 	 */
 	public Set<Tag> getTags() {
+<<<<<<< HEAD
+		return tags;
+=======
 		List<Long> ids = getForeignKeys("tag", "track_id");
 		Set<Tag> res = new HashSet<Tag>();
 		for (Long l : ids)
 			res.add(new Tag(l));
 		return res;
+>>>>>>> h2
 	}
 
 	/**
 	 * Adds a tag to this track
-	 * @param t tag to add
+	 * 
+	 * @param t
+	 *            tag to add
 	 */
 	public void addTag(Tag t) {
 		//tags.add(t);
@@ -465,11 +590,19 @@ public class Track extends DbEntity implements Serializable {
 	 */
 	public TrackDTO getTrackDTO() {
 		TrackDTO t = new TrackDTO();
+<<<<<<< HEAD
+		// will be set by the user to prevent stackoverflow
+		// t.setUser(user.getUserDTO());
+		t.setFilename(filename);
+		t.setNotes(notes);
+		t.setPublicity(publicity);
+=======
 		//will be set by the user to prevent stackoverflow
 		//t.setUser(user.getUserDTO());
 		t.setFilename(getFilename());
 		t.setNotes(getNotes());
 		t.setPublicity(getPublicity());
+>>>>>>> h2
 		t.setCommentsEnabled(commentsEnabled);
 		t.setTrackpoints(getTrackpoints());
 		t.setLength(getLength());
@@ -486,5 +619,40 @@ public class Track extends DbEntity implements Serializable {
 			t.addTag(tag.getTagDTO());
 		return t;
 	}
-}
 
+<<<<<<< HEAD
+	// /**
+	// * Persist (save or update) the object
+	// */
+	// public void persist() {
+	// Transaction tx = null;
+	// Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	// try {
+	// tx = session.beginTransaction();
+	// session.persist(this);
+	// for (TrackSegment s : segments) {
+	// s.setTrack(this);
+	// session.persist(s);
+	// for (Trackpoint p : s.getTrackpoints()) {
+	// p.setSegment(s);
+	// session.persist(p);
+	// }
+	// }
+	// tx.commit();
+	// } catch (RuntimeException e) {
+	// if (tx != null && tx.isActive()) {
+	// try {
+	// // Second try catch as the rollback could fail as well
+	// tx.rollback();
+	// } catch (HibernateException e1) {
+	// // logger.debug("Error rolling back transaction");
+	// }
+	// // throw again the first exception
+	// throw e;
+	// }
+	// }
+	// }
+}
+=======
+}
+>>>>>>> h2

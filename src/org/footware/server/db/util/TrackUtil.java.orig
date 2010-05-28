@@ -16,8 +16,11 @@
 
 package org.footware.server.db.util;
 
+<<<<<<< HEAD
+=======
 import java.sql.ResultSet;
 import java.sql.SQLException;
+>>>>>>> h2
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +28,14 @@ import java.util.Set;
 import org.footware.server.db.Track;
 import org.footware.server.db.TrackVisualization;
 import org.footware.server.db.User;
+<<<<<<< HEAD
+import org.footware.shared.dto.TrackVisualizationDTO;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+=======
+>>>>>>> h2
 
 /**
  * Utility class for track specific operations
@@ -45,11 +56,10 @@ public class TrackUtil {
 	 */
 	public static List<Track> getAllPublicTracks() {
 		ResultSet r = null;
-		String qry = "SELECT id FROM Track t WHERE t.disabled=0 AND t.publicity=5";
 		try {
-			r = DB.query(qry);
+			r = DB.query("SELECT id FROM Track t WHERE t.disabled=0 AND t.publicity=5");
 		} catch (Exception e) {
-			System.err.println("Error with query: "+ qry);
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -62,11 +72,28 @@ public class TrackUtil {
 					i++;
 				}
 			} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		}
 		return res;
+	}
+
+	public static Track getTrackById(Long id) {
+		long tid = -1;
+		try {
+			tid = DB.queryLong("SELECT id FROM Track t where t.id = "+id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new Track(tid);
+	}
+	
+	public static Set<TrackVisualization> getTrackVisualizationsById(Long id) {
+		Track track = getTrackById(id);
+		return track.getVisualizations();
 	}
 
 }

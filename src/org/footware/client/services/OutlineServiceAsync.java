@@ -23,6 +23,6 @@ public interface OutlineServiceAsync {
 	public void getTracksTable(TrackSearchData filter,
 			AsyncCallback<String[][]> callback);
 
-	void getTrackVisualizationList(Long id,
+	public void getTrackVisualizationList(Long id,
 			AsyncCallback<List<TrackVisualizationDTO>> callback);
 }

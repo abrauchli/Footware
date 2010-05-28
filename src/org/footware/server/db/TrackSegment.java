@@ -17,57 +17,42 @@
 package org.footware.server.db;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import java.util.Set;
 
 import org.footware.server.gpx.model.GPXTrackPoint;
 import org.footware.server.gpx.model.GPXTrackSegment;
 import org.footware.shared.dto.TrackSegmentDTO;
 import org.footware.shared.dto.TrackpointDTO;
-import org.hibernate.Hibernate;
 
 /**
  * Class for ER Mapping of persisted TrackSegments, the ("sub-")tracks in a
  * single track file
  */
-@Entity
 public class TrackSegment extends DbEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	
+	@Override
+	public String getTable() {
+		return "tracksegment";
+	}
 
 	// Statistics
-	@Column(name = "max_speed")
 	private double maxSpeed = 0.0;
-
-	@Column(name = "min_elevation")
 	private int minElevation = Integer.MAX_VALUE;
-
-	@Column(name = "max_elevation")
 	private int maxElevation = Integer.MIN_VALUE;
-
 	private double length = 0.0;
 
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="track_id")
+	//@ManyToOne(fetch=FetchType.LAZY)
+	//@JoinColumn(name="track_id")
 	private Track track;
 
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-	@JoinColumn(name="tracksegment_id")
+	//@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
+	//@JoinColumn(name="tracksegment_id")
+	//@OnDelete(action=OnDeleteAction.CASCADE)
 	private List<Trackpoint> trackpoints = new LinkedList<Trackpoint>();
 
 	/**
@@ -89,12 +74,18 @@ public class TrackSegment extends DbEntity implements Serializable {
 		this.maxElevation = gpx.getMaxElevation().intValue();
 		this.length = (long) gpx.getLength();
 
-		// Deep replication
 		for (GPXTrackPoint gpt : gpx.getPoints()) {
 			Trackpoint tp = new Trackpoint(this, gpt);
 			this.trackpoints.add(tp);
-			// TODO: Check if we should persist here
 		}
+	}
+
+	/**
+	 * Create a new object from the db id
+	 * @param id
+	 */
+	public TrackSegment(Long id) {
+		this.id = id;
 	}
 	
 	/**
@@ -111,25 +102,17 @@ public class TrackSegment extends DbEntity implements Serializable {
 		for (TrackpointDTO gpt : segment.getPoints()) {
 			Trackpoint tp = new Trackpoint(this,gpt.getLatitude(),gpt.getLongitude(),gpt.getElevation(),gpt.getTime(),0);
 			this.trackpoints.add(tp);
+			// TODO
 		}
 	}
-
-	/**
-	 * Gets the id of the corresponding DB row
-	 * 
-	 * @return the ID of the row in the DB
-	 */
-	public long getId() {
-		return id;
-	}
-
+	
 	/**
 	 * Gets the track belonging to this segment
 	 * 
 	 * @return this segment's corresponding track
 	 */
 	public Track getTrack() {
-		return track;
+		return new Track(getLongValue("track_id", defaultId));
 	}
 
 	/**
@@ -139,7 +122,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 *            new owner of this segment
 	 */
 	public void setTrack(Track track) {
-		this.track = track;
+		setLongValue("track_id", track.getId());
 	}
 
 	/**
@@ -148,7 +131,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * @return maximum speed encountered in this segment
 	 */
 	public double getMaxSpeed() {
-		return maxSpeed;
+		return getDblValue("max_speed", 0);
 	}
 
 	/**
@@ -157,7 +140,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * @return maximum speed encountered in this segment
 	 */
 	public void setMaxSpeed(double maxSpeed) {
-		this.maxSpeed = maxSpeed;
+		setDblValue("max_speed", maxSpeed);
 	}
 
 	/**
@@ -165,8 +148,8 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * 
 	 * @return maximum speed encountered in this segment
 	 */
-	public long getMinElevation() {
-		return minElevation;
+	public double getMinElevation() {
+		return getDblValue("min_elevation", 0.0);
 	}
 
 	/**
@@ -174,8 +157,8 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * 
 	 * @return maximum speed encountered in this segment
 	 */
-	public void setMinElevation(int minElevation) {
-		this.minElevation = minElevation;
+	public void setMinElevation(double minElevation) {
+		setDblValue("min_elevation", 0);
 	}
 
 	/**
@@ -184,7 +167,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * @return the maximal elevation encountered in this segment
 	 */
 	public long getMaxElevation() {
-		return maxElevation;
+		return getLongValue("max_elevation", 0);
 	}
 
 	/**
@@ -193,8 +176,8 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * @param maxElevation
 	 *            the maximal elevation encountered in this segment
 	 */
-	public void setMaxElevation(int maxElevation) {
-		this.maxElevation = maxElevation;
+	public void setMaxElevation(double maxElevation) {
+		setDblValue("max_elevation", maxElevation);
 	}
 
 	/**
@@ -203,7 +186,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * @return gets the segments length
 	 */
 	public double getLength() {
-		return length;
+		return getDblValue("length", 0.0);
 	}
 
 	/**
@@ -213,7 +196,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 *            sets the segment length
 	 */
 	public void setLength(double length) {
-		this.length = length;
+		setDblValue("length", length);
 	}
 
 	/**
@@ -222,10 +205,13 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 * @return all segment's trackpoints
 	 */
 	public List<Trackpoint> getTrackpoints() {
-		//Hibernate.initialize(trackpoints);
-		return trackpoints;
+		List<Long> ids = getForeignKeys("tag", "track_id");
+		List<Trackpoint> res = new LinkedList<Trackpoint>();
+		for (Long l : ids)
+			res.add(new Trackpoint(l));
+		return res;
 	}
-
+	
 	/**
 	 * Appends a trackpoint to this segment
 	 * 
@@ -234,6 +220,7 @@ public class TrackSegment extends DbEntity implements Serializable {
 	 */
 	public void addTrackpoint(Trackpoint p) {
 		this.trackpoints.add(p);
+		//TODO
 	}
 
 	/**

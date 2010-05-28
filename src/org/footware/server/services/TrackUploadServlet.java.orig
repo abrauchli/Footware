@@ -43,6 +43,7 @@ import org.footware.server.gpx.TrackVisualizationElevationStrategy;
 import org.footware.server.gpx.TrackVisualizationFactoryImpl;
 import org.footware.server.gpx.TrackVisualizationSpeedStrategy;
 import org.footware.shared.dto.TrackDTO;
+import org.footware.shared.dto.TrackVisualizationDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -221,15 +222,16 @@ public class TrackUploadServlet extends HttpServlet {
 
 					TrackImporter importer = importerMap.get(extension);
 					importer.importTrack(uploadedFile);
-					TrackVisualizationFactoryImpl speedFactory =
-						new TrackVisualizationFactoryImpl(
-							new TrackVisualizationSpeedStrategy());
-					TrackVisualizationFactoryImpl elevationFactory =
-						new TrackVisualizationFactoryImpl(
-							new TrackVisualizationElevationStrategy());
 
 					// Add meta information to track
-					for (Track dbTrack : importer.getTracks()) {
+					List<Track> tracks = importer.getTracks();
+					TrackVisualizationFactoryImpl speedFactory = new TrackVisualizationFactoryImpl(
+							new TrackVisualizationSpeedStrategy());
+					TrackVisualizationFactoryImpl elevationFactory = new TrackVisualizationFactoryImpl(
+							new TrackVisualizationElevationStrategy());
+					
+					for (int i = 0; i < tracks.size() ; i++) {
+						Track dbTrack = tracks.get(i);
 						dbTrack.setCommentsEnabled(comments);
 						dbTrack.setNotes(notes);
 						dbTrack.setPublicity(privacy);
@@ -238,13 +240,19 @@ public class TrackUploadServlet extends HttpServlet {
 
 						dbTrack.setUser(user);
 						//persist
+<<<<<<< HEAD
 						dbTrack.store();
 						
 						TrackVisualization ele = new TrackVisualization(speedFactory.create(dbTrack));
 						ele.store();
 						TrackVisualization spd = new TrackVisualization(elevationFactory.create(dbTrack));
 						spd.store();
+=======
+//						dbTrack.store();TODO
+>>>>>>> h2
 					}
+					
+					
 
 				} else {
 					logger.error("error: file: " + (file != null));
@@ -326,5 +334,5 @@ public class TrackUploadServlet extends HttpServlet {
 		return userDirectory;
 
 	}
-}
 
+}

@@ -60,23 +60,21 @@ public class TracksServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Boolean saveChanges(TrackDTO track) {
-		Track t = TrackUtil.getTrackById(track.getId());
+		Track t = new Track(track);
 		t.setNotes(track.getNotes());
 		t.setPublicity(track.getPublicity());
-		t.store();
 		return true;
 	}
 
 	public Boolean deactivateTrack(TrackDTO track) {
-		Track t = TrackUtil.getTrackById(track.getId());
+		Track t = new Track(track);
 		t.setDisabled(true);
-		t.store();
 		return true;
 	}
 
 	public Boolean addComment(CommentDTO comment) {
 		Comment c = new Comment(comment);
-		c.store();
+//		c.store(); TODO
 		return true;
 	}
 }

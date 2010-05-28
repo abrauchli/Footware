@@ -20,16 +20,41 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+<<<<<<< HEAD
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.footware.shared.dto.TrackVisualizationDTO;
+import org.footware.shared.dto.TrackVisualizationPointDTO;
+import org.hibernate.Hibernate;
+=======
 import java.util.Set;
 
 import org.footware.shared.dto.TrackVisualizationDTO;
 import org.footware.shared.dto.TrackVisualizationPointDTO;
+>>>>>>> h2
 
 /**
  * Class for ER mapping of track visualizations
  */
+<<<<<<< HEAD
+@Entity
+@Table(name="visualization")
+public class TrackVisualization extends DbEntity implements Serializable {
+    
+=======
 public class TrackVisualization extends DbEntity implements Serializable {
 
+>>>>>>> h2
 	private static final long serialVersionUID = 1L;
 	public static String TYPE_SPEED = "Speed plot";
     public static String TYPE_ELEVATION = "Elevation plot";
