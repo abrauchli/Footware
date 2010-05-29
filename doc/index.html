@@ -1,0 +1,781 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<base target="_top">
+<style type="text/css">
+  
+
+/* default css */
+
+table {
+  font-size: 1em;
+  line-height: inherit;
+  border-collapse: collapse;
+}
+
+
+tr {
+  
+  text-align: left;
+  
+}
+
+
+div, address, ol, ul, li, option, select {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+p {
+  margin: 0px;
+}
+
+
+pre {
+  font-family: Courier New;
+  white-space: pre-wrap;
+  margin:0;
+}
+
+body {
+  margin: 6px;
+  padding: 0px;
+  font-family: Verdana, sans-serif;
+  font-size: 10pt;
+  background-color: #ffffff;
+  color: #000;
+}
+
+
+img {
+  -moz-force-broken-image-icon: 1;
+}
+
+@media screen {
+  html.pageview {
+    background-color: #f3f3f3 !important;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  
+
+  body {
+    min-height: 1100px;
+    
+    counter-reset: __goog_page__;
+  }
+  
+  * html body {
+    height: 1100px;
+  }
+  /* Prevent repaint errors when scrolling in Safari. This "Star-7" css hack
+     targets Safari 3.1, but not WebKit nightlies and presumably Safari 4.
+     That's OK because this bug is fixed in WebKit nightlies/Safari 4 :-). */
+  html*#wys_frame::before {
+    content: '\A0';
+    position: fixed;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+  }
+  
+  .pageview body {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 2px solid #bbb;
+    border-bottom: 2px solid #bbb;
+    width: 648px !important;
+    margin: 15px auto 25px;
+    padding: 40px 50px;
+  }
+  /* IE6 */
+  * html {
+    overflow-y: scroll;
+  }
+  * html.pageview body {
+    overflow-x: auto;
+  }
+  
+
+  
+    
+    .writely-callout-data {
+      display: none;
+    }
+    
+
+    .writely-footnote-marker {
+      background-image: url('MISSING');
+      background-color: transparent;
+      background-repeat: no-repeat;
+      width: 7px;
+      overflow: hidden;
+      height: 16px;
+      vertical-align: top;
+
+      
+      -moz-user-select: none;
+    }
+    .editor .writely-footnote-marker {
+      cursor: move;
+    }
+    .writely-footnote-marker-highlight {
+      background-position: -15px 0;
+      -moz-user-select: text;
+    }
+    .writely-footnote-hide-selection ::-moz-selection, .writely-footnote-hide-selection::-moz-selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection ::selection, .writely-footnote-hide-selection::selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection {
+      cursor: move;
+    }
+
+    /* Comments */
+    .writely-comment-yellow {
+      background-color: #ffffd7;
+    }
+    .writely-comment-orange {
+      background-color: #ffe3c0;
+    }
+    .writely-comment-pink {
+      background-color: #ffd7ff;
+    }
+    .writely-comment-green {
+      background-color: #d7ffd7;
+    }
+    .writely-comment-blue {
+      background-color: #d7ffff;
+    }
+    .writely-comment-purple {
+      background-color: #eed7ff;
+    }
+
+  
+
+
+  
+  .br_fix span+br:not(:-moz-last-node) {
+    
+    position:relative;
+    
+    left: -1ex
+    
+  }
+
+  
+  #cb-p-tgt {
+    font-size: 8pt;
+    padding: .4em;
+    background-color: #ddd;
+    color: #333;
+  }
+  #cb-p-tgt-can {
+    text-decoration: underline;
+    color: #36c;
+    font-weight: bold;
+    margin-left: 2em;
+  }
+  #cb-p-tgt .spin {
+    width: 16px;
+    height: 16px;
+    background: url(//ssl.gstatic.com/docs/clipboard/spin_16o.gif) no-repeat;
+  }
+}
+
+h6 { font-size: 8pt }
+h5 { font-size: 8pt }
+h4 { font-size: 10pt }
+h3 { font-size: 12pt }
+h2 { font-size: 14pt }
+h1 { font-size: 18pt }
+
+blockquote {padding: 10px; border: 1px #DDD dashed }
+
+.webkit-indent-blockquote { border: none; }
+
+a img {border: 0}
+
+.pb {
+  border-width: 0;
+  page-break-after: always;
+  /* We don't want this to be resizeable, so enforce a width and height
+     using !important */
+  height: 1px !important;
+  width: 100% !important;
+}
+
+.editor .pb {
+  border-top: 1px dashed #C0C0C0;
+  border-bottom: 1px dashed #C0C0C0;
+}
+
+div.google_header, div.google_footer {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+
+/* Table of contents */
+.editor div.writely-toc {
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+}
+.writely-toc > ol {
+  padding-left: 3em;
+  font-weight: bold;
+}
+ol.writely-toc-subheading {
+  padding-left: 1em;
+  font-weight: normal;
+}
+/* IE6 only */
+* html writely-toc ol {
+  list-style-position: inside;
+}
+.writely-toc-none {
+  list-style-type: none;
+}
+.writely-toc-decimal {
+  list-style-type: decimal;
+}
+.writely-toc-upper-alpha {
+  list-style-type: upper-alpha;
+}
+.writely-toc-lower-alpha {
+  list-style-type: lower-alpha;
+}
+.writely-toc-upper-roman {
+  list-style-type: upper-roman;
+}
+.writely-toc-lower-roman {
+  list-style-type: lower-roman;
+}
+.writely-toc-disc {
+  list-style-type: disc;
+}
+
+/* Ordered lists converted to numbered lists can preserve ordered types, and
+   vice versa. This is confusing, so disallow it */
+ul[type="i"], ul[type="I"], ul[type="1"], ul[type="a"], ul[type="A"] {
+  list-style-type: disc;
+}
+
+ol[type="disc"], ol[type="circle"], ol[type="square"] {
+  list-style-type: decimal;
+}
+
+/* end default css */
+
+
+  /* default print css */
+  @media print {
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    div.google_header, div.google_footer {
+      display: block;
+      min-height: 0;
+      border: none;
+    }
+
+    div.google_header {
+      flow: static(header);
+    }
+
+    /* used to insert page numbers */
+    div.google_header::before, div.google_footer::before {
+      position: absolute;
+      top: 0;
+    }
+
+    div.google_footer {
+      flow: static(footer);
+    }
+
+    /* always consider this element at the start of the doc */
+    div#google_footer {
+      flow: static(footer, start);
+    }
+
+    span.google_pagenumber {
+      content: counter(page);
+    }
+
+    span.google_pagecount {
+      content: counter(pages);
+    }
+
+    .endnotes {
+      page: endnote;
+    }
+
+    /* MLA specifies that endnotes title should be 1" margin from the top of the page. */
+    @page endnote {
+      margin-top: 1in;
+    }
+
+    callout.google_footnote {
+      
+      display: prince-footnote;
+      footnote-style-position: inside;
+      /* These styles keep the footnote from taking on the style of the text
+         surrounding the footnote marker. They can be overridden in the
+         document CSS. */
+      color: #000;
+      font-family: Verdana;
+      font-size: 10.0pt;
+      font-weight: normal;
+    }
+
+    /* Table of contents */
+    #WritelyTableOfContents a::after {
+      content: leader('.') target-counter(attr(href), page);
+    }
+
+    #WritelyTableOfContents a {
+      text-decoration: none;
+      color: black;
+    }
+
+    /* Comments */
+    .writely-comment-yellow {
+      background-color: #ffffd7;
+    }
+    .writely-comment-orange {
+      background-color: #ffe3c0;
+    }
+    .writely-comment-pink {
+      background-color: #ffd7ff;
+    }
+    .writely-comment-green {
+      background-color: #d7ffd7;
+    }
+    .writely-comment-blue {
+      background-color: #d7ffff;
+    }
+    .writely-comment-purple {
+      background-color: #eed7ff;
+    }
+  }
+
+  @page {
+    @top {
+      content: flow(header);
+    }
+    @bottom {
+      content: flow(footer);
+    }
+    @footnotes {
+      border-top: solid black thin;
+      padding-top: 8pt;
+    }
+  }
+  /* end default print css */
+
+
+/* custom css */
+
+
+/* end custom css */
+
+/* ui edited css */
+
+body {
+  font-family: Verdana;
+  
+  font-size: 10.0pt;
+  line-height: normal;
+  background-color: #ffffff;
+}
+/* end ui edited css */
+
+
+/* editor CSS */
+.editor a:visited {color: #551A8B}
+.editor table.zeroBorder {border: 1px dotted gray}
+.editor table.zeroBorder td {border: 1px dotted gray}
+.editor table.zeroBorder th {border: 1px dotted gray}
+
+
+.editor div.google_header, .editor div.google_footer {
+  border: 2px #DDDDDD dashed;
+  position: static;
+  width: 100%;
+  min-height: 2em;
+}
+
+.editor .misspell {background-color: yellow}
+
+.editor .writely-comment {
+  font-size: 9pt;
+  line-height: 1.4;
+  padding: 1px;
+  border: 1px dashed #C0C0C0
+}
+
+
+/* end editor CSS */
+
+</style>
+
+  
+  <title>User Documentation</title>
+
+</head>
+
+<body 
+    
+    >
+    
+    
+    
+<h1>
+  <a id=Footware_14318834448266404_208 name=Footware_14318834448266404_208></a>Footware Documentation
+</h1>
+<div class=writely-toc id=WritelyTableOfContents toctype=decimal+none>
+  <ol class=writely-toc-decimal>
+    <li>
+      <a href=#Footware_14318834448266404_208 target=_self>Footware Documentation</a>
+    </li>
+    <li>
+      <a href=#User_Documentation_45954867525_2847861764776348 target=_self>User Documentation</a>
+    </li>
+    <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+      <li>
+        <a href=#Access_Footware_93751271524857 target=_self>Access Footware</a>
+      </li>
+      <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+        <li>
+          <a href=#First_step_7028363305845057_27_40949712292986795 target=_self>First step</a>
+        </li>
+        <li>
+          <a href=#Sign_up_a_new_account_99857641 target=_self>Sign up a new account</a>
+        </li>
+        <li>
+          <a href=#Login_27756613150714315_305116_5864115411014937 target=_self>Login</a>
+        </li>
+        <li>
+          <a href=#Uploading_a_GPX_track_22940894 target=_self>Uploading a GPX track</a>
+        </li>
+        <li>
+          <a href=#Browsing_tracks_04026347509138 target=_self>Browsing tracks</a>
+        </li>
+        <li>
+          <a href=#Search_feature_605463051023245 target=_self>Search feature</a>
+        </li>
+        <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#Search_for_user_profiles_19474 target=_self>Search for user profiles</a>
+          </li>
+          <li>
+            <a href=#Search_for_tracks_736194336806 target=_self>Search for tracks</a>
+          </li>
+        </ol>
+        <li>
+          <a href=#Downloading_Tracks_25992943859 target=_self>Downloading Tracks</a>
+        </li>
+        <li>
+          <a href=#Administration_688347844734336_3540109603947126 target=_self>Administration</a>
+        </li>
+      </ol>
+    </ol>
+    <li>
+      <a href=#Developer_Informations_3754424 target=_self>Developer Informations</a>
+    </li>
+    <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+      <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+        <li>
+          <a href=#Getting_the_Source_code_444186 target=_self>Getting the Source code</a>
+        </li>
+        <li>
+          <a href=#License_21906152953444724_1553_13447085175287288 target=_self>License</a>
+        </li>
+      </ol>
+      <li>
+        <a href=#Basic_Code_Architecture_088229 target=_self>Basic Code Architecture</a>
+      </li>
+      <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+        <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#Internal_datastructure_for_tra target=_self>Internal datastructure for tracks</a>
+          </li>
+          <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+            <li>
+              <a href=#Track_point_6288045065526812_4 target=_self>Track point:</a>
+            </li>
+            <li>
+              <a href=#Track_segment_8300560987547848 target=_self>Track segment:</a>
+            </li>
+            <li>
+              <a href=#Track_5192867399140477_5199272 target=_self>Track:</a>
+            </li>
+          </ol>
+          <li>
+            <a href=#Track_import_overview_77490402 target=_self>Track import overview</a>
+          </li>
+          <li>
+            <a href=#Adding_libraries_1238665057545 target=_self>Adding libraries</a>
+          </li>
+          <li>
+            <a href=#Client_pitfalls_44976738563757 target=_self>Client pitfalls</a>
+          </li>
+          <li>
+            <a href=#Adding_support_for_other_forma target=_self>Adding support for other track formats</a>
+          </li>
+        </ol>
+      </ol>
+    </ol>
+    <li>
+      <a href=#Appendix target=_self>Appendix</a>
+    </li>
+    <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+      <li>
+        <a href=#Installation_guide_28099227825 target=_self>Installation guide</a>
+      </li>
+      <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+        <li>
+          <a href=#Installing_the_database_031362 target=_self>Installing the database</a>
+        </li>
+      </ol>
+      <li>
+        <a href=#Troubleshooting_14677983383576_7665185217879961 target=_self>Troubleshooting</a>
+      </li>
+      <li>
+        <a href=#Known_Issues_8249071680047042__9417494370112868 target=_self>Known Issues</a>
+      </li>
+      <ol class="writely-toc-none writely-toc-subheading" style=MARGIN-LEFT:0pt>
+        <li>
+          <a href=#File_upload_3106123074043964_8_267213468318517 target=_self>File upload</a>
+        </li>
+      </ol>
+      <li>
+        <a href=#Servlet_url_mapping_1662245301 target=_self>Servlet url mapping</a>
+      </li>
+    </ol>
+  </ol>
+</div>
+<br>
+<h1>
+  <a id=User_Documentation_45954867525_2847861764776348 name=User_Documentation_45954867525_2847861764776348></a>User Documentation
+</h1>
+<h2>
+  <a id=Access_Footware_93751271524857 name=Access_Footware_93751271524857></a>Access Footware
+</h2>
+We assume that there is a correctly set up server accessible with the URL <i>http://footware.org</i>.<br>
+If this is not the case, see the setup documentation in the appendix to set a server up or use any already setup instance that you have at your disposal.<br>
+<h3>
+  <a id=First_step_7028363305845057_27_40949712292986795 name=First_step_7028363305845057_27_40949712292986795></a>First step
+</h3>
+Type in the URL http://footware.org in your favorite web browser. We strongly recommend the usage of a browser adhering to the W3 standards like Firefox, Chromium or Opera<br>
+<br>
+At the top left corner you can see a <i>Login</i> and <i>Sign up</i> button. On the left side you can see a navigation area.<br>
+<h3>
+  <a id=Sign_up_a_new_account_99857641 name=Sign_up_a_new_account_99857641></a>Sign up a new account
+</h3>
+Press the <i>Sign up</i> button on the top left corner. The sign up dialog window show below appears.<br>
+<br>
+<div id=h15c style=TEXT-ALIGN:left>
+  <img src="images/dcc4nks8_249cxqdctgg_b.png" style=HEIGHT:251px;WIDTH:368px><br>
+  <i>sign up window dialog</i><br>
+</div>
+<br>
+Fill out the form and press <i>Submit</i> to sign up for Footware.<br>
+<h3>
+  <a id=Login_27756613150714315_305116_5864115411014937 name=Login_27756613150714315_305116_5864115411014937></a>Login
+</h3>
+<p>
+  Once you have a valid account you may log in. (Note that right after signing up you are already logged in)<br>
+</p>
+Press the Login button on the top left corner.&nbsp; The login window appears.<br>
+<br>
+Enter your email address and password and press <i>Submit</i> to login to Footware.<br>
+<h3>
+  <a id=Uploading_a_GPX_track_22940894 name=Uploading_a_GPX_track_22940894></a>Uploading a GPX track
+</h3>
+You can upload tracks using the button in the top left corner. Fill out the form and select the file to do so.<br>
+The options at your disposal are:<br>
+<table border=1 bordercolor=#666666 cellpadding=3 cellspacing=0 id=pb9d>
+  <tbody>
+  <tr>
+    <td width=50%>
+      Privacy<br>
+    </td>
+    <td width=50%>
+      How is allowed to see the track (Public: Everybody)<br>
+    </td>
+  </tr>
+  <tr>
+    <td width=50%>
+      Enable comments<br>
+    </td>
+    <td width=50%>
+      Are other users allowed to post comments on the track<br>
+    </td>
+  </tr>
+  <tr>
+    <td width=50%>
+      Notes<br>
+    </td>
+    <td width=50%>
+      Your own comment / notes for your track<br>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<div id=w9bx style=TEXT-ALIGN:left>
+  <img src="images/dcc4nks8_250f78rm7cm_b.png" style=HEIGHT:278px;WIDTH:410px>
+</div>
+<i>GPX track upload window dialog</i><br>
+<h3>
+  <a id=Browsing_tracks_04026347509138 name=Browsing_tracks_04026347509138></a>Browsing tracks
+</h3>
+On the left side, you will see different views.<br>
+With the <i>public view</i> it is possible to browse all public tracks stored in Footware.<br>
+With the <i>private view</i> it is possible to view all tracks owned by you.<br>
+<br>
+<div id=eas1 style=TEXT-ALIGN:left>
+  <img height=425 src="images/dcc4nks8_251gjnsb3d4_b.png" width=807><br>
+  <i>Track browsing on the left side, track details on the right</i><br>
+</div>
+<br>
+<div id=lzsw style=TEXT-ALIGN:left>
+  <img src="images/dcc4nks8_253fqpt3hhd_b.png" style=HEIGHT:337.013px;WIDTH:648px><br>
+  <i>Elevation plot of a track</i><br>
+  <br>
+</div>
+You can also display elevation and speed plots for the tracks. Select a time interval on the lower part of the plot to display more detailed information.<br>
+<h3>
+  <a id=Search_feature_605463051023245 name=Search_feature_605463051023245></a>Search feature
+</h3>
+<h4>
+  <a id=Search_for_user_profiles_19474 name=Search_for_user_profiles_19474></a>Search for user profiles
+</h4>
+In the public view it is possible to search for specific user profiles. To do so, fill in the search criteria at the bottom of the screen.<br>
+<br>
+<div id=u9tu style=TEXT-ALIGN:left>
+  <img height=457 src="images/dcc4nks8_252gv8b3cdz_b.png" width=819>
+</div>
+<i>Profile view</i><br>
+<h4>
+  <a id=Search_for_tracks_736194336806 name=Search_for_tracks_736194336806></a>Search for tracks
+</h4>
+In the public view it is possible to search for specific tracks. To do so, fill in the search criteria at the bottom of the screen.<br>
+&nbsp;<br>
+<h3>
+  <a id=Downloading_Tracks_25992943859 name=Downloading_Tracks_25992943859></a>Downloading Tracks
+</h3>
+by clicking <i>download this track</i> you can download the track in its original format.<br>
+<br>
+<h3>
+  <a id=Administration_688347844734336_3540109603947126 name=Administration_688347844734336_3540109603947126></a>Administration
+</h3>
+As an admin user, it is possible to edit other users and their tracks. Log in and select <i>Administration</i> from the stacked frame on the left. You can now select users or tracks from the two tables.<br>
+<h1>
+  <a id=Developer_Informations_3754424 name=Developer_Informations_3754424></a>Developer Informations
+</h1>
+Footware is developed in Java using Eclipse.<br>
+Because Footware uses and depends upon GWT, the GWT plugin for Eclipse is strongly recommended and and the GWT SDK is required. The binaries and documentation on how they can be installed can be found on the GWT Homepage: <a href=http://code.google.com/webtoolkit/ id=q48o title=http://code.google.com/webtoolkit/>http://code.google.com/webtoolkit/</a>. When GWT is setup correctly, the project can be imported in Eclipse as an Eclipse project.<br>
+<h3>
+  <a id=Getting_the_Source_code_444186 name=Getting_the_Source_code_444186></a>Getting the Source code
+</h3>
+The source code of Footware can be found in a git repository on github:<br>
+&nbsp;<br>
+<a href=http://github.com/abrauchli/Footware id=jl:b title=http://github.com/abrauchli/Footware>http://github.com/abrauchli/Footware</a><br>
+<h3>
+  <a id=License_21906152953444724_1553_13447085175287288 name=License_21906152953444724_1553_13447085175287288></a>License
+</h3>
+Footware is licensed under <b>Apache License, Version 2.0</b>.<br>
+<h2>
+  <a id=Basic_Code_Architecture_088229 name=Basic_Code_Architecture_088229></a>Basic Code Architecture
+</h2>
+The server and the client code are separated in the packages <i>org.footware.client</i> respectively <i>org.footware.server</i>.<br>
+Objects used by both the server and the client, like the DTO classes used for transporting the objects between the server and the client reside in the <i>org.footare.shared</i> package and it's sub packages.<br>
+<h4>
+  <a id=Internal_datastructure_for_tra name=Internal_datastructure_for_tra></a>Internal datastructure for tracks
+</h4>
+<h5>
+  <a id=Track_point_6288045065526812_4 name=Track_point_6288045065526812_4></a>Track point:
+</h5>
+The most specific object is the Trackpoint. It has fields for longitude, latitude, elevation, time and speed and represents a single point in a track segment.<br>
+<h5>
+  <a id=Track_segment_8300560987547848 name=Track_segment_8300560987547848></a>Track segment:
+</h5>
+Then the Track segment Object has a list of track points forming the segment. Additionally it has fields for meta information like length, maximum speed, minimum speed, max elevation, min elevation and average speed.<br>
+It exists because there may be multiple "sub-tracks" in a track file which are separated by time. Individual recordings on a single day for instance, all belonging to the same track.<br>
+<h5>
+  <a id=Track_5192867399140477_5199272 name=Track_5192867399140477_5199272></a>Track:
+</h5>
+At the top we have to Track Object which is formed of multiple segments.<br>
+The track represents all segments held in the same track file.<br>
+A track object holds the meta information like comments, filename of the file imported, the full path to the saved file in the server file system, tags associated to the track, number of trackpoints, start time of the track and of course a list with all segments of the track.<br>
+<h4>
+  <a id=Track_import_overview_77490402 name=Track_import_overview_77490402></a>Track import overview
+</h4>
+Track import is done with the FileUploadServlet. Over a multipart encoded form the file is sent to the servlet. There as first step, the filename is extracted from the request. Because Internet Explorer returns a different value than the other browsers, the filename has to be processed additionally to get the filename without path (full path information from the file path of the client). Then the file is stored on the server in the directory <i>import/user_email_adress/filename</i>. Because it is possible that the user has uploaded files with the same filename already, the filename is adapted in a way that no file with the filename already exist. Then the file gets read again from the file system and parsed. This ensures that we never have files in the database which are not stored on the server. At the end of the parsing we have a <i>Track</i> Object that is stored in the database. The different visualizations are now computed on this <i>Track</i> Object and are also stored in the database.<br>
+<h4>
+  <a id=Adding_libraries_1238665057545 name=Adding_libraries_1238665057545></a>Adding libraries
+</h4>
+To add new libraries place the jar file(s) of the library to the directory <i>war/WEB-INF/lib</i> and add them to the Eclipse class path.<br>
+<h4>
+  <a id=Client_pitfalls_44976738563757 name=Client_pitfalls_44976738563757></a>Client pitfalls
+</h4>
+In Footware nearly any java libraries can be used. But it has to be taken into account that not GWT classes can only be used on the server and not be transferred to the client without additional effort like writing transport classes.<br>
+<br>
+The FootwareMapWidget uses a GWT wrapper for openlayers. Be prepared to look directly in the javascript code of openlayers because gwt-openlayers lacks currently on documentation.<br>
+<br>
+Object transfered from the server to client over GWT-RPC need to implement <i>Serializable </i>(from <i>java.io</i>). Additional they need an explicit default Constructor.<br>
+<h4>
+  <a id=Adding_support_for_other_forma name=Adding_support_for_other_forma></a>Adding support for other track formats
+</h4>
+The architecture of Footware allows it to easily add support for other formats than gpx (like for instance KML or native NMEA). To do so, you simply have to implement an Importer implementing the Interface <i>TrackImporter</i> which parses the format and transfers it to the object structure used by Footware. The new importer should then be added to the to the <i>importerMap</i> in the <i>TrackUploadServlet</i> in the following form:<br>
+<br>
+<b><font face="courier new">importerMap.put("gpx", new GPXImport());</font></b><br>
+<br>
+Where <i>gpx</i> is the extension of gpx files and <i>GPXImport</i> is the Importer object.<br>
+<h1>
+  <a id=Appendix name=Appendix></a>Appendix
+</h1>
+<h2>
+  <a id=Installation_guide_28099227825 name=Installation_guide_28099227825></a>Installation guide
+</h2>
+To compile Footware and generate a war container execute, make sure that <i>ant</i> is installed. Then run <i>ant war</i> in the base directory of Footware. This generates the file footware.war which you can then deploy to an application server of your choice. Footware should now run out of the box.<br>
+<h3>
+  <a id=Installing_the_database_031362 name=Installing_the_database_031362></a>Installing the database
+</h3>
+By default Footware comes with a pre-set up H2 database. Should you wish or need to set it up yourself, go to (replace with your URL) <i>http://footware.org/console</i> to access the H2 database management tool. Select the DB to use (probably <i>jdbc:h2:footware</i> with user <i>sa</i> and no password) and log in.<br>
+You may then copy-paste the DB setup queries which are found in the Footware source in the <i>db/create.sql</i> file.<br>
+Alternatively you may choose to set up any other relational JDBC database. This may require to adapt the <i>create.sql</i> file to the given database DML.<br>
+<h2>
+  <a id=Troubleshooting_14677983383576_7665185217879961 name=Troubleshooting_14677983383576_7665185217879961></a>Troubleshooting
+</h2>
+If problems with file upload occur, ensure that your server allows the upload of big files. Also check that the server has the required write permission to the <i>tmp</i> and <i>import</i> directories inside the Footware application.<br>
+<h2>
+  <a id=Known_Issues_8249071680047042__9417494370112868 name=Known_Issues_8249071680047042__9417494370112868></a>Known Issues
+</h2>
+<h3>
+  <a id=File_upload_3106123074043964_8_267213468318517 name=File_upload_3106123074043964_8_267213468318517></a>File upload
+</h3>
+The file upload in hosted mode (debug environment of GWT, which is basically a customized Jetty server) has problems with file upload. The upload breaks randomly when the file size exceeds the limit of what is kept in memory (when files are written temporarily to the disk). We suspect timeout issues but had no time to investigate further on this issue...<br>
+<h2>
+  <a id=Servlet_url_mapping_1662245301 name=Servlet_url_mapping_1662245301></a>Servlet url mapping
+</h2>
+The url mapping of the servlets are currently tested and working with the Hosted mode. If a servlet is not found when deployed on an application server, adapt the <i>war/WEB-INF/web.xml</i> file.<br></body>
+</html>
