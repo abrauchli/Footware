@@ -1,5 +1,6 @@
 *.class
 *.swp
+*.orig
 war/WEB-INF/classes/
 war/footware/*
 war/tomcat/work/
